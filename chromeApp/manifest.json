@@ -1,0 +1,20 @@
+{
+  "name": "OSnes",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Mobile phone controlled retro gaming Chrome app",
+  "icons": {
+    "16": "assets/images/nes_16.png",
+    "128": "assets/images/nes_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "experimental",
+    "system.network",
+    {"socket":["tcp-listen"]}
+  ]
+}
