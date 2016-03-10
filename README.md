@@ -1,4 +1,5 @@
 # OSnes
+Mobile phone controlled retro gaming Chrome app
 
 ### Scrum Roles
  - Scrum Master: Colin Whitmarsh
