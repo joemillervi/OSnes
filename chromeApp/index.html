@@ -3,13 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>OSnes</title>
+    <script src="./assets/angular-min.js"></script>
+    <script src="./app.js"></script>
     <script src="./lib/node.js"></script>
     <script src="./server.js"></script>
     <script src="./main.js"></script>
   </head>
-  <body>
-    <h1>Welcome to OSnes</h1>
-    <p>ip address: </p>
+  <body ng-app="main" ng-controller="mainCtrl">
+    <h1>{{title}}</h1>
+    <p>{{ipAddress}}</p>
     <p id="ip"></p>
   </body>
 </html>
