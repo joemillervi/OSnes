@@ -22,6 +22,7 @@ class ControllerView extends React.Component {
     this.state = {
       circleButtonSize: undefined,
       arrowButtonSize: undefined,
+      selectStartButtonSize: 45,
     }
   }
 
@@ -47,10 +48,10 @@ class ControllerView extends React.Component {
     }
   }
 
+  //Right thumb buttons: A, B, X, Y
   _APressIn() {
   	console.log('A pressed')
   }
-
   _APressOut() {
   	console.log('A released')
   }
@@ -58,7 +59,6 @@ class ControllerView extends React.Component {
   _BPressIn() {
   	console.log('B pressed')
   }
-
   _BPressOut() {
   	console.log('B released')
   }
@@ -66,7 +66,6 @@ class ControllerView extends React.Component {
   _XPressIn() {
   	console.log('X pressed')
   }
-
   _XPressOut() {
   	console.log('X released')
   }
@@ -74,15 +73,14 @@ class ControllerView extends React.Component {
   _YPressIn() {
   	console.log('Y pressed')
   }
-
   _YPressOut() {
   	console.log('Y released')
   }
 
+  //Left thumb buttons: Direction pad
   _upArrowPressIn() {
   	console.log('up arrow pressed')
   }
-
   _upArrowPressOut() {
   	console.log('up arrow released')
   }
@@ -90,7 +88,6 @@ class ControllerView extends React.Component {
   _downArrowPressIn() {
   	console.log('down arrow pressed')
   }
-
   _downArrowPressOut() {
   	console.log('down arrow released')
   }
@@ -98,7 +95,6 @@ class ControllerView extends React.Component {
   _rightArrowPressIn() {
   	console.log('right arrow pressed')
   }
-
   _rightArrowPressOut() {
   	console.log('right arrow released')
   }
@@ -106,9 +102,31 @@ class ControllerView extends React.Component {
   _leftArrowPressIn() {
   	console.log('left arrow pressed')
   }
-
   _leftArrowPressOut() {
   	console.log('left arrow released')
+  }
+
+  //Index finger buttons: Left and Right Shoulders
+  _rightShoulderPressIn() {
+  	console.log('right shoulder pressed')
+  }
+  _rightShoulderPressOut() {
+  	console.log('right shoulder released')
+  }
+
+  _leftShoulderPressIn() {
+  	console.log('left shoulder pressed')
+  }
+  _leftShoulderPressOut() {
+  	console.log('left shoulder released')
+  }
+
+  //Start and Select buttons; never held down, so an onPress event is used instead of an onPressIn and onPressOut pair
+  _startPress() {
+  	console.log('start pressed')
+  }
+  _selectPress() {
+  	console.log('select released')
   }
 
   render() {
@@ -139,26 +157,36 @@ class ControllerView extends React.Component {
           </View>
 
           <View style={styles.upButton}> 
-            <TouchableOpacity underlayColor={'black'} onPressIn={this._upArrowPressIn.bind(this)} onPressOut={this._upArrowPressOut.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+            <TouchableOpacity onPressIn={this._upArrowPressIn.bind(this)} onPressOut={this._upArrowPressOut.bind(this)}>
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.downButton}> 
             <TouchableOpacity onPressIn={this._downArrowPressIn.bind(this)} onPressOut={this._downArrowPressOut.bind(this)} >
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="red"/>
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.leftButton}> 
             <TouchableOpacity onPressIn={this._leftArrowPressIn.bind(this)} onPressOut={this._leftArrowPressOut.bind(this)} >
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="red"/>
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.rightButton}> 
             <TouchableOpacity onPressIn={this._rightArrowPressIn.bind(this)} onPressOut={this._rightArrowPressOut.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="red"/>
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
             </TouchableOpacity>
           </View>
 
+          <View style={styles.selectButton}> 
+            <TouchableOpacity onPressIn={this._leftArrowPressIn.bind(this)} onPressOut={this._leftArrowPressOut.bind(this)} >
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.startButton}> 
+            <TouchableOpacity onPressIn={this._rightArrowPressIn.bind(this)} onPressOut={this._rightArrowPressOut.bind(this)}>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
+            </TouchableOpacity>
+          </View>
 
   	    </Image>
   	  </View>
@@ -214,6 +242,16 @@ var styles = StyleSheet.create({
   	position: 'absolute',
   	top: Dimensions.get('window').width * 0.405,
   	left: Dimensions.get('window').height * 0.12,
+  },
+  selectButton: {
+  	position: 'absolute',
+  	top: Dimensions.get('window').width * 0.47,
+  	left: Dimensions.get('window').height * 0.38,
+  },
+  startButton: {
+  	position: 'absolute',
+  	top: Dimensions.get('window').width * 0.47,
+  	left: Dimensions.get('window').height * 0.49,
   }
 });
 
