@@ -5,7 +5,9 @@
     <title>OSnes</title>
     <script src="./assets/angular-min.js"></script>
     <script src="./lib/node.js"></script>
-    <script src="./server.js"></script>
+    <script src="./lib/qr-code.js"></script>
+    <script src="./server/server.js"></script>
+    <script src="./server/router.js"></script>
     <script src="./main.js"></script>
     <script src="./app.js"></script>
   </head>
@@ -13,6 +15,6 @@
     <h1>{{title}}</h1>
     <p>{{ipAddress}}</p>
     <p id="ip"></p>
-    <img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.31.208" alt="">
+    <div id="qrcode"></div>
   </body>
 </html>
