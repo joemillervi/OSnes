@@ -1,9 +1,13 @@
 onload = function() {
 
-  chrome.system.network.getNetworkInterfaces(function (nets) {
-    ipAddresses = nets;
-    document.getElementById('ip').innerText = nets[0].address;
-    console.log(nets)
+  chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
+    var ipv4;
+    ipAddresses.forEach(function (ipAddress) {
+      if (ipAddress.prefixLength === 12) {
+        ipv4 = ipAddress.address;
+      }
+    });
+    document.getElementById('ip').innerText = ipv4;
   });
 
   var http = require('http');
