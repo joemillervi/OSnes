@@ -10,6 +10,7 @@ var {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableHighlight,
   TouchableOpacity,
   StatusBarIOS,
@@ -30,14 +31,24 @@ class ControllerView extends React.Component {
   render() {
   	StatusBarIOS.setHidden('true');
   	return (
-  	  <View>
-  	    <Text>Awesome controller goes here</Text>
+  	  <View style={styles.imageContainer}>
+  	    <Image source={require('./Assets/snescontroller.jpg')} style={styles.image}> 
+  	      
+  	    </Image>
   	  </View>
+
   	);
   }
 }
 
 var styles = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+  },
+  image: {
+    width: Dimensions.get('window').height,
+    height: Dimensions.get('window').width,
+  },
 
 });
 
