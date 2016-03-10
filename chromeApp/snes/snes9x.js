@@ -161,7 +161,7 @@ var SCALE=2
 
 
     
-  nacl.setAttribute('src', 'snes9x.nmf');
+  nacl.setAttribute('src', './snes/snes9x.nmf');
   nacl.setAttribute('type', 'application/x-nacl');
   nacl.setAttribute('ARG0',  'snes9x');
   nacl.setAttribute('ARG1',  filename);
