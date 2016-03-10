@@ -9,10 +9,9 @@ Uncomment either OTPTION 1 or OPTION 2. NOT BOTH!
 
 chrome.app.runtime.onLaunched.addListener(function(intentData) {
   chrome.app.window.create('index.html', {
-      width: 800,
-      height: 600
+      width: 300,
+      height: 500
   });
-  var ipAddresses;
 });
 
 
@@ -23,10 +22,10 @@ chrome.app.runtime.onLaunched.addListener(function(intentData) {
 /*
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
     console.log('quake app launch')
-    
+
     //var args = "+skill 3 +map start"
     var args = "";
-    
+
     //chrome.app.window.create('Client/WebQuake.htm' + '?' + encodeURIComponent(args),
     chrome.app.window.create('snes9x.html',
                              { defaultWidth: 540,
@@ -38,4 +37,3 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
 
 })
 */
-
