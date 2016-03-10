@@ -13,7 +13,6 @@
     }
   },
   "permissions": [
-    "experimental",
     "system.network",
     {"socket":["tcp-listen"]}
   ]
