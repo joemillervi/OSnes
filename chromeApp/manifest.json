@@ -14,6 +14,29 @@
   },
   "permissions": [
     "system.network",
-    {"socket":["tcp-listen"]}
-  ]
+    {"socket":["tcp-listen"]},
+    {"fileSystem": [ "retainEntries", "directory", "write" ]}, 
+    "pointerLock", 
+    "fullscreen", 
+    "identity", 
+    "storage", 
+    "unlimitedStorage"
+  ],
+  "file_handlers": {
+      "any": {
+         "extensions": [ "smc", "sfc" ]
+      }
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApjKkJo+A8C2Alk0WRVd96KwOQbXoDdI7jEu4L5LBP0M1DajbmG8uu28u98LuGstI9ezdufrH/xrMoaU54lObgFG06l7S7JSjncX/qguniDBvlTOE7Li88Sp1hVYRgPit9md/lIvTVoUsY7KDUPSoPPgpl/RCOOBtZLnv+TvPO2QVsmdXsfIZBlad6S0zUb69yRCD14NWQ8+IaCyUjGmsHZDKvaygbXCoODs8CnjMurVxOcJRY2+1KK+4SV+ho7OpF1VFiR4U+fvUuoIwIO/31vsqqdG5u7JKqZbzMcaDipjP+U3sXl1zYiqz3YuaalehoQrSb6KU2zC5IqrvCl5GLwIDAQAB",
+   "minimum_chrome_version": "44",
+   "platforms": [ 
+   {  "nacl_arch": "x86-64",
+      "sub_package_path": "snes/_platform_specific/x86-64/"
+   }, 
+   {  "nacl_arch": "x86-32",
+      "sub_package_path": "snes/_platform_specific/x86-32/"
+   }, 
+   {  "nacl_arch": "arm",
+      "sub_package_path": "snes/_platform_specific/arm/"
+   } ]
 }
