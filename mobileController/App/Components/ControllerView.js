@@ -22,7 +22,7 @@ class ControllerView extends React.Component {
     this.state = {
       circleButtonSize: undefined,
       arrowButtonSize: undefined,
-      selectStartButtonSize: 45,
+      selectStartButtonSize: undefined,
     }
   }
 
@@ -33,17 +33,20 @@ class ControllerView extends React.Component {
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
       	circleButtonSize: 62,
-      	arrowButtonSize: 52
+      	arrowButtonSize: 52,
+      	selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
       this.setState({
       	circleButtonSize: 68,
-      	arrowButtonSize: 58
+      	arrowButtonSize: 58,
+      	selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===320) { //iPhone 5/5s
       this.setState({
       	circleButtonSize: 53,
-      	arrowButtonSize: 44
+      	arrowButtonSize: 44,
+      	selectStartButtonSize: 40
       })
     }
   }
@@ -106,7 +109,7 @@ class ControllerView extends React.Component {
   	console.log('left arrow released')
   }
 
-  //Index finger buttons: Left and Right Shoulders
+  //Index finger buttons: Left and Right Shoulders. TODO: implement shoulder buttons on screen, or ideally with volume rocker
   _rightShoulderPressIn() {
   	console.log('right shoulder pressed')
   }
@@ -178,12 +181,12 @@ class ControllerView extends React.Component {
           </View>
 
           <View style={styles.selectButton}> 
-            <TouchableOpacity onPressIn={this._leftArrowPressIn.bind(this)} onPressOut={this._leftArrowPressOut.bind(this)} >
+            <TouchableOpacity onPress={this._selectPress.bind(this)} onPressOut={this._leftArrowPressOut.bind(this)} >
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
-            <TouchableOpacity onPressIn={this._rightArrowPressIn.bind(this)} onPressOut={this._rightArrowPressOut.bind(this)}>
+            <TouchableOpacity onPress={this._startPress.bind(this)} onPressOut={this._rightArrowPressOut.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
             </TouchableOpacity>
           </View>
