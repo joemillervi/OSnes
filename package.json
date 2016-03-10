@@ -1,0 +1,24 @@
+{
+  "name": "osnes",
+  "version": "0.0.1",
+  "description": "Mobile phone controlled retro gaming Chrome app",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R nyan"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StaccatoTricycle/OSnes.git"
+  },
+  "authors": {
+    "Kyle Corbelli",
+    "Franklin Shieh",
+    "Colin Whitmarsh",
+    "Joe Miller"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StaccatoTricycle/OSnes/issues"
+  },
+  "homepage": "https://github.com/StaccatoTricycle/OSnes#readme"
+}
