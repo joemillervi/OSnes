@@ -10,12 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/StaccatoTricycle/OSnes.git"
   },
-  "authors": {
-    "Kyle Corbelli",
-    "Franklin Shieh",
-    "Colin Whitmarsh",
-    "Joe Miller"
-  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/StaccatoTricycle/OSnes/issues"
