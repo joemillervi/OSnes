@@ -12,5 +12,9 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["experimental", {"socket":["tcp-listen"]}]
+  "permissions": [
+    "experimental",
+    "system.network",
+    {"socket":["tcp-listen"]}
+  ]
 }
