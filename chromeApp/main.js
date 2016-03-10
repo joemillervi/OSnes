@@ -6,7 +6,7 @@ Uncomment either OTPTION 1 or OPTION 2. NOT BOTH!
 
 
 // OPTION 1: Runs index.html which displays local IP
-/*
+
 chrome.app.runtime.onLaunched.addListener(function(intentData) {
   chrome.app.window.create('index.html', {
       width: 800,
@@ -15,11 +15,12 @@ chrome.app.runtime.onLaunched.addListener(function(intentData) {
   var ipAddresses;
 });
 
-*/
+
 
 
 
 // OPTION 2: Run's snes9x.html which displays emulator
+/*
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
     console.log('quake app launch')
     
@@ -36,4 +37,5 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
                              })
 
 })
+*/
 
