@@ -1,15 +1,5 @@
 onload = function() {
 
-  chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
-    var ipv4;
-    ipAddresses.forEach(function (ipAddress) {
-      if (ipAddress.prefixLength === 12) {
-        ipv4 = ipAddress.address;
-      }
-    });
-    document.getElementById('ip').innerText = ipv4;
-  });
-
   var http = require('http');
   var url = require('url');
   var port = 1339;
