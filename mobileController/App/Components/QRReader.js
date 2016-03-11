@@ -25,12 +25,22 @@ class QRReader extends React.Component {
     this.state = {
       cameraTorchToggle: Camera.constants.TorchMode.off,
       handleFocusChanged: () => {},
+      androidTorch: "off"
     }
   }
+
   // Android barcode scanner
-  barcodeReceived(e) {
+  _barcodeReceived(e) {
     console.log('Barcode: ' + e.data);
     console.log('Type: ' + e.type);
+    //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
+    this.props.navigator.push({
+      component: ControllerView,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+      }
+    });
   }
 
   // IOs barcode scanner
@@ -52,6 +62,18 @@ class QRReader extends React.Component {
 
   }
 
+  // For Android
+  _toggleTorch() {
+    console.log(this.state.androidTorch)
+    if (this.state.androidTorch === 'on') {
+      this.setState({androidTorch: 'off'})
+    }
+    else {
+      this.setState({androidTorch: 'on'})
+    }
+  }
+
+  // For ios
   _torchEnabled() {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
   }
@@ -91,12 +113,18 @@ class QRReader extends React.Component {
     } else {
       console.log('android')
       return (
-        <BarcodeScanner
-          onBarCodeRead={this.barcodeReceived}
-          style={{ flex: 1 }}
-          torchMode={this.state.torchMode}
-          cameraType={this.state.cameraType}
-        />
+
+          <BarcodeScanner
+            onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
+            style={{ flex: 1 }}
+            torchMode={this.state.androidTorch}
+            >
+          <View style={styles.bottomButtonContainerAndroid}>
+              <TouchableOpacity onPress={this._toggleTorch.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                {this.state.androidTorch === 'off'? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+              </TouchableOpacity>
+          </View>
+        </BarcodeScanner>
       );
     }
   }
@@ -128,6 +156,11 @@ var styles = StyleSheet.create({
   },
 
   bottomButtonContainer: {
+    flexDirection: 'row',
+    alignItems:'center',
+    marginBottom: 15
+  },
+  bottomButtonContainerAndroid: {
     flexDirection: 'row',
     alignItems:'center',
     marginBottom: 15
