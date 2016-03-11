@@ -31,7 +31,9 @@ class QRReader extends React.Component {
     AlertIOS.alert("QR Code Found", e.data);
     console.log("QR Code Found", e.data); 
 
-    //use the data (the IP address) to connect to the computer using an api.js helper function
+    //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
+
+    //open up the ControllerView with buttons
     this.props.navigator.push({
       component: ControllerView,
       sceneConfig: {
