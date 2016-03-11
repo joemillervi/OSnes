@@ -3,6 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>OSnes</title>
+  </head>
+  <body ng-app="main" ng-controller="mainCtrl">
+    <h1>{{title}}</h1>
+    <p>{{ipAddress}}</p>
+    <p id="ip"></p>
+    <div id="qrcode"></div>
     <script src="./assets/angular-min.js"></script>
     <script src="./lib/node.js"></script>
     <script src="./lib/jquery-min.js"></script>
@@ -10,12 +16,6 @@
     <script src="./server/server.js"></script>
     <script src="./server/router.js"></script>
     <script src="./main.js"></script>
-  </head>
-  <body ng-app="main" ng-controller="mainCtrl">
-    <h1>{{title}}</h1>
-    <p>{{ipAddress}}</p>
-    <p id="ip"></p>
-    <div id="qrcode"></div>
     <script src="./app.js"></script>
   </body>
 </html>
