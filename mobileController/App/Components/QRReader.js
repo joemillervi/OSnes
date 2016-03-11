@@ -4,6 +4,7 @@ var IconIon = require('react-native-vector-icons/Ionicons');
 var api = require('../Utils/api');
 var ControllerView = require('./ControllerView');
 var _ = require('lodash');
+var BarcodeScanner = require('react-native-barcodescanner');
 
 var {
   Dimensions,
@@ -14,7 +15,8 @@ var {
   TouchableOpacity,
   Navigator,
   StatusBarIOS,
-  AlertIOS
+  AlertIOS,
+  Platform
 } = React;
 
 class QRReader extends React.Component {
@@ -25,11 +27,17 @@ class QRReader extends React.Component {
       handleFocusChanged: () => {},
     }
   }
+  // Android barcode scanner
+  barcodeReceived(e) {
+    console.log('Barcode: ' + e.data);
+    console.log('Type: ' + e.type);
+  }
 
+  // IOs barcode scanner
   _onBarCodeRead(e) {
     //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.0.0.215
     AlertIOS.alert("QR Code Found", e.data);
-    console.log("QR Code Found", e.data); 
+    console.log("QR Code Found", e.data);
 
     //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
 
@@ -49,33 +57,48 @@ class QRReader extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setStyle('light-content');
-    return (
-      <View >
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          torchMode={this.state.cameraTorchToggle}
-          aspect={Camera.constants.Aspect.Fill}
-          onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
-          defaultOnFocusComponent={ true } 
-          onFocusChanged={ this.state.handleFocusChanged }>
+    // check for IOS specific
 
-          <View style={styles.rectangleContainer}>
-            <View style={styles.rectangle}/>
-          </View>
+    if (Platform.OS === 'ios') {
+      StatusBarIOS.setStyle('light-content');
+      return (
+        <View >
+          <Camera
+            ref={(cam) => {
+              this.camera = cam;
+            }}
+            style={styles.preview}
+            torchMode={this.state.cameraTorchToggle}
+            aspect={Camera.constants.Aspect.Fill}
+            onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
+            defaultOnFocusComponent={ true }
+            onFocusChanged={ this.state.handleFocusChanged }>
 
-          <View style={styles.bottomButtonContainer}>
-              <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
-                {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
-              </TouchableOpacity>
-          </View>
+            <View style={styles.rectangleContainer}>
+              <View style={styles.rectangle}/>
+            </View>
 
-        </Camera>
-      </View>
-    );
+            <View style={styles.bottomButtonContainer}>
+                <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                  {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+                </TouchableOpacity>
+            </View>
+
+          </Camera>
+        </View>
+      );
+      // else if Android
+    } else {
+      console.log('android')
+      return (
+        <BarcodeScanner
+          onBarCodeRead={this.barcodeReceived}
+          style={{ flex: 1 }}
+          torchMode={this.state.torchMode}
+          cameraType={this.state.cameraType}
+        />
+      );
+    }
   }
 }
 
