@@ -20,7 +20,7 @@
   <body>
     <hr/>
     <div class="emscripten" id="status"></div>
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>    
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
     <hr/>
     <input type="text" id="fps" size="5"/>
     <input type="file" onchange="snes_readfile(this)" />
@@ -35,10 +35,10 @@
     <input type="button" id="test2" value="test2" onclick="snes_test(0)" style="display: none;"< />
     <input type="button" value="fullscreen" onclick="RequestFullScreen()" />
     <input type="button" value="quality" onclick="ToggleQuality()" />
-    <textarea class="emscripten" id="output" rows="8"></textarea>    
-    <script type="text/javascript">               
-	   frameskip=0	   
-	   frameskip_text=document.getElementById("frameskip")	   
+    <textarea class="emscripten" id="output" rows="8"></textarea>
+    <script type="text/javascript">
+	   frameskip=0
+	   frameskip_text=document.getElementById("frameskip")
 	   frameskip_text.value=frameskip
 	   maincanvas=document.getElementById("canvas")
 	   if(maincanvas.webkitRequestFullScreen){
@@ -46,26 +46,26 @@
 	   }
 	   else{
 	   RequestFullScreen=function(){maincanvas.mozRequestFullScreen()}
-	   }	   
+	   }
 	   mainctx = maincanvas.getContext("2d");
 	   maincanvas.width=256
 	   maincanvas.height=224
-	   function ToggleQuality(){	  	      
+	   function ToggleQuality(){
 	      if(maincanvas.style.imageRendering.toLowerCase()=="optimizespeed")
 		  maincanvas.style.imageRendering="optimizeQuality"
 	      else
 	         maincanvas.style.imageRendering="optimizeSpeed"
-	      
+
 	      cout_print(maincanvas.style.imageRendering)
 	   }
 	   imgData=mainctx.createImageData(288,224)
 	   cout=document.getElementById("output")
-	   snes_worker= new Worker("ww.js")	   
+	   snes_worker= new Worker("ww.js")
 	   function cout_print(txt){
 	      cout.value+=txt+"\n"
 	      cout.scrollTop = 999999
 	   }
-	   snes_worker.onmessage = function(event){	   
+	   snes_worker.onmessage = function(event){
 	   var data=event.data
 	   switch(data.cmd){
 	    case "print":
@@ -84,25 +84,27 @@
 
     </script>
     <script>
-	   function snes_init(){           
-	   fps_text=document.getElementById("fps")	 
+	   function snes_init(){
+	   fps_text=document.getElementById("fps")
 	   window.onkeydown = snes_onkeyevent
 	   window.onkeyup = snes_onkeyevent
+    //  window.addEventListener('keydown', snes_onkeyevent);
+    //  window.addEventListener('keyup', snes_onkeyevent);
 	   joy1state=0x80000000
 	   frameskipped=0
-		for(var i=0;i<288*224*4;i+=4){		 
+		for(var i=0;i<288*224*4;i+=4){
 		  imgData.data[i+3]=0xff
 		  }
 
            }
-           function snes_render(src){				  
-		var data=imgData.data	
+           function snes_render(src){
+		var data=imgData.data
 		var _j=0
-		for(var _i=0;_i<288*224*4;_i++,_j++){		  
+		for(var _i=0;_i<288*224*4;_i++,_j++){
 		  var v=src[_j]
-		  data[_i++]=v&0xff	
+		  data[_i++]=v&0xff
 		  data[_i++]=(v>>8)&0xff
-		  data[_i++]=(v>>16)&0xff		  
+		  data[_i++]=(v>>16)&0xff
 		  }
 	        mainctx.putImageData(imgData,-16,0)
 		frameskipped+=frameskip
@@ -112,12 +114,13 @@
 		  fps_text.value=((frames+frameskipped)*1000/(this_time-last_time)).toFixed(3)
 		  last_time=this_time
 		  frameskipped=frames=0
-		}		      
-           }           
+		}
+           }
            function snes_onkeyevent(e){
+             console.log('in snesWW.html');
 	      var joy1=0
 	      globale=e
-	      var key=e.key || e.keyCode	      	 
+	      var key=e.key || e.keyCode
 	      switch(key){
 	      case 87:  joy1=0x0010;break;
 	      case 81:  joy1=0x0020;break;
@@ -143,14 +146,14 @@
 	      }
 	      if(joy1) e.preventDefault()
            }
-           
+
            function frameskip_adjust(n){
 	      frameskip+=n
 	      if(frameskip<0) frameskip=0
 	      snes_worker.postMessage({cmd:"frameskip", value:frameskip})
-	      frameskip_text.value=frameskip	      	      
+	      frameskip_text.value=frameskip
            }
-           function snes_readfile(controller){	      
+           function snes_readfile(controller){
               if (window.File && window.FileReader && window.FileList && window.Blob) {
 	    } else {
 	    alert('The File APIs are not fully supported in this browser.');
@@ -167,34 +170,34 @@
 		}
 		  document.getElementById("start").disabled=false
 		  document.getElementById("test").disabled=false
-		  document.getElementById("test2").disabled=false		
+		  document.getElementById("test2").disabled=false
 	      }
-	      reader.onload = function(e) {		 
+	      reader.onload = function(e) {
 		  cout_print("_.smc loaded")
-		  snes_worker.postMessage({ cmd: "loadfile", buffer:this.result})		  
-		  
-		}	      
+		  snes_worker.postMessage({ cmd: "loadfile", buffer:this.result})
+
+		}
               reader.readAsArrayBuffer(f)
-           }           
+           }
            function snes_main(){
-	      document.getElementById("start").disabled=true                  
-	      snes_init()	            	      
-	      frames=0	   
+	      document.getElementById("start").disabled=true
+	      snes_init()
+	      frames=0
 	      last_time=new Date().getTime()
-	      snes_worker.postMessage({cmd:"start"})	      
+	      snes_worker.postMessage({cmd:"start"})
            }
            function snes_test(render){
-              snes_init()              
+              snes_init()
 	      start_time=new Date().getTime()
 	      for(var i=0;i<5000;i++){
 		mainloop(palf ? 312 : 262)
 		if(render)
-		renderscreen()	
+		renderscreen()
 	      }
 	      end_time=new Date().getTime()
 	      fps_text.value=((end_time-start_time)/1000).toFixed(3)
-           
+
            }
-           
+
     </script>
 </body>
