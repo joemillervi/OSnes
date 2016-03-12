@@ -9,27 +9,26 @@ var api = {
       }
     }).then(function(result) {
       console.log('blah success')
-      callback(result._bodyInit);
+      console.log(result);
+      callback(result);
     })
     .catch(function(err) {
       console.log(err);
       console.log('errorrrrrrrrr');
-
-
     });
   },
 
   Press(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/press/' + button;
     console.log(url);
-
     return fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(function(result) {
-      // callback(result._bodyInit);
+      callback();
+      console.log(result);
       console.log('blah success')
 
     })
@@ -42,14 +41,15 @@ var api = {
   Release(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/release/' + button;
     console.log(url);
-    
+
     return fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(function(result) {
-      callback(result._bodyInit);
+      callback();
+      console.log(result);
     })
     .catch(function(err) {
       console.log(err);

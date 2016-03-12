@@ -32,22 +32,22 @@ class QRReader extends React.Component {
     console.log("QR Code Found", ipAddress); 
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
-    api.PairController(ipAddress, function(data) {
-      var playerID = data.player;
-      console.log('phone paired as controller! playerID:', playerID)
+    // api.PairController(ipAddress, function(data) {
+    //   var playerID = data.player;
+    //   console.log('phone paired as controller! playerID:', playerID)
 
-      //open up the ControllerView
-      this.props.navigator.push({
-        component: ControllerView,
-        ipAddress: ipAddress, // pass the ipAddress to ControllerView
-        playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
-        sceneConfig: {
-          ...Navigator.SceneConfigs.FloatFromBottom,
-          gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-        }
-      });
+    //   //open up the ControllerView
+    //   this.props.navigator.push({
+    //     component: ControllerView,
+    //     ipAddress: ipAddress, // pass the ipAddress to ControllerView
+    //     playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
+    //     sceneConfig: {
+    //       ...Navigator.SceneConfigs.FloatFromBottom,
+    //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+    //     }
+    //   });
 
-    });
+    // });
 
     //DELETE THIS WHEN GET REQUESTS WORK
     this.props.navigator.push({
@@ -63,17 +63,17 @@ class QRReader extends React.Component {
   }
 
   //DELETE THIS WHEN GET REQUESTS WORK
-  componentDidMount() {
-    this.props.navigator.push({
-      component: ControllerView,
-      ipAddress: '10.7.26.218', // pass the ipAddress to ControllerView
-      playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
-        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-      }
-    });
-  }
+  // componentDidMount() {
+  //   this.props.navigator.push({
+  //     component: ControllerView,
+  //     ipAddress: '10.7.26.218', // pass the ipAddress to ControllerView
+  //     playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
+  //     sceneConfig: {
+  //       ...Navigator.SceneConfigs.FloatFromBottom,
+  //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+  //     }
+  //   });
+  // }
 
   _torchEnabled() {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
