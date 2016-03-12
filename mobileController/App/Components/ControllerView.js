@@ -22,14 +22,17 @@ class ControllerView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //used to scale sizes of buttons depending on phone resolution
       circleButtonSize: undefined,
       arrowButtonSize: undefined,
       selectStartButtonSize: undefined,
+      //used to detect changes in the D-Pad
+      dPadButton: undefined, //currently pressed D-pad button
+      previousDPadButton: undefined,
       dPadButtonChange: false, //has the user rolled their finger from one of the arrow buttons to another: used to see when to release the first button
     }
   }
 
-  //NOT USED FOR NOW: Will be used to make D-pad a joystick
   componentWillMount() {
       this._panResponder = PanResponder.create({
         // Ask to be the responder:
@@ -40,11 +43,32 @@ class ControllerView extends React.Component {
 
         onPanResponderGrant: (evt, gestureState) => {
           // The gesture has started
-          console.log('grant gestureState', gestureState.numberActiveTouches);
+          // console.log('grant gestureState', gestureState.numberActiveTouches);
           // console.log('grant evt', evt);
+
+          // var x2 = gestureState.moveX;
+          // var y2 = gestureState.moveY;
+
+          // var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+          // var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+          // var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+          // var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+
+          // var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+
+          // if(closest===distanceToUp) {
+          //   console.log('up arrow pressed');
+          // } else if (closest===distanceToRight) {
+          //   console.log('right arrow pressed');
+          // } else if (closest===distanceToDown) {
+          //   console.log('down arrow pressed');
+          // } else if (closest===distanceToLeft) {
+          //   console.log('left arrow pressed');
+          // }
+
         },
         onPanResponderMove: (evt, gestureState) => {
-          console.log('move gestureState', gestureState);
+          // console.log('move gestureState', gestureState);
 
           var x2 = gestureState.moveX;
           var y2 = gestureState.moveY;
@@ -57,13 +81,17 @@ class ControllerView extends React.Component {
           var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
           if(closest===distanceToUp) {
-            console.log('up arrow pressed');
+            // console.log('up arrow pressed');
+            this._upArrowPressIn(); 
           } else if (closest===distanceToRight) {
-            console.log('right arrow pressed');
+            // console.log('right arrow pressed');
+            this._rightArrowPressIn(); 
           } else if (closest===distanceToDown) {
-            console.log('down arrow pressed');
+            // console.log('down arrow pressed');
+            this._downArrowPressIn(); 
           } else if (closest===distanceToLeft) {
-            console.log('left arrow pressed');
+            // console.log('left arrow pressed');
+            this._leftArrowPressIn(); 
           }
         },
         onPanResponderTerminationRequest: (evt, gestureState) => true,
@@ -73,6 +101,7 @@ class ControllerView extends React.Component {
           var x2 = gestureState.moveX;
           var y2 = gestureState.moveY;
 
+          //TODO: don't hardcode theses points of the D-Pad buttons
           var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
           var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
           var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
@@ -81,13 +110,17 @@ class ControllerView extends React.Component {
           var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
           if(closest===distanceToUp) {
-            console.log('up arrow released');
+            // console.log('up arrow released');
+            this._upArrowPressOut(); 
           } else if (closest===distanceToRight) {
-            console.log('right arrow released');
+            // console.log('right arrow released');
+            this._rightArrowPressOut(); 
           } else if (closest===distanceToDown) {
-            console.log('down arrow released');
+            // console.log('down arrow released');
+            this._downArrowPressOut(); 
           } else if (closest===distanceToLeft) {
-            console.log('left arrow released');
+            // console.log('left arrow released');
+            this._leftArrowPressOut(); 
           }
         },
         onPanResponderTerminate: (evt, gestureState) => {
@@ -159,34 +192,82 @@ class ControllerView extends React.Component {
 
   //Left thumb buttons: Direction pad
   _upArrowPressIn() {
-    console.log('up arrow pressed')
+    if(this.state.dPadButton!==undefined && this.state.dPadButton!=='up') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
+      if(this.state.dPadButton==='down') {
+        this._downArrowPressOut();
+      } else if(this.state.dPadButton==='left') {
+        this._leftArrowPressOut();
+      } else if(this.state.dPadButton==='right') {
+        this._rightArrowPressOut();
+      }
+    }
+    console.log('up arrow pressed');
+    this.setState({dPadButton: "up"});
   }
   _upArrowPressOut() {
-    console.log('up arrow released')
+    console.log('up arrow released');
+    this.setState({dPadButton: undefined});
   }
 
   _downArrowPressIn() {
-    console.log('down arrow pressed')
+    if(this.state.dPadButton!==undefined && this.state.dPadButton!=='down') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
+      // this.setState({previousDPadButton:this.state.dPadButton});
+      if(this.state.dPadButton==='up') {
+        this._upArrowPressOut();
+      } else if(this.state.dPadButton==='left') {
+        this._leftArrowPressOut();
+      } else if(this.state.dPadButton==='right') {
+        this._rightArrowPressOut();
+      }
+    }
+    console.log('down arrow pressed');
+    this.setState({dPadButton: "down"});
   }
   _downArrowPressOut() {
-    console.log('down arrow released')
+    console.log('down arrow released');
+    this.setState({dPadButton: undefined});
   }
 
   _rightArrowPressIn() {
-    console.log('right arrow pressed')
+    if(this.state.dPadButton!==undefined && this.state.dPadButton!=='right') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
+      // this.setState({previousDPadButton:this.state.dPadButton});
+      if(this.state.dPadButton==='down') {
+        this._downArrowPressOut();
+      } else if(this.state.dPadButton==='left') {
+        this._leftArrowPressOut();
+      } else if(this.state.dPadButton==='up') {
+        this._upArrowPressOut();
+      }
+    }
+    console.log('right arrow pressed');
+    this.setState({dPadButton: "right"});
   }
   _rightArrowPressOut() {
-    console.log('right arrow released')
+    console.log('right arrow released');
+    this.setState({dPadButton: undefined});
   }
 
   _leftArrowPressIn() {
-    console.log('left arrow pressed')
+    if(this.state.dPadButton!==undefined && this.state.dPadButton!=='left') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
+      // this.setState({previousDPadButton:this.state.dPadButton});
+      if(this.state.dPadButton==='down') {
+        this._downArrowPressOut();
+      } else if(this.state.dPadButton==='up') {
+        this._upArrowPressOut();
+      } else if(this.state.dPadButton==='right') {
+        this._rightArrowPressOut();
+      }
+    }
+    console.log('left arrow pressed');
+    this.setState({dPadButton: "left"});
   }
   _leftArrowPressOut() {
-    console.log('left arrow released')
+    console.log('left arrow released');
+    this.setState({dPadButton: undefined});
   }
 
-  //Index finger buttons: Left and Right Shoulders. TODO: implement shoulder buttons on screen, or ideally with volume rocker
+  //Index finger buttons: Left and Right Shoulders. 
+  //TODO: implement shoulder buttons on screen, or ideally with volume rocker
   _rightShoulderPressIn() {
     console.log('right shoulder pressed')
   }
