@@ -11,7 +11,7 @@ var {
   StyleSheet,
   Text,
   View,
-  // TouchableHighlight,
+  TouchableHighlight,
   TouchableOpacity,
   Navigator,
   StatusBarIOS,
@@ -33,7 +33,24 @@ class QRReader extends React.Component {
   _barcodeReceived(e) {
     console.log('Barcode: ' + e.data);
     console.log('Type: ' + e.type);
-    //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
+
+    //Use the data (the IP address) to connect to the computer using an api.js helper function
+    api.PairController(ipAddress), function(data) {
+      var playerID = data.player;
+      console.log('phone paired as controller! playerID:', playerID)
+
+      //open up the ControllerView
+      this.props.navigator.push({
+        component: ControllerView,
+        ipAddress: ipAddress, // pass the ipAddress to ControllerView
+        playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
+        sceneConfig: {
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+        }
+      });
+    });
+    // update state
     this.props.navigator.push({
       component: ControllerView,
       sceneConfig: {
