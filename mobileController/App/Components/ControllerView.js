@@ -25,54 +25,82 @@ class ControllerView extends React.Component {
       circleButtonSize: undefined,
       arrowButtonSize: undefined,
       selectStartButtonSize: undefined,
+      dPadButtonChange: false, //has the user rolled their finger from one of the arrow buttons to another: used to see when to release the first button
     }
   }
 
   //NOT USED FOR NOW: Will be used to make D-pad a joystick
-  // componentWillMount() {
-  //     this._panResponder = PanResponder.create({
-  //       // Ask to be the responder:
-  //       onStartShouldSetPanResponder: (evt, gestureState) => true,
-  //       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
-  //       onMoveShouldSetPanResponder: (evt, gestureState) => true,
-  //       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+  componentWillMount() {
+      this._panResponder = PanResponder.create({
+        // Ask to be the responder:
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+        onMoveShouldSetPanResponder: (evt, gestureState) => true,
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
-  //       onPanResponderGrant: (evt, gestureState) => {
-  //         // The guesture has started. Show visual feedback so the user knows
-  //         // what is happening!
-  //         console.log('grant gestureState', gestureState.numberActiveTouches);
-  //         // console.log('grant evt', evt);
+        onPanResponderGrant: (evt, gestureState) => {
+          // The gesture has started
+          console.log('grant gestureState', gestureState.numberActiveTouches);
+          // console.log('grant evt', evt);
+        },
+        onPanResponderMove: (evt, gestureState) => {
+          console.log('move gestureState', gestureState);
 
+          var x2 = gestureState.moveX;
+          var y2 = gestureState.moveY;
 
-  //         // gestureState.{x,y}0 will be set to zero now
-  //       },
-  //       onPanResponderMove: (evt, gestureState) => {
-  //         // The most recent move distance is gestureState.move{X,Y}
-  //         console.log('move gestureState', gestureState.numberActiveTouches);
-  //         // console.log('move evt', evt);
+          var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+          var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+          var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+          var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
 
+          var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
+          if(closest===distanceToUp) {
+            console.log('up arrow pressed');
+          } else if (closest===distanceToRight) {
+            console.log('right arrow pressed');
+          } else if (closest===distanceToDown) {
+            console.log('down arrow pressed');
+          } else if (closest===distanceToLeft) {
+            console.log('left arrow pressed');
+          }
+        },
+        onPanResponderTerminationRequest: (evt, gestureState) => true,
+        onPanResponderRelease: (evt, gestureState) => {
+          // The user has released all touches while this view is the
+          // responder. This typically means a gesture has succeeded
+          var x2 = gestureState.moveX;
+          var y2 = gestureState.moveY;
 
-  //         // The accumulated gesture distance since becoming responder is
-  //         // gestureState.d{x,y}
-  //       },
-  //       onPanResponderTerminationRequest: (evt, gestureState) => true,
-  //       onPanResponderRelease: (evt, gestureState) => {
-  //         // The user has released all touches while this view is the
-  //         // responder. This typically means a gesture has succeeded
-  //         console.log('release');
-  //       },
-  //       onPanResponderTerminate: (evt, gestureState) => {
-  //         // Another component has become the responder, so this gesture
-  //         // should be cancelled
-  //       },
-  //       onShouldBlockNativeResponder: (evt, gestureState) => {
-  //         // Returns whether this component should block native components from becoming the JS
-  //         // responder. Returns true by default. Is currently only supported on android.
-  //         return true;
-  //       },
-  //     });
-  //   }
+          var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+          var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+          var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+          var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+
+          var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+
+          if(closest===distanceToUp) {
+            console.log('up arrow released');
+          } else if (closest===distanceToRight) {
+            console.log('right arrow released');
+          } else if (closest===distanceToDown) {
+            console.log('down arrow released');
+          } else if (closest===distanceToLeft) {
+            console.log('left arrow released');
+          }
+        },
+        onPanResponderTerminate: (evt, gestureState) => {
+          // Another component has become the responder, so this gesture
+          // should be cancelled
+        },
+        onShouldBlockNativeResponder: (evt, gestureState) => {
+          // Returns whether this component should block native components from becoming the JS
+          // responder. Returns true by default. Is currently only supported on android.
+          return true;
+        },
+      });
+    }
 
 
   componentDidMount() {
@@ -103,8 +131,6 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   _APressIn() {
     console.log('A pressed');
-    // VibrationIOS.vibrate()
-    // return true;
   }
   _APressOut(event) {
     console.log('A released')
@@ -112,7 +138,6 @@ class ControllerView extends React.Component {
 
   _BPressIn() {
     console.log('B pressed')
-    // return true;
   }
   _BPressOut() {
     console.log('B released')
@@ -120,7 +145,6 @@ class ControllerView extends React.Component {
 
   _XPressIn() {
     console.log('X pressed')
-    // return true;
   }
   _XPressOut() {
     console.log('X released')
@@ -128,7 +152,6 @@ class ControllerView extends React.Component {
 
   _YPressIn() {
     console.log('Y pressed')
-    // return true;
   }
   _YPressOut() {
     console.log('Y released')
@@ -137,7 +160,6 @@ class ControllerView extends React.Component {
   //Left thumb buttons: Direction pad
   _upArrowPressIn() {
     console.log('up arrow pressed')
-    // return true;
   }
   _upArrowPressOut() {
     console.log('up arrow released')
@@ -145,7 +167,6 @@ class ControllerView extends React.Component {
 
   _downArrowPressIn() {
     console.log('down arrow pressed')
-    // return true;
   }
   _downArrowPressOut() {
     console.log('down arrow released')
@@ -153,7 +174,6 @@ class ControllerView extends React.Component {
 
   _rightArrowPressIn() {
     console.log('right arrow pressed')
-    // return true;
   }
   _rightArrowPressOut() {
     console.log('right arrow released')
@@ -161,7 +181,6 @@ class ControllerView extends React.Component {
 
   _leftArrowPressIn() {
     console.log('left arrow pressed')
-    // return true;
   }
   _leftArrowPressOut() {
     console.log('left arrow released')
@@ -170,7 +189,6 @@ class ControllerView extends React.Component {
   //Index finger buttons: Left and Right Shoulders. TODO: implement shoulder buttons on screen, or ideally with volume rocker
   _rightShoulderPressIn() {
     console.log('right shoulder pressed')
-    // return true;
   }
   _rightShoulderPressOut() {
     console.log('right shoulder released')
@@ -178,7 +196,6 @@ class ControllerView extends React.Component {
 
   _leftShoulderPressIn() {
     console.log('left shoulder pressed')
-    // return true;
   }
   _leftShoulderPressOut() {
     console.log('left shoulder released')
@@ -199,9 +216,7 @@ class ControllerView extends React.Component {
 
   _onStartShouldSetResponderCapture(evt) {
     console.log('button pressed')
-    // console.log(evt.nativeEvent.touches);
     console.log('X:', evt.nativeEvent.locationX, 'Y:', evt.nativeEvent.locationY);
-    // return true;
   }
 
   _onResponderRelease() {
@@ -231,27 +246,30 @@ class ControllerView extends React.Component {
             <IconIon name="record" size={this.state.circleButtonSize} color="#428a43"/>
           </View>
 
-          <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}  onTouchEnd={this._upArrowPressOut.bind(this)}> 
-            <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+          <View {...this._panResponder.panHandlers}>
+            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}  onTouchEnd={this._upArrowPressOut.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            </View>
+            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)} onTouchEnd={this._downArrowPressOut.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            </View>
+            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)} onTouchEnd={this._leftArrowPressOut.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            </View>
+            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)} onTouchEnd={this._rightArrowPressOut.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            </View>
           </View>
-          <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)} onTouchEnd={this._downArrowPressOut.bind(this)}> 
-            <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
-          </View>
-          <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)} onTouchEnd={this._leftArrowPressOut.bind(this)}> 
-            <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
-          </View>
-          <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)} onTouchEnd={this._rightArrowPressOut.bind(this)}> 
-            <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
-          </View>
+
 
 
           <View style={styles.selectButton}> 
-            <TouchableOpacity onPressIn={this._selectPress.bind(this)} onPressOut={this._leftArrowPressOut.bind(this)} >
+            <TouchableOpacity onPressIn={this._selectPress.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
-            <TouchableOpacity onPressIn={this._startPress.bind(this)} onPressOut={this._rightArrowPressOut.bind(this)}>
+            <TouchableOpacity onPressIn={this._startPress.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
             </TouchableOpacity>
           </View>
