@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="index.css">
-  <title>gametime-player</title>
+  <title>OSnes</title>
 </head>
 <body>
+  
+  <!-- this is the emulator -->
   <div class="draghint hidden screen" id="draghint">
     <input type="file" id="chooser" class="chooser"/>
     <div class="dragtext">
@@ -52,5 +54,14 @@
   <script src="config.js"></script>
   <script src="build.js"></script>
   <script src="bootstrap.js"></script>
+  <!-- dependencies -->
+  <script src="lib/angular-min.js"></script>
+  <script src="./lib/node.js"></script>
+  <script src="./lib/jquery-min.js"></script>
+  <script src="./lib/qr-code.js"></script>
+
+  <script src="./server/server.js"></script>
+  <script src="./server/router.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
