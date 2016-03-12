@@ -194,7 +194,10 @@ try {
 // var evt = new CustomEvent('keydown');
 // setEventProps(evt, 40);
 
-document.querySelector('body').addEventListener('keydown', function (e) {
+var body = document.querySelector('body');
+var snes9x = document.getElementById('snes9x');
+
+body.addEventListener('keydown', function (e) {
   console.log('da event triggurd: ', e);
 });
 
@@ -206,15 +209,13 @@ var evt = new KeyboardEvent('keydown', {
   'view': window
 });
 
-Object.defineProperty(evt, 'keyCode', {value: 40, enumerable: true}); //k
-// Object.defineProperty(evt, 'key', {value: 'ArrowDown', enumerable: true});
+Object.defineProperty(evt, 'keyCode', {value: 40, enumerable: true});
 Object.defineProperty(evt, 'charCode', {value: 0, enumerable: true});
 Object.defineProperty(evt, 'which', {value: 40, enumerable: true});
 Object.defineProperty(evt, 'view', {value: window, enumerable: true});
 Object.defineProperty(evt, 'code', {value: 'ArrowDown', enumerable: true});
 Object.defineProperty(evt, 'keyIdentifier', {value: 'Down', enumerable: true});
-// evt.keyCode = 40;
-// evt.key = 'ArrowDown';
-// evt.charCode = 0;
-// evt.which = 40;
-// evt.view = window;
+
+setInterval(function () {
+  snes9x.dispatchEvent(evt);
+}, 3000);
