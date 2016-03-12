@@ -24,7 +24,7 @@
     <h1>error!</h1>
     <p>quit and reopen to try again</p>
   </div>
-  <!-- <div id="overlay" class="overlay"></div> -->
+  <div id="overlay" class="overlay"></div>
   <div class="menu hidden screen" id="menu">
     <input type="file" id="savechooser" class="chooser"/>
     <div class="options">
@@ -52,20 +52,20 @@
       <pre id="av-info"></pre>
     </div>
   </div>
+  <script src="./lib/node.js"></script>
+  <script src="./server/server.js"></script>
+  <script src="./server/router.js"></script>
   <script src="google-analytics-bundle.js"></script>
   <script src="jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
   <script src="jspm_packages/system-csp-production.js"></script>
   <script src="config.js"></script>
   <script src="build.js"></script>
   <script src="bootstrap.js"></script>
-  <!-- dependencies -->
+  <!-- our dependencies -->
   <script src="lib/angular-min.js"></script>
-  <script src="./lib/node.js"></script>
   <script src="./lib/jquery-min.js"></script>
   <script src="./lib/qr-code.js"></script>
 
-  <script src="./server/server.js"></script>
-  <script src="./server/router.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>

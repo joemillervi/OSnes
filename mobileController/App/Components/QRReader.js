@@ -11,7 +11,6 @@ var {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   TouchableOpacity,
   Navigator,
   StatusBarIOS,
@@ -62,15 +61,34 @@ class QRReader extends React.Component {
 
   // IOs barcode scanner
   _onBarCodeRead(e) {
-    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.0.0.215
-    AlertIOS.alert("QR Code Found", e.data);
-    console.log("QR Code Found", e.data);
+    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50
+    var ipAddress = e.data;
+    AlertIOS.alert("QR Code Found", ipAddress);
+    console.log("QR Code Found", ipAddress);
 
-    //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
+    //Use the data (the IP address) to connect to the computer using an api.js helper function
+    // api.PairController(ipAddress, function(data) {
+    //   var playerID = data.player;
+    //   console.log('phone paired as controller! playerID:', playerID)
 
-    //open up the ControllerView with buttons
+    //   //open up the ControllerView
+    //   this.props.navigator.push({
+    //     component: ControllerView,
+    //     ipAddress: ipAddress, // pass the ipAddress to ControllerView
+    //     playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
+    //     sceneConfig: {
+    //       ...Navigator.SceneConfigs.FloatFromBottom,
+    //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+    //     }
+    //   });
+
+    // });
+
+    //DELETE THIS WHEN GET REQUESTS WORK
     this.props.navigator.push({
       component: ControllerView,
+      ipAddress: ipAddress, // pass the ipAddress to ControllerView
+      playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
         gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
@@ -91,6 +109,19 @@ class QRReader extends React.Component {
   }
 
   // For ios
+  //DELETE THIS WHEN GET REQUESTS WORK
+  // componentDidMount() {
+  //   this.props.navigator.push({
+  //     component: ControllerView,
+  //     ipAddress: '10.7.26.218', // pass the ipAddress to ControllerView
+  //     playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
+  //     sceneConfig: {
+  //       ...Navigator.SceneConfigs.FloatFromBottom,
+  //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+  //     }
+  //   });
+  // }
+
   _torchEnabled() {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
   }
@@ -128,7 +159,6 @@ class QRReader extends React.Component {
       );
       // else if Android
     } else {
-      console.log('android')
       return (
 
           <BarcodeScanner

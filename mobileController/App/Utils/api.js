@@ -1,6 +1,7 @@
 var api = {
   PairController(ipAddress) {
     var url = 'http://' + ipAddress + ':1337/pair-controller';
+    console.log(url);
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -16,6 +17,7 @@ var api = {
 
   Press(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/press/' + button;
+    console.log(url);
     return fetch(url, {
       method: 'GET',
       headers: {
