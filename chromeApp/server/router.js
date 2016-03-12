@@ -30,31 +30,27 @@ function router(req, res) {
       console.log('no more players allowed');
       res.end(JSON.stringify({player: 'no more players allowed'}));
     }
-  } else if ( // app.get('/player/:player-num/press/:button', cb)   like: /player/1/press/a
+  } else if ( // app.get('/player/:player-num/:action/:button', cb)   like: /player/1/press/a
     httpVerb === 'GET' &&
-    pathArr[1] === 'player' &&
-    pathArr[3] === 'press' &&
-    pathArr[5] === undefined
+    pathArr.length === 5 &&
+    pathArr[1] === 'player'
   ) {
     var playerNum = parseInt(pathArr[2]);
+    var action;
+    if (pathArr[3] === 'press') {
+      action = 'keydown';
+    } else if (pathArr[3] === 'release') {
+      action = 'keyup';
+    }
     var button = pathArr[4];
     var asciiNum = getAsciiKey(button);
-    var keyBoardEvent = makeEvent('keydown', asciiNum);
+    var keyBoardEvent = makeEvent(action, asciiNum);
+    console.log('in router, keyBoardEvent:');
+    console.log(keyBoardEvent);
     document.querySelector('body').dispatchEvent(keyBoardEvent);
-    console.log('player ' + playerNum + ' just pressed "' + button + '"');
+    console.log('player ' + playerNum + ' just ' + pathArr[3] + 'd "' + button + '"');
     res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({message: 'Player ' + playerNum + ' just pressed ' + button}));
-  } else if ( // app.get('/player/:player-num/release/:button', cb)
-    httpVerb === 'GET' &&
-    pathArr[1] === 'player' &&
-    pathArr[3] === 'release' &&
-    pathArr[5] === undefined
-  ) {
-    var playerNum = pathArr[2];
-    var button = pathArr[4];
-    console.log('player ' + playerNum + ' just released "' + button + '"');
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({message: 'Player ' + playerNum + ' just released ' + button}));
+    res.end(JSON.stringify({message: 'player ' + playerNum + ' just ' + pathArr[3] + 'd ' + button}));
   } else {
     res.writeHead(404, {'Content-Type': 'application/json'});
     res.end();
