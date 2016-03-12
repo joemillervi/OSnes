@@ -28,7 +28,6 @@ class ControllerView extends React.Component {
       selectStartButtonSize: undefined,
       //used to detect changes in the D-Pad
       dPadButton: undefined, //currently pressed D-pad button
-      dPadButtonsMoved: false, //has the user rolled their finger from one button to another? used to determine if onTouchEnd should fire a release
     }
   }
 
@@ -133,7 +132,9 @@ class ControllerView extends React.Component {
     }
   }
 
+  /////////////////////////////////////////////////////////////////////
   //Right thumb buttons: A, B, X, Y
+  /////////////////////////////////////////////////////////////////////
   _APressIn() {
     console.log('A pressed');
   }
@@ -162,10 +163,12 @@ class ControllerView extends React.Component {
     console.log('Y released')
   }
 
+  /////////////////////////////////////////////////////////////////////
   //Left thumb buttons: Direction pad
+  /////////////////////////////////////////////////////////////////////
   _upArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='up') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      this.setState({dPadButtonsMoved: true});
+      // this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -184,7 +187,6 @@ class ControllerView extends React.Component {
 
   _downArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='down') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='up') {
         this._upArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -203,7 +205,6 @@ class ControllerView extends React.Component {
 
   _rightArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='right') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -222,7 +223,6 @@ class ControllerView extends React.Component {
 
   _leftArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='left') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='up') {
@@ -239,8 +239,10 @@ class ControllerView extends React.Component {
     this.setState({dPadButton: undefined});
   }
 
-  //Index finger buttons: Left and Right Shoulders. 
+  /////////////////////////////////////////////////////////////////////
+  //Shoulder buttons: Left and Right Index Finger Triggers. 
   //TODO: implement shoulder buttons on screen, or ideally with volume rocker
+  /////////////////////////////////////////////////////////////////////
   _rightShoulderPressIn() {
     console.log('right shoulder pressed')
   }
@@ -255,30 +257,16 @@ class ControllerView extends React.Component {
     console.log('left shoulder released')
   }
 
+  /////////////////////////////////////////////////////////////////////
   //Start and Select buttons; never held down, so an onPress event is used instead of an onPressIn and onPressOut pair
+  /////////////////////////////////////////////////////////////////////
   _startPress() {
-    console.log('start pressed')
+    console.log('start pressed');
+    VibrationIOS.vibrate();
   }
   _selectPress() {
     console.log('select released')
-  }
-
-  _onResponderTerminationRequest(evt) {
-    console.log('termination request');
-    return false;
-  }
-
-  _onStartShouldSetResponderCapture(evt) {
-    console.log('button pressed')
-    console.log('X:', evt.nativeEvent.locationX, 'Y:', evt.nativeEvent.locationY);
-  }
-
-  _onResponderRelease() {
-    console.log('button released');
-  } 
-
-  _onResponderTerminate() {
-    console.log('has been terminated');
+    VibrationIOS.vibrate();
   }
 
   render() {
@@ -301,28 +289,28 @@ class ControllerView extends React.Component {
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}  > 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
+            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)} > 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
+            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)} > 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
+            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)} > 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
+            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}> 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
           </View>
 
           <View style={styles.selectButton}> 
             <TouchableOpacity onPressIn={this._selectPress.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0)"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
             <TouchableOpacity onPressIn={this._startPress.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0)"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
             </TouchableOpacity>
           </View>
 
