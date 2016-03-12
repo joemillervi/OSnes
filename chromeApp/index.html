@@ -1,21 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>OSnes</title>
-    <script src="./assets/angular-min.js"></script>
-    <script src="./lib/node.js"></script>
-    <script src="./lib/jquery-min.js"></script>
-    <script src="./lib/qr-code.js"></script>
-    <script src="./server/server.js"></script>
-    <script src="./server/router.js"></script>
-    <script src="./main.js"></script>
-  </head>
-  <body ng-app="main" ng-controller="mainCtrl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <title>OSnes</title>
+</head>
+<body>
+  <div id="menu-screen" ng-app="main" ng-hide={{playing}} ng-controller="mainCtrl">
     <h1>{{title}}</h1>
     <p>{{ipAddress}}</p>
-    <p id="ip"></p>
-    <div id="qrcode"></div>
-    <script src="./app.js"></script>
-  </body>
+    <div class="button" ng-click="togglePlaying()">START</div>
+  </div>
+  <!-- this is the emulator -->
+  <div class="draghint hidden screen" id="draghint">
+    <input type="file" id="chooser" class="chooser"/>
+    <div class="dragtext">
+      <h1>drag a game here to play</h1>
+    </div>
+  </div>
+  <div id="loading" class="message screen"><h1>loading ...</h1></div>
+  <div id="error" class="message hidden screen">
+    <h1>error!</h1>
+    <p>quit and reopen to try again</p>
+  </div>
+  <div id="overlay" class="overlay"></div>
+  <div class="menu hidden screen" id="menu">
+    <input type="file" id="savechooser" class="chooser"/>
+    <div class="options">
+      <h1>Your game is paused.</h1>
+      <button id="resume" class="resume">resume</button>
+      <button id="reset" class="reset">reset</button>
+      <button id="save" class="save">save game</button>
+      <button id="load" class="load">load save</button>
+      <button id="mute" class="mute">mute</button>
+    </div>
+    <div>
+      <h1>Controls:</h1>
+      <div>A button = A key</div>
+      <div>B button = B key</div>
+      <div>X button = X key</div>
+      <div>Y button = Y key</div>
+      <div>L button = L key</div>
+      <div>R button = R key</div>
+      <div>D-pad = arrow keys</div>
+    </div>
+    <div>
+      <h1>Core Info:</h1>
+      <pre id="core-name"></pre>
+      <pre id="system-info"></pre>
+      <pre id="av-info"></pre>
+    </div>
+  </div>
+  <script src="./server/server.js"></script>
+  <script src="./server/router.js"></script>
+  <script src="google-analytics-bundle.js"></script>
+  <script src="jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
+  <script src="jspm_packages/system-csp-production.js"></script>
+  <script src="config.js"></script>
+  <script src="build.js"></script>
+  <script src="bootstrap.js"></script>
+  <!-- our dependencies -->
+  <script src="lib/angular-min.js"></script>
+  <script src="./lib/node.js"></script>
+  <script src="./lib/jquery-min.js"></script>
+  <script src="./lib/qr-code.js"></script>
+
+  <script src="./app.js"></script>
+</body>
 </html>
