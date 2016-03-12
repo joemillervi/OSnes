@@ -2,6 +2,13 @@ angular.module('main',[])
 .controller('mainCtrl', function($scope) {
   $scope.ipAddress = 'filler'
   $scope.title = 'TITLEEEE';
+  $scope.playing = true;
+  $scope.togglePlaying = function() {
+    console.log("CLICKEDDDD")
+    $scope.playing = !$scope.playing;
+    console.log($scope.playing)
+  }
+
 
   // For testing keydown events
   // $('body').on('keydown', function (e) {
