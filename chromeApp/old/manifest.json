@@ -1,0 +1,41 @@
+{
+  "name": "OSnes",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Mobile phone controlled retro gaming Chrome app",
+  "icons": {
+    "16": "assets/images/nes_16.png",
+    "128": "assets/images/nes_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "system.network",
+    {"socket":["tcp-listen"]},
+    {"fileSystem": [ "retainEntries", "directory", "write" ]},
+    "pointerLock",
+    "fullscreen",
+    "identity",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "file_handlers": {
+      "any": {
+         "extensions": [ "smc", "sfc" ]
+      }
+   },
+   "minimum_chrome_version": "44",
+   "platforms": [
+   {  "nacl_arch": "x86-64",
+      "sub_package_path": "./snes/_platform_specific/x86-64/"
+   },
+   {  "nacl_arch": "x86-32",
+      "sub_package_path": "./snes/_platform_specific/x86-32/"
+   },
+   {  "nacl_arch": "arm",
+      "sub_package_path": "./snes/_platform_specific/arm/"
+   } ]
+}

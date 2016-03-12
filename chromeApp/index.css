@@ -9,6 +9,12 @@ html, body, canvas {
   user-select: none;
   overflow: hidden;
 }
+#menu-screen {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: red;
+}
 .draghint {
   display: table;
   box-sizing: border-box;

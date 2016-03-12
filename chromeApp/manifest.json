@@ -1,41 +1,40 @@
 {
-  "name": "OSnes",
-  "version": "0.0.1",
-  "manifest_version": 2,
-  "description": "Mobile phone controlled retro gaming Chrome app",
-  "icons": {
-    "16": "assets/images/nes_16.png",
-    "128": "assets/images/nes_128.png"
-  },
-  "app": {
-    "background": {
-      "scripts": ["main.js"]
-    }
-  },
-  "permissions": [
-    "system.network",
-    {"socket":["tcp-listen"]},
-    {"fileSystem": [ "retainEntries", "directory", "write" ]},
-    "pointerLock",
-    "fullscreen",
-    "identity",
-    "storage",
-    "unlimitedStorage"
-  ],
-  "file_handlers": {
-      "any": {
-         "extensions": [ "smc", "sfc" ]
+   "app": {
+      "background": {
+         "scripts": [ "background.js" ]
       }
    },
-   "minimum_chrome_version": "44",
-   "platforms": [
-   {  "nacl_arch": "x86-64",
-      "sub_package_path": "./snes/_platform_specific/x86-64/"
+   "author": {
+      "name": "Matthew Bauer",
+      "url": "https://matthewbauer.us"
    },
-   {  "nacl_arch": "x86-32",
-      "sub_package_path": "./snes/_platform_specific/x86-32/"
+   "description": "A video game emulator for Chrome supporting NES, SNES, Gameboy, and Gameboy Advance ROMs.",
+   "file_handlers": {
+      "gpemu": {
+         "extensions": [ "32x", "gb", "gba", "gbc", "gen", "md", "mgw", "nes", "sfc", "smc", "smd", "sms", "vec" ]
+      }
    },
-   {  "nacl_arch": "arm",
-      "sub_package_path": "./snes/_platform_specific/arm/"
-   } ]
+   "icons": {
+      "128": "icon/128.png",
+      "512": "icon/512.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmvW58l0Bg/LFZJsvjDlIIYfqxaUC7d8yUT2piRr3Oyk9rF8wnN9TjvGKGD+thK6bqDSNA0F2SqKjWlbAhzy4BdVtwsHs0/MbndW/7NYKFcXGQf+UkF1VubNw8gIIQhzBGDBK4fOX4mvbCk51GIZSsZtqejJt+OOseirrW1d10VvWlkUG+od9asfhMO1h6swlSJVTDEMdyLm8O9mFPUVLPWNS71q28k6OT+0Xg2TK3/jDDra2+NDZOpKiDwrIpITRPu6nVVZMqQsGXudmNwRTEMY2PGMiU6IYmml5X1CxRsIeD6bEHX7NYKYvM89XaY5vspVXpMmZTwvJpD5hE3oGHwIDAQAB",
+   "manifest_version": 2,
+   "name": "GPemu",
+   "offline_enabled": true,
+   "permissions": [
+     "storage",
+     "https://www.google-analytics.com/",
+     "system.network",
+     {"socket":["tcp-listen"]},
+     {"fileSystem": [ "retainEntries", "directory", "write" ]},
+     "pointerLock",
+     "fullscreen",
+     "identity",
+     "storage",
+     "unlimitedStorage"
+   ],
+   "short_name": "gpemu",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.2.7"
 }
