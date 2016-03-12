@@ -9,6 +9,11 @@ html, body, canvas {
   user-select: none;
   overflow: hidden;
 }
+.button {
+  height:100px;
+  width:300px;
+  background-color: blue;
+}
 #menu-screen {
   position: fixed;
   height: 100%;
