@@ -10,7 +10,6 @@ var {
   StyleSheet,
   Text,
   View,
-  // TouchableHighlight,
   TouchableOpacity,
   Navigator,
   StatusBarIOS,
@@ -28,18 +27,26 @@ class QRReader extends React.Component {
 
   _onBarCodeRead(e) {
     //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.0.0.215
-    AlertIOS.alert("QR Code Found", e.data);
-    console.log("QR Code Found", e.data); 
+    var ipAddress = e.data;
+    AlertIOS.alert("QR Code Found", ipAddress);
+    console.log("QR Code Found", ipAddress); 
 
-    //TODO: use the data (the IP address) to connect to the computer using an api.js helper function
+    //Use the data (the IP address) to connect to the computer using an api.js helper function
+    api.PairController(ipAddress), function(data) {
+      var playerID = data.player;
+      console.log('phone paired as controller! playerID:', playerID)
 
-    //open up the ControllerView with buttons
-    this.props.navigator.push({
-      component: ControllerView,
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
-        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-      }
+      //open up the ControllerView
+      this.props.navigator.push({
+        component: ControllerView,
+        ipAddress: ipAddress // pass the ipAddress to ControllerView
+        playerID: playerID // pass the playerID (p1 or p2) to ControllerView
+        sceneConfig: {
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+        }
+      });
+
     });
 
   }
@@ -53,9 +60,7 @@ class QRReader extends React.Component {
     return (
       <View >
         <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
+          ref={(cam) => {this.camera = cam;}}
           style={styles.preview}
           torchMode={this.state.cameraTorchToggle}
           aspect={Camera.constants.Aspect.Fill}

@@ -13,7 +13,7 @@ class mobileController extends React.Component {
     return (
       <Navigator
         initialRoute={{
-          component: ControllerView
+          component: QRReader
         }}
         configureScene={(route) => {
           if (route.sceneConfig) {
