@@ -28,8 +28,7 @@ class ControllerView extends React.Component {
       selectStartButtonSize: undefined,
       //used to detect changes in the D-Pad
       dPadButton: undefined, //currently pressed D-pad button
-      previousDPadButton: undefined,
-      dPadButtonChange: false, //has the user rolled their finger from one of the arrow buttons to another: used to see when to release the first button
+      dPadButtonsMoved: false, //has the user rolled their finger from one button to another? used to determine if onTouchEnd should fire a release
     }
   }
 
@@ -43,29 +42,6 @@ class ControllerView extends React.Component {
 
         onPanResponderGrant: (evt, gestureState) => {
           // The gesture has started
-          // console.log('grant gestureState', gestureState.numberActiveTouches);
-          // console.log('grant evt', evt);
-
-          // var x2 = gestureState.moveX;
-          // var y2 = gestureState.moveY;
-
-          // var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-          // var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-          // var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-          // var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
-
-          // var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
-
-          // if(closest===distanceToUp) {
-          //   console.log('up arrow pressed');
-          // } else if (closest===distanceToRight) {
-          //   console.log('right arrow pressed');
-          // } else if (closest===distanceToDown) {
-          //   console.log('down arrow pressed');
-          // } else if (closest===distanceToLeft) {
-          //   console.log('left arrow pressed');
-          // }
-
         },
         onPanResponderMove: (evt, gestureState) => {
           // console.log('move gestureState', gestureState);
@@ -80,26 +56,25 @@ class ControllerView extends React.Component {
 
           var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-          if(closest===distanceToUp) {
-            // console.log('up arrow pressed');
+          if(closest===distanceToUp && this.state.dPadButton!=='up') {
             this._upArrowPressIn(); 
-          } else if (closest===distanceToRight) {
-            // console.log('right arrow pressed');
+          } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
             this._rightArrowPressIn(); 
-          } else if (closest===distanceToDown) {
-            // console.log('down arrow pressed');
+          } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
             this._downArrowPressIn(); 
-          } else if (closest===distanceToLeft) {
-            // console.log('left arrow pressed');
+          } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
             this._leftArrowPressIn(); 
           }
         },
         onPanResponderTerminationRequest: (evt, gestureState) => true,
         onPanResponderRelease: (evt, gestureState) => {
-          // The user has released all touches while this view is the
-          // responder. This typically means a gesture has succeeded
-          var x2 = gestureState.moveX;
-          var y2 = gestureState.moveY;
+          // The user has released all touches within the responder
+          // This typically means a gesture has succeeded
+
+          // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
+          // distance should therefore be calculated based on starting tap location (gestureState.x0 and gestureState.y0)
+          var x2 = gestureState.moveX===0 ? gestureState.x0 : gestureState.moveX;
+          var y2 = gestureState.moveY===0 ? gestureState.y0 : gestureState.moveY;
 
           //TODO: don't hardcode theses points of the D-Pad buttons
           var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
@@ -110,18 +85,15 @@ class ControllerView extends React.Component {
           var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
           if(closest===distanceToUp) {
-            // console.log('up arrow released');
             this._upArrowPressOut(); 
           } else if (closest===distanceToRight) {
-            // console.log('right arrow released');
             this._rightArrowPressOut(); 
           } else if (closest===distanceToDown) {
-            // console.log('down arrow released');
             this._downArrowPressOut(); 
           } else if (closest===distanceToLeft) {
-            // console.log('left arrow released');
             this._leftArrowPressOut(); 
           }
+
         },
         onPanResponderTerminate: (evt, gestureState) => {
           // Another component has become the responder, so this gesture
@@ -193,6 +165,7 @@ class ControllerView extends React.Component {
   //Left thumb buttons: Direction pad
   _upArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='up') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
+      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -211,7 +184,7 @@ class ControllerView extends React.Component {
 
   _downArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='down') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      // this.setState({previousDPadButton:this.state.dPadButton});
+      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='up') {
         this._upArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -230,7 +203,7 @@ class ControllerView extends React.Component {
 
   _rightArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='right') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      // this.setState({previousDPadButton:this.state.dPadButton});
+      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -249,7 +222,7 @@ class ControllerView extends React.Component {
 
   _leftArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='left') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      // this.setState({previousDPadButton:this.state.dPadButton});
+      this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='up') {
@@ -315,43 +288,41 @@ class ControllerView extends React.Component {
         <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}> 
 
           <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="#a82530"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="#d9a04c"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="#3645ba"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="#428a43"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}  onTouchEnd={this._upArrowPressOut.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}  > 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
             </View>
-            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)} onTouchEnd={this._downArrowPressOut.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)} > 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
             </View>
-            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)} onTouchEnd={this._leftArrowPressOut.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)} > 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
             </View>
-            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)} onTouchEnd={this._rightArrowPressOut.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0.2)"/>
+            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)} > 
+              <IconIon name="stop" size={this.state.arrowButtonSize} color="rgba(0,0,0,0)"/>
             </View>
           </View>
 
-
-
           <View style={styles.selectButton}> 
             <TouchableOpacity onPressIn={this._selectPress.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0)"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
             <TouchableOpacity onPressIn={this._startPress.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0.08)"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="rgba(0,0,0,0)"/>
             </TouchableOpacity>
           </View>
 
