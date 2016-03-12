@@ -32,79 +32,81 @@ class ControllerView extends React.Component {
   }
 
   componentWillMount() {
-      this._panResponder = PanResponder.create({
-        // Ask to be the responder:
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
-        onMoveShouldSetPanResponder: (evt, gestureState) => true,
-        onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+    //The following code is used to make the D-Pad into a joystick so the user can roll their thumb between buttons and trigger a response
+    //instead of having to lift a finger and tap 
+    this._panResponder = PanResponder.create({
+      // Ask to be the responder:
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
-        onPanResponderGrant: (evt, gestureState) => {
-          // The gesture has started
-        },
-        onPanResponderMove: (evt, gestureState) => {
-          // console.log('move gestureState', gestureState);
+      onPanResponderGrant: (evt, gestureState) => {
+        // The gesture has started
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        // console.log('move gestureState', gestureState);
 
-          var x2 = gestureState.moveX;
-          var y2 = gestureState.moveY;
+        var x2 = gestureState.moveX;
+        var y2 = gestureState.moveY;
 
-          var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-          var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-          var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-          var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
 
-          var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+        var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-          if(closest===distanceToUp && this.state.dPadButton!=='up') {
-            this._upArrowPressIn(); 
-          } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
-            this._rightArrowPressIn(); 
-          } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
-            this._downArrowPressIn(); 
-          } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
-            this._leftArrowPressIn(); 
-          }
-        },
-        onPanResponderTerminationRequest: (evt, gestureState) => true,
-        onPanResponderRelease: (evt, gestureState) => {
-          // The user has released all touches within the responder
-          // This typically means a gesture has succeeded
+        if(closest===distanceToUp && this.state.dPadButton!=='up') {
+          this._upArrowPressIn(); 
+        } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
+          this._rightArrowPressIn(); 
+        } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
+          this._downArrowPressIn(); 
+        } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
+          this._leftArrowPressIn(); 
+        }
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) => {
+        // The user has released all touches within the responder
+        // This typically means a gesture has succeeded
 
-          // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
-          // distance should therefore be calculated based on starting tap location (gestureState.x0 and gestureState.y0)
-          var x2 = gestureState.moveX===0 ? gestureState.x0 : gestureState.moveX;
-          var y2 = gestureState.moveY===0 ? gestureState.y0 : gestureState.moveY;
+        // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
+        // distance should therefore be calculated based on starting tap location (gestureState.x0 and gestureState.y0)
+        var x2 = gestureState.moveX===0 ? gestureState.x0 : gestureState.moveX;
+        var y2 = gestureState.moveY===0 ? gestureState.y0 : gestureState.moveY;
 
-          //TODO: don't hardcode theses points of the D-Pad buttons
-          var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-          var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-          var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-          var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        //TODO: don't hardcode theses points of the D-Pad buttons
+        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
 
-          var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+        var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-          if(closest===distanceToUp) {
-            this._upArrowPressOut(); 
-          } else if (closest===distanceToRight) {
-            this._rightArrowPressOut(); 
-          } else if (closest===distanceToDown) {
-            this._downArrowPressOut(); 
-          } else if (closest===distanceToLeft) {
-            this._leftArrowPressOut(); 
-          }
+        if(closest===distanceToUp) {
+          this._upArrowPressOut(); 
+        } else if (closest===distanceToRight) {
+          this._rightArrowPressOut(); 
+        } else if (closest===distanceToDown) {
+          this._downArrowPressOut(); 
+        } else if (closest===distanceToLeft) {
+          this._leftArrowPressOut(); 
+        }
 
-        },
-        onPanResponderTerminate: (evt, gestureState) => {
-          // Another component has become the responder, so this gesture
-          // should be cancelled
-        },
-        onShouldBlockNativeResponder: (evt, gestureState) => {
-          // Returns whether this component should block native components from becoming the JS
-          // responder. Returns true by default. Is currently only supported on android.
-          return true;
-        },
-      });
-    }
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+      },
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        // Returns whether this component should block native components from becoming the JS
+        // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      },
+    });
+  }
 
 
   componentDidMount() {
