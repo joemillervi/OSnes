@@ -35,6 +35,8 @@ function router(req, res) {
     pathArr.length === 5 &&
     pathArr[1] === 'player'
   ) {
+    console.log('httpPath');
+    console.log(httpPath);
     var playerNum = parseInt(pathArr[2]);
     var action;
     if (pathArr[3] === 'press') {
