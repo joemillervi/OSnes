@@ -138,45 +138,45 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   /////////////////////////////////////////////////////////////////////
   _APressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'a', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
       console.log('A pressed');
     });
   }
   _APressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'a', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
       console.log('A released');
     });
   }
 
   _BPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'b', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
       console.log('B pressed');
     });
   }
   _BPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'b', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
       console.log('B released');
     });
   }
 
   _XPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'x', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'x', function () {
       console.log('X pressed');
     });
   }
   _XPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'x', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'x', function () {
       console.log('X released');
     });
   }
 
   _YPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'y', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'y', function () {
       console.log('Y pressed');
     });
   }
   _YPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'y', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'y', function () {
       console.log('Y released');
     });
   }
@@ -195,13 +195,13 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
-    api.Press(this.props.ipAddress, this.props.playerID, 'up', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
       console.log('up arrow pressed');
     });
     this.setState({dPadButton: "up"});
   }
   _upArrowPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'up', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
       console.log('up arrow released');
     });
     this.setState({dPadButton: undefined});
@@ -217,13 +217,13 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
-    api.Press(this.props.ipAddress, this.props.playerID, 'down', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
       console.log('down arrow pressed');
     });
     this.setState({dPadButton: "down"});
   }
   _downArrowPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'down', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
       console.log('down arrow released');
     });
     this.setState({dPadButton: undefined});
@@ -239,13 +239,13 @@ class ControllerView extends React.Component {
         this._upArrowPressOut();
       }
     }
-    api.Press(this.props.ipAddress, this.props.playerID, 'right', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
       console.log('right arrow pressed');
     });
     this.setState({dPadButton: "right"});
   }
   _rightArrowPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'right', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
       console.log('right arrow released');
     });
     this.setState({dPadButton: undefined});
@@ -261,13 +261,13 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
-    api.Press(this.props.ipAddress, this.props.playerID, 'left', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
       console.log('left arrow pressed');
     });
     this.setState({dPadButton: "left"});
   }
   _leftArrowPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'left', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
       console.log('left arrow released');
     });
     this.setState({dPadButton: undefined});
@@ -278,23 +278,23 @@ class ControllerView extends React.Component {
   //TODO: implement shoulder buttons on screen, or ideally with volume rocker
   /////////////////////////////////////////////////////////////////////
   _rightShoulderPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'r-shoulder', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder', function () {
       console.log('right shoulder pressed');
     });
   }
   _rightShoulderPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'r-shoulder', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder', function () {
       console.log('right arrow released');
     });
   }
 
   _leftShoulderPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'l-shoulder', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder', function () {
       console.log('left shoulder pressed');
     });
   }
   _leftShoulderPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'l-shoulder', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder', function () {
       console.log('left arrow released');
     });
   }
@@ -303,25 +303,25 @@ class ControllerView extends React.Component {
   //Start and Select buttons
   /////////////////////////////////////////////////////////////////////
   _startPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'start', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'start', function () {
       console.log('start pressed');
       VibrationIOS.vibrate();
     });
   }
   _startPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'start', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'start', function () {
       console.log('start released');
     });
   }
 
   _selectPressIn() {
-    api.Press(this.props.ipAddress, this.props.playerID, 'select', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'select', function () {
       console.log('select pressed');
       VibrationIOS.vibrate();
     });
   }
   _selectPressOut() {
-    api.Release(this.props.ipAddress, this.props.playerID, 'select', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'select', function () {
       console.log('select released');
     });
   }

@@ -26,7 +26,7 @@ class QRReader extends React.Component {
   }
 
   _onBarCodeRead(e) {
-    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.0.0.215
+    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50
     var ipAddress = e.data;
     AlertIOS.alert("QR Code Found", ipAddress);
     console.log("QR Code Found", ipAddress); 
@@ -49,6 +49,30 @@ class QRReader extends React.Component {
 
     });
 
+    //DELETE THIS WHEN GET REQUESTS WORK
+    this.props.navigator.push({
+      component: ControllerView,
+      ipAddress: ipAddress, // pass the ipAddress to ControllerView
+      playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+      }
+    });
+
+  }
+
+  //DELETE THIS WHEN GET REQUESTS WORK
+  componentDidMount() {
+    this.props.navigator.push({
+      component: ControllerView,
+      ipAddress: '10.7.26.218', // pass the ipAddress to ControllerView
+      playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+      }
+    });
   }
 
   _torchEnabled() {
