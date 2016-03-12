@@ -366,7 +366,7 @@ class ControllerView extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
-            <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut{this._startPressOut.bind(this)}>
+            <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut={this._startPressOut.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
             </TouchableOpacity>
           </View>
