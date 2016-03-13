@@ -10,10 +10,10 @@ var api = {
     }).then(function(result) {
       console.log('blah success')
       console.log(result);
-      callback(result);
+      callback(result._bodyInit);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
       console.log('errorrrrrrrrr');
     });
   },
@@ -27,13 +27,13 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function(result) {
-      callback();
+      callback(result._bodyInit);
       console.log(result);
       console.log('blah success')
 
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
       console.log('errorrrrrrrrr');
     });
   },
@@ -48,11 +48,12 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function(result) {
-      callback();
+      callback(result._bodyInit);
       console.log(result);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
+      console.log('errorrrrrrrrr');
     });
   },
 
