@@ -115,8 +115,8 @@ class ControllerView extends React.Component {
     //buttons must scale with size of the phone   
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
-        circleButtonSize: 62,
-        arrowButtonSize: 52,
+        circleButtonSize: 105,
+        arrowButtonSize: 250,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
@@ -138,23 +138,23 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   /////////////////////////////////////////////////////////////////////
   _APressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('A pressed');
     });
   }
   _APressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('A released');
     });
   }
 
   _BPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('B pressed');
     });
   }
   _BPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('B released');
     });
   }
@@ -347,16 +347,16 @@ class ControllerView extends React.Component {
 
           <View {...this._panResponder.panHandlers}>
             <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+              <IconIon name="arrow-down-b" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
             <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+              <IconIon name="arrow-up-b" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
             <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+              <IconIon name="arrow-right-b" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
             <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}> 
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+              <IconIon name="arrow-left-b" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
           </View>
 
@@ -388,43 +388,43 @@ var styles = StyleSheet.create({
   },
   AButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.3875,
-    left: Dimensions.get('window').height * 0.848,
+    top: Dimensions.get('window').width * 0.34,
+    left: Dimensions.get('window').height * 0.83,
   },
   BButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.5215,
-    left: Dimensions.get('window').height * 0.7525,
+    top: Dimensions.get('window').width * 0.48,
+    left: Dimensions.get('window').height * 0.73,
   },
   XButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.255,
-    left: Dimensions.get('window').height * 0.752,
+    top: Dimensions.get('window').width * 0.2,
+    left: Dimensions.get('window').height * 0.72,
   },
   YButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.3875,
-    left: Dimensions.get('window').height * 0.655,
+    top: Dimensions.get('window').width * 0.34,
+    left: Dimensions.get('window').height * 0.62,
   },
   rightButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.405,
-    left: Dimensions.get('window').height * 0.24,
+    top: Dimensions.get('window').width * 0.15,
+    left: Dimensions.get('window').height * 0.21,
   },
   downButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.51,
-    left: Dimensions.get('window').height * 0.18,
+    top: Dimensions.get('window').width * 0.3,
+    left: Dimensions.get('window').height * 0.093,
   },
   upButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.30,
-    left: Dimensions.get('window').height * 0.18,
+    top: Dimensions.get('window').width * 0.001,
+    left: Dimensions.get('window').height * 0.09,
   },
   leftButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.405,
-    left: Dimensions.get('window').height * 0.12,
+    top: Dimensions.get('window').width * 0.15,
+    left: Dimensions.get('window').height * 0.068,
   },
   selectButton: {
     position: 'absolute',
