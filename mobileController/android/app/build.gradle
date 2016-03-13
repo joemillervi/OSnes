@@ -120,6 +120,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-android-statusbar')
     compile project(':Orientation')
     compile project(':ReactNativeBarcodescanner')
     compile project(':react-native-camera')

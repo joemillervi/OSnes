@@ -4,11 +4,11 @@ import com.facebook.react.ReactActivity;
 import com.github.yamill.orientation.OrientationPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import me.neo.react.StatusBarPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import android.content.Intent;
 import android.content.res.Configuration;
-import com.github.yamill.orientation.OrientationPackage;
 import java.util.Arrays;
 import java.util.List;
 import com.eguma.barcodescanner.BarcodeScanner;
@@ -51,6 +51,7 @@ public class MainActivity extends ReactActivity {
             new MainReactPackage(),
                 new BarcodeScanner(),
         new OrientationPackage(this),
+                new StatusBarPackage(this),
         new RCTCameraPackage(),
         new VectorIconsPackage()
         );

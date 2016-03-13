@@ -5,6 +5,7 @@ var api = require('../Utils/api');
 var ControllerView = require('./ControllerView');
 var _ = require('lodash');
 var BarcodeScanner = require('react-native-barcodescanner');
+var StatusBarAndroid = require('react-native-android-statusbar');
 
 var {
   Dimensions,
@@ -121,6 +122,7 @@ class QRReader extends React.Component {
       );
       // else if Android
     } else {
+      StatusBarAndroid.hideStatusBar()
       return (
           <BarcodeScanner
             onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
