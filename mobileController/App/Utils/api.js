@@ -1,6 +1,6 @@
 var api = {
   PairController(ipAddress) {
-    var url = 'http://' + ipAddress + ':1337/pair-controller';
+    var url = 'http://' + ipAddress + '/pair-controller';
     console.log(url);
     return fetch(url, {
       method: 'GET',
