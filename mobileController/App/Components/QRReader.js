@@ -30,72 +30,50 @@ class QRReader extends React.Component {
 
   // Android barcode scanner
   _barcodeReceived(e) {
-    console.log('Barcode: ' + e.data);
-    console.log('Type: ' + e.type);
+    console.log('===================================================BARCODE RECIEVED')
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
-    api.PairController(ipAddress), function(data) {
-      var playerID = data.player;
-      console.log('phone paired as controller! playerID:', playerID)
+    // api.PairController(ipAddress), function(data) {
+      // var playerID = data.player;
+      // console.log('phone paired as controller! playerID:', playerID)
 
       //open up the ControllerView
       this.props.navigator.push({
         component: ControllerView,
-        ipAddress: ipAddress, // pass the ipAddress to ControllerView
-        playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
+        ipAddress: '10.6.30.142:1337', // pass the ipAddress to ControllerView
+        playerID: '1', // pass the playerID (p1 or p2) to ControllerView
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
           gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
         }
-      });
-    });
-    // update state
-    this.props.navigator.push({
-      component: ControllerView,
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
-        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-      }
-    });
+      })
+    // })
   }
 
   // IOs barcode scanner
-  _onBarCodeRead(e) {
-    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50
-    var ipAddress = e.data;
-    AlertIOS.alert("QR Code Found", ipAddress);
-    console.log("QR Code Found", ipAddress);
-
-    //Use the data (the IP address) to connect to the computer using an api.js helper function
-    // api.PairController(ipAddress, function(data) {
-    //   var playerID = data.player;
-    //   console.log('phone paired as controller! playerID:', playerID)
-
-    //   //open up the ControllerView
-    //   this.props.navigator.push({
-    //     component: ControllerView,
-    //     ipAddress: ipAddress, // pass the ipAddress to ControllerView
-    //     playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
-    //     sceneConfig: {
-    //       ...Navigator.SceneConfigs.FloatFromBottom,
-    //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-    //     }
-    //   });
-
-    // });
-
-    //DELETE THIS WHEN GET REQUESTS WORK
-    this.props.navigator.push({
-      component: ControllerView,
-      ipAddress: ipAddress, // pass the ipAddress to ControllerView
-      playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
-        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-      }
-    });
-
-  }
+  // _onBarCodeRead(e) {
+  //   //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50
+  //   var ipAddress = e.data;
+  //   AlertIOS.alert("QR Code Found", ipAddress);
+  //   console.log("QR Code Found", ipAddress);
+  //
+  //   Use the data (the IP address) to connect to the computer using an api.js helper function
+  //   api.PairController(ipAddress, function(data) {
+  //     var playerID = data.player;
+  //     console.log('phone paired as controller! playerID:', playerID)
+  //
+  //     //open up the ControllerView
+  //     this.props.navigator.push({
+  //       component: ControllerView,
+  //       ipAddress: ipAddress, // pass the ipAddress to ControllerView
+  //       playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
+  //       sceneConfig: {
+  //         ...Navigator.SceneConfigs.FloatFromBottom,
+  //         gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+  //       }
+  //     });
+  //   });
+  // }
 
   // For Android
   _toggleTorch() {
@@ -107,21 +85,7 @@ class QRReader extends React.Component {
       this.setState({androidTorch: 'on'})
     }
   }
-
-  // For ios
-  //DELETE THIS WHEN GET REQUESTS WORK
-  // componentDidMount() {
-  //   this.props.navigator.push({
-  //     component: ControllerView,
-  //     ipAddress: '10.7.26.218', // pass the ipAddress to ControllerView
-  //     playerID: 'p1', // pass the playerID (p1 or p2) to ControllerView
-  //     sceneConfig: {
-  //       ...Navigator.SceneConfigs.FloatFromBottom,
-  //       gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-  //     }
-  //   });
-  // }
-
+  // For IOS
   _torchEnabled() {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
   }
@@ -143,11 +107,9 @@ class QRReader extends React.Component {
             onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
             defaultOnFocusComponent={ true }
             onFocusChanged={ this.state.handleFocusChanged }>
-
             <View style={styles.rectangleContainer}>
               <View style={styles.rectangle}/>
             </View>
-
             <View style={styles.bottomButtonContainer}>
                 <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
                   {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
@@ -160,7 +122,6 @@ class QRReader extends React.Component {
       // else if Android
     } else {
       return (
-
           <BarcodeScanner
             onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
             style={{ flex: 1 }}

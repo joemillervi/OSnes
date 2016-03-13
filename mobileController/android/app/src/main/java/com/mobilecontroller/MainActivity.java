@@ -6,7 +6,9 @@ import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-
+import android.content.Intent;
+import android.content.res.Configuration;
+import com.github.yamill.orientation.OrientationPackage;
 import java.util.Arrays;
 import java.util.List;
 import com.eguma.barcodescanner.BarcodeScanner;
@@ -21,6 +23,15 @@ public class MainActivity extends ReactActivity {
         return "mobileController";
     }
 
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
+    }
     /**
      * Returns whether dev mode should be enabled.
      * This enables e.g. the dev menu.
@@ -39,7 +50,7 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
                 new BarcodeScanner(),
-//        new OrientationPackage(),
+        new OrientationPackage(this),
         new RCTCameraPackage(),
         new VectorIconsPackage()
         );

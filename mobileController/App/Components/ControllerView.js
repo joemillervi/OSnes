@@ -15,7 +15,8 @@ var {
   TouchableOpacity,
   StatusBarIOS,
   VibrationIOS,
-  PanResponder
+  PanResponder,
+  Platform
 } = React;
 
 class ControllerView extends React.Component {
@@ -33,7 +34,7 @@ class ControllerView extends React.Component {
 
   componentWillMount() {
     //The following code is used to make the D-Pad into a joystick so the user can roll their thumb between buttons and trigger a response
-    //instead of having to lift a finger and tap 
+    //instead of having to lift a finger and tap
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -58,13 +59,13 @@ class ControllerView extends React.Component {
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
         if(closest===distanceToUp && this.state.dPadButton!=='up') {
-          this._upArrowPressIn(); 
+          this._upArrowPressIn();
         } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
-          this._rightArrowPressIn(); 
+          this._rightArrowPressIn();
         } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
-          this._downArrowPressIn(); 
+          this._downArrowPressIn();
         } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
-          this._leftArrowPressIn(); 
+          this._leftArrowPressIn();
         }
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
@@ -86,13 +87,13 @@ class ControllerView extends React.Component {
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
         if(closest===distanceToUp) {
-          this._upArrowPressOut(); 
+          this._upArrowPressOut();
         } else if (closest===distanceToRight) {
-          this._rightArrowPressOut(); 
+          this._rightArrowPressOut();
         } else if (closest===distanceToDown) {
-          this._downArrowPressOut(); 
+          this._downArrowPressOut();
         } else if (closest===distanceToLeft) {
-          this._leftArrowPressOut(); 
+          this._leftArrowPressOut();
         }
 
       },
@@ -110,9 +111,10 @@ class ControllerView extends React.Component {
 
 
   componentDidMount() {
-    Orientation.lockToLandscapeRight(); //this will lock the view to Landscape
+    console.log('orientation', Orientation)
+      Platform.OS === 'ios' ? Orientation.lockToLandscapeRight() : Orientation.lockToLandscape(); //this will lock the view to Landscape
 
-    //buttons must scale with size of the phone   
+    //buttons must scale with size of the phone
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
         circleButtonSize: 62,
@@ -274,7 +276,7 @@ class ControllerView extends React.Component {
   }
 
   /////////////////////////////////////////////////////////////////////
-  //Shoulder buttons: Left and Right Index Finger Triggers. 
+  //Shoulder buttons: Left and Right Index Finger Triggers.
   //TODO: implement shoulder buttons on screen, or ideally with volume rocker
   /////////////////////////////////////////////////////////////////////
   _rightShoulderPressIn() {
@@ -327,45 +329,45 @@ class ControllerView extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden('true');
+    Platform.OS === 'ios' ? StatusBarIOS.setHidden('true') : null;
     return (
       <View style={styles.imageContainer}>
-        <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}> 
+        <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}>
 
-          <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}> 
+          <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}>
             <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
-          <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}> 
+          <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}>
             <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
-          <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}> 
+          <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}>
             <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
-          <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}> 
+          <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}>
             <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}> 
+            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}>
               <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}> 
+            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}>
               <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}> 
+            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}>
               <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
-            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}> 
+            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}>
               <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
             </View>
           </View>
 
-          <View style={styles.selectButton}> 
+          <View style={styles.selectButton}>
             <TouchableOpacity onPressIn={this._selectPressIn.bind(this)} onPressOut={this._selectPressOut.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
             </TouchableOpacity>
           </View>
-          <View style={styles.startButton}> 
+          <View style={styles.startButton}>
             <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut={this._startPressOut.bind(this)}>
               <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
             </TouchableOpacity>
