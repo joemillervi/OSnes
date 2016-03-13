@@ -138,19 +138,19 @@ class ControllerView extends React.Component {
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
         circleButtonSize: 105,
-        dPad: 200,
+        dPadSize: 200,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
       this.setState({
-        circleButtonSize: 68,
-        arrowButtonSize: 58,
+        circleButtonSize: 115,
+        dPadSize: 225,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===320) { //iPhone 5/5s
       this.setState({
-        circleButtonSize: 53,
-        arrowButtonSize: 44,
+        circleButtonSize: 88,
+        dPadSize: 170,
         selectStartButtonSize: 40
       })
     }
@@ -368,11 +368,9 @@ class ControllerView extends React.Component {
           </View>
 
           <View {...this._panResponder.panHandlers}>
-
             <View style={styles.dPad} > 
-              <IconIon name="record" size={this.state.dPad} color="red"/>
+              <IconIon name="record" size={this.state.dPadSize} color="red"/>
             </View>
-
           </View>
 
           <View style={styles.selectButton}> 
