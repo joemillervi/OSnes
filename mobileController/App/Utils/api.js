@@ -1,7 +1,7 @@
 var api = {
   PairController(ipAddress) {
     var url = 'http://' + ipAddress + ':1337/pair-controller';
-    console.log(url);
+    // console.log(url);
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -20,7 +20,7 @@ var api = {
 
   Press(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/press/' + button;
-    console.log(url);
+    // console.log(url);
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -34,14 +34,13 @@ var api = {
     })
     .catch(function(err) {
       // console.log(err);
-      console.log('errorrrrrrrrr');
+      console.log('press errorrrrrrrrr', button);
     });
   },
 
   Release(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/release/' + button;
-    console.log(url);
-
+    // console.log(url);
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -53,7 +52,7 @@ var api = {
     })
     .catch(function(err) {
       // console.log(err);
-      console.log('errorrrrrrrrr');
+      console.log('release errorrrrrrrrr', button);
     });
   },
 
