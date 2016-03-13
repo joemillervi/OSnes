@@ -10,6 +10,7 @@ angular.module('main',[])
     $scope.$apply();
   }
 
+  window.togglePlaying = $scope.togglePlaying;
 
   // For testing keydown events
   // $('body').on('keydown', function (e) {
