@@ -26,7 +26,7 @@ angular.module('main',[])
         $scope.title = 'IP FOUND'
 
         $scope.ipAddress = ip4 = ipAddress.address;
-        var toQ = ipv4 + ':' + port + '/pair-controller';
+        var toQ = $scope.ipAddress + ':' + port + '/pair-controller';
               // console.log('toQ');
               // console.log(toQ);
         new QRCode(document.getElementById('qrcode'), toQ);
