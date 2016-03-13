@@ -42,9 +42,31 @@ class ControllerView extends React.Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // The gesture has started
+        // The gesture has started; player's finger has touched the D-Pad area
+
+        var x2 = gestureState.x0;
+        var y2 = gestureState.y0;
+
+        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+
+        var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+
+        if(closest===distanceToUp && this.state.dPadButton!=='up') {
+          this._upArrowPressIn(); 
+        } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
+          this._rightArrowPressIn(); 
+        } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
+          this._downArrowPressIn(); 
+        } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
+          this._leftArrowPressIn(); 
+        }
+
       },
       onPanResponderMove: (evt, gestureState) => {
+        // the player has moved their finger after touching the area
         // console.log('move gestureState', gestureState);
 
         var x2 = gestureState.moveX;
@@ -116,7 +138,7 @@ class ControllerView extends React.Component {
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
         circleButtonSize: 105,
-        arrowButtonSize: 250,
+        dPad: 200,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
@@ -333,41 +355,34 @@ class ControllerView extends React.Component {
         <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}> 
 
           <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}> 
-              <IconIon name="arrow-down-b" size={this.state.arrowButtonSize} color="transparent"/>
+
+            <View style={styles.dPad} > 
+              <IconIon name="record" size={this.state.dPad} color="red"/>
             </View>
-            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}> 
-              <IconIon name="arrow-up-b" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
-            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}> 
-              <IconIon name="arrow-right-b" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
-            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}> 
-              <IconIon name="arrow-left-b" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
+
           </View>
 
           <View style={styles.selectButton}> 
             <TouchableOpacity onPressIn={this._selectPressIn.bind(this)} onPressOut={this._selectPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}> 
             <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut={this._startPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
             </TouchableOpacity>
           </View>
 
@@ -406,25 +421,10 @@ var styles = StyleSheet.create({
     top: Dimensions.get('window').width * 0.34,
     left: Dimensions.get('window').height * 0.62,
   },
-  rightButton: {
+  dPad: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.15,
-    left: Dimensions.get('window').height * 0.21,
-  },
-  downButton: {
-    position: 'absolute',
-    top: Dimensions.get('window').width * 0.3,
-    left: Dimensions.get('window').height * 0.093,
-  },
-  upButton: {
-    position: 'absolute',
-    top: Dimensions.get('window').width * 0.001,
+    top: Dimensions.get('window').width * 0.2,
     left: Dimensions.get('window').height * 0.09,
-  },
-  leftButton: {
-    position: 'absolute',
-    top: Dimensions.get('window').width * 0.15,
-    left: Dimensions.get('window').height * 0.068,
   },
   selectButton: {
     position: 'absolute',
