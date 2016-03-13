@@ -31,7 +31,7 @@ function router(req, res) {
       res.end(JSON.stringify({player: 'no more players allowed'}));
     }
   } else if ( // app.get('/player/:player-num/:action/:button', cb)   like: /player/1/press/a
-    httpVerb === 'GET' &&
+    httpVerb === 'POST' && //Post requests are possible and don't fire three times
     pathArr.length === 5 &&
     pathArr[1] === 'player'
   ) {
@@ -72,7 +72,7 @@ function getAsciiKey(button) {
     case 'start':
       return 13;
     case 'select':
-      return
+      return 15 //select is shift
     case 'up':
       return 38;
     case 'down':

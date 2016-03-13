@@ -20,41 +20,57 @@ var api = {
 
   Press(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/press/' + button;
-    // console.log(url);
     return fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function(result) {
-      callback(result._bodyInit);
-      console.log(result);
-      console.log('blah success')
-
-    })
-    .catch(function(err) {
-      // console.log(err);
-      console.log('press errorrrrrrrrr', button);
+      method: 'POST',
+      body: null
     });
   },
 
   Release(ipAddress, playerID, button, callback) {
     var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/release/' + button;
-    // console.log(url);
     return fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function(result) {
-      callback(result._bodyInit);
-      console.log(result);
-    })
-    .catch(function(err) {
-      // console.log(err);
-      console.log('release errorrrrrrrrr', button);
+      method: 'POST',
+      body: null
     });
   },
+
+  // Press(ipAddress, playerID, button, callback) {
+  //   var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/press/' + button;
+  //   // console.log(url);
+  //   return fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then(function(result) {
+  //     callback(result._bodyInit);
+  //     console.log(result);
+  //     console.log('blah success')
+
+  //   })
+  //   .catch(function(err) {
+  //     // console.log(err);
+  //     console.log('press errorrrrrrrrr', button);
+  //   });
+  // },
+
+  // Release(ipAddress, playerID, button, callback) {
+  //   var url = 'http://' + ipAddress + ':1337/player/' + playerID + '/release/' + button;
+  //   // console.log(url);
+  //   return fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then(function(result) {
+  //     callback(result._bodyInit);
+  //     console.log(result);
+  //   })
+  //   .catch(function(err) {
+  //     // console.log(err);
+  //     console.log('release errorrrrrrrrr', button);
+  //   });
+  // },
 
 };
 

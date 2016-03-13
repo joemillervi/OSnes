@@ -108,15 +108,15 @@ class ControllerView extends React.Component {
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-        // if(closest===distanceToUp) {
+        if(closest===distanceToUp) {
           this._upArrowPressOut(); 
-        // } else if (closest===distanceToRight) {
+        } else if (closest===distanceToRight) {
           this._rightArrowPressOut(); 
-        // } else if (closest===distanceToDown) {
+        } else if (closest===distanceToDown) {
           this._downArrowPressOut(); 
-        // } else if (closest===distanceToLeft) {
+        } else if (closest===distanceToLeft) {
           this._leftArrowPressOut(); 
-        // }
+        }
 
       },
       onPanResponderTerminate: (evt, gestureState) => {
