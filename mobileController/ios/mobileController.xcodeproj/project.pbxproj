@@ -537,7 +537,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = ND25PHEQ2X;
+						DevelopmentTeam = 7FAK4NX4Y5;
 					};
 				};
 			};
@@ -854,7 +854,7 @@
 				INFOPLIST_FILE = mobileController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = mobilecontroller;
+				PRODUCT_BUNDLE_IDENTIFIER = mobilecontroller3;
 				PRODUCT_NAME = mobileController;
 				PROVISIONING_PROFILE = "";
 			};
@@ -876,7 +876,7 @@
 				INFOPLIST_FILE = mobileController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = mobilecontroller;
+				PRODUCT_BUNDLE_IDENTIFIER = mobilecontroller3;
 				PRODUCT_NAME = mobileController;
 				PROVISIONING_PROFILE = "";
 			};

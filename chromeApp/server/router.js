@@ -12,6 +12,9 @@ function router(req, res) {
     httpVerb === 'GET' &&
     httpPath === '/pair-controller'
   ) {
+
+    window.togglePlaying();
+
     res.writeHead(200, {
       'Content-Type': 'application/json'
     });
