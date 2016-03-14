@@ -8,10 +8,8 @@
 </head>
 <body>
   <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="mainCtrl">
-    <h1>{{title}}</h1>
-    <p>{{ipAddress}}</p>
     <div id="qrcode"></div>
-    <div class="button" ng-click="togglePlaying()">START</div>
+    <div id="title">Scan QR to Start</div>
   </div>
   <!-- this is the emulator -->
   <div class="draghint hidden screen" id="draghint">
