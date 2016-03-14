@@ -25,19 +25,20 @@ class QRReader extends React.Component {
     this.state = {
       cameraTorchToggle: Camera.constants.TorchMode.off,
       handleFocusChanged: () => {},
-      androidTorch: "off"
+      androidTorch: "off",
+      cameraOn: true
     }
   }
 
   // Android barcode scanner
   _barcodeReceived(e) {
     console.log('===================================================BARCODE RECIEVED')
+    this.turnCameraOff();
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
     api.PairController(ipAddress, function(data) {
       var playerID = data.player || 1;
       console.log('phone paired as controller! playerID:', playerID)
-
       //open up the ControllerView
       this.props.navigator.push({
         component: ControllerView,
@@ -103,6 +104,10 @@ class QRReader extends React.Component {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
   }
 
+  turnCameraOff() {
+    this.setState({cameraOn:false})
+  }
+
   render() {
     // check for IOS specific
 
@@ -135,19 +140,23 @@ class QRReader extends React.Component {
       // else if Android
     } else {
       StatusBarAndroid.hideNavBar()
-      return (
-          <BarcodeScanner
-            onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
-            style={{ flex: 1 }}
-            torchMode={this.state.androidTorch}
-            >
-          <View style={styles.bottomButtonContainerAndroid}>
-              <TouchableOpacity onPress={this._toggleTorch.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
-                {this.state.androidTorch === 'off'? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
-              </TouchableOpacity>
-          </View>
-        </BarcodeScanner>
-      );
+      if (this.state.cameraOn) {
+        return (
+            <BarcodeScanner
+              onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
+              style={{ flex: 1 }}
+              torchMode={this.state.androidTorch}
+              >
+            <View style={styles.bottomButtonContainerAndroid}>
+                <TouchableOpacity onPress={this._toggleTorch.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                  {this.state.androidTorch === 'off'? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+                </TouchableOpacity>
+            </View>
+          </BarcodeScanner>
+        );
+      } else {
+        return null;
+      }
     }
   }
 }

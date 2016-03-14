@@ -35,6 +35,7 @@ class ControllerView extends React.Component {
   }
 
   componentWillMount() {
+    // Trying to hide the navBar does not really work... YET
     StatusBarAndroid.hideNavBar()
     //The following code is used to make the D-Pad into a joystick so the user can roll their thumb between buttons and trigger a response
     //instead of having to lift a finger and tap
