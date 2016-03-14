@@ -119,7 +119,7 @@ class QRReader extends React.Component {
         );
       } else {
         return null;
-      }
+      }i
       // else if Android
     } else {
       if (this.state.cameraOn) {
