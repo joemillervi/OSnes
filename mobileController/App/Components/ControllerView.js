@@ -26,7 +26,8 @@ class ControllerView extends React.Component {
     this.state = {
       //used to scale sizes of buttons depending on phone resolution
       circleButtonSize: undefined,
-      arrowButtonSize: undefined,
+      dPadSize: undefined,
+      shoulderButtonSize: undefined,
       selectStartButtonSize: undefined,
       //used to detect changes in the D-Pad
       dPadButton: undefined, //currently pressed D-pad button
@@ -45,9 +46,31 @@ class ControllerView extends React.Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // The gesture has started
+        // The gesture has started; player's finger has touched the D-Pad area
+
+        var x2 = gestureState.x0;
+        var y2 = gestureState.y0;
+
+        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+
+        var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
+
+        if(closest===distanceToUp && this.state.dPadButton!=='up') {
+          this._upArrowPressIn();
+        } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
+          this._rightArrowPressIn();
+        } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
+          this._downArrowPressIn();
+        } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
+          this._leftArrowPressIn();
+        }
+
       },
       onPanResponderMove: (evt, gestureState) => {
+        // the player has moved their finger after touching the area
         // console.log('move gestureState', gestureState);
 
         var x2 = gestureState.moveX;
@@ -70,7 +93,7 @@ class ControllerView extends React.Component {
           this._leftArrowPressIn();
         }
       },
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches within the responder
         // This typically means a gesture has succeeded
@@ -119,20 +142,23 @@ class ControllerView extends React.Component {
     //buttons must scale with size of the phone
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
-        circleButtonSize: 62,
-        arrowButtonSize: 52,
+        circleButtonSize: 105,
+        dPadSize: 200,
+        shoulderButtonSize: 0,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
       this.setState({
-        circleButtonSize: 68,
-        arrowButtonSize: 58,
+        circleButtonSize: 115,
+        dPadSize: 225,
+        shoulderButtonSize: 0,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===320) { //iPhone 5/5s
       this.setState({
-        circleButtonSize: 53,
-        arrowButtonSize: 44,
+        circleButtonSize: 88,
+        dPadSize: 170,
+        shoulderButtonSize: 0,
         selectStartButtonSize: 40
       })
     }
@@ -142,23 +168,23 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   /////////////////////////////////////////////////////////////////////
   _APressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('A pressed');
     });
   }
   _APressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('A released');
     });
   }
 
   _BPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('B pressed');
     });
   }
   _BPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () {
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
       console.log('B released');
     });
   }
@@ -190,7 +216,6 @@ class ControllerView extends React.Component {
   /////////////////////////////////////////////////////////////////////
   _upArrowPressIn() {
     if(this.state.dPadButton!==undefined && this.state.dPadButton!=='up') { //there is already another D-Pad button pressed, which means that we are changing from one D-Pad button to another
-      // this.setState({dPadButtonsMoved: true});
       if(this.state.dPadButton==='down') {
         this._downArrowPressOut();
       } else if(this.state.dPadButton==='left') {
@@ -199,16 +224,16 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
+    this.setState({dPadButton: "up"});
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
       console.log('up arrow pressed');
     });
-    this.setState({dPadButton: "up"});
   }
   _upArrowPressOut() {
+    this.setState({dPadButton: undefined});
     api.Release(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
       console.log('up arrow released');
     });
-    this.setState({dPadButton: undefined});
   }
 
   _downArrowPressIn() {
@@ -221,16 +246,16 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
+    this.setState({dPadButton: "down"});
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
       console.log('down arrow pressed');
     });
-    this.setState({dPadButton: "down"});
   }
   _downArrowPressOut() {
+    this.setState({dPadButton: undefined});
     api.Release(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
       console.log('down arrow released');
     });
-    this.setState({dPadButton: undefined});
   }
 
   _rightArrowPressIn() {
@@ -243,16 +268,16 @@ class ControllerView extends React.Component {
         this._upArrowPressOut();
       }
     }
+    this.setState({dPadButton: "right"});
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
       console.log('right arrow pressed');
     });
-    this.setState({dPadButton: "right"});
   }
   _rightArrowPressOut() {
+    this.setState({dPadButton: undefined});
     api.Release(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
       console.log('right arrow released');
     });
-    this.setState({dPadButton: undefined});
   }
 
   _leftArrowPressIn() {
@@ -265,16 +290,16 @@ class ControllerView extends React.Component {
         this._rightArrowPressOut();
       }
     }
+    this.setState({dPadButton: "left"});
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
       console.log('left arrow pressed');
     });
-    this.setState({dPadButton: "left"});
   }
   _leftArrowPressOut() {
+    this.setState({dPadButton: undefined});
     api.Release(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
       console.log('left arrow released');
     });
-    this.setState({dPadButton: undefined});
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -337,41 +362,39 @@ class ControllerView extends React.Component {
         <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}>
 
           <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
           <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.upButton} onTouchStart={this._upArrowPressIn.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
+            <View style={styles.dPad} >
+              <IconIon name="record" size={this.state.dPadSize} color="red"/>
             </View>
-            <View style={styles.downButton} onTouchStart={this._downArrowPressIn.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
-            <View style={styles.leftButton} onTouchStart={this._leftArrowPressIn.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
-            <View style={styles.rightButton} onTouchStart={this._rightArrowPressIn.bind(this)}>
-              <IconIon name="stop" size={this.state.arrowButtonSize} color="transparent"/>
-            </View>
+          </View>
+
+          <View style={styles.leftShoulderButton} onTouchStart={this._leftShoulderPressIn.bind(this)} onTouchEnd={this._leftShoulderPressOut.bind(this)}>
+            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
+          </View>
+          <View style={styles.rightShoulderButton} onTouchStart={this._rightShoulderPressIn.bind(this)} onTouchEnd={this._rightShoulderPressOut.bind(this)}>
+            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
           </View>
 
           <View style={styles.selectButton}>
             <TouchableOpacity onPressIn={this._selectPressIn.bind(this)} onPressOut={this._selectPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
             </TouchableOpacity>
           </View>
           <View style={styles.startButton}>
             <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut={this._startPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
             </TouchableOpacity>
           </View>
 
@@ -392,43 +415,38 @@ var styles = StyleSheet.create({
   },
   AButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.3875,
-    left: Dimensions.get('window').height * 0.848,
+    top: Dimensions.get('window').width * 0.34,
+    left: Dimensions.get('window').height * 0.83,
   },
   BButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.5215,
-    left: Dimensions.get('window').height * 0.7525,
+    top: Dimensions.get('window').width * 0.48,
+    left: Dimensions.get('window').height * 0.73,
   },
   XButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.255,
-    left: Dimensions.get('window').height * 0.752,
+    top: Dimensions.get('window').width * 0.2,
+    left: Dimensions.get('window').height * 0.72,
   },
   YButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.3875,
-    left: Dimensions.get('window').height * 0.655,
+    top: Dimensions.get('window').width * 0.34,
+    left: Dimensions.get('window').height * 0.62,
   },
-  rightButton: {
+  dPad: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.405,
-    left: Dimensions.get('window').height * 0.24,
+    top: Dimensions.get('window').width * 0.2,
+    left: Dimensions.get('window').height * 0.09,
   },
-  downButton: {
+  leftShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.51,
-    left: Dimensions.get('window').height * 0.18,
+    top: Dimensions.get('window').width * -0.35,
+    left: Dimensions.get('window').height * 0.03,
   },
-  upButton: {
+  rightShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.30,
-    left: Dimensions.get('window').height * 0.18,
-  },
-  leftButton: {
-    position: 'absolute',
-    top: Dimensions.get('window').width * 0.405,
-    left: Dimensions.get('window').height * 0.12,
+    top: Dimensions.get('window').width * -0.35,
+    left: Dimensions.get('window').height * 0.63,
   },
   selectButton: {
     position: 'absolute',

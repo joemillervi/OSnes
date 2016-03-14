@@ -34,21 +34,33 @@ class QRReader extends React.Component {
     console.log('===================================================BARCODE RECIEVED')
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
-    // api.PairController(ipAddress), function(data) {
-      // var playerID = data.player;
-      // console.log('phone paired as controller! playerID:', playerID)
+    api.PairController(ipAddress, function(data) {
+      var playerID = data.player || 1;
+      console.log('phone paired as controller! playerID:', playerID)
 
       //open up the ControllerView
       this.props.navigator.push({
         component: ControllerView,
-        ipAddress: '10.6.30.142:1337', // pass the ipAddress to ControllerView
-        playerID: '1', // pass the playerID (p1 or p2) to ControllerView
+        ipAddress: ipAddress, // pass the ipAddress to ControllerView
+        playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
           gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
         }
-      })
-    // })
+      });
+    });
+
+    //DELETE THIS WHEN GET REQUESTS WORK
+/*    this.props.navigator.push({
+      component: ControllerView,
+      ipAddress: ipAddress, // pass the ipAddress to ControllerView
+      playerID: '1', // pass the playerID (p1 or p2) to ControllerView
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
+      }
+    });*/
+
   }
 
   // IOs barcode scanner
