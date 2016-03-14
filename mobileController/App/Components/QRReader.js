@@ -30,14 +30,17 @@ class QRReader extends React.Component {
     }
   }
 
-  // Android barcode scanner
-  _barcodeReceived(e) {
-    console.log('===================================================BARCODE RECIEVED')
+  _onBarCodeRead(e) {
     this.turnCameraOff();
+    StatusBarAndroid.hideNavBar()
+    //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50:1337
+    var ipAddress = e.data;
+    // AlertIOS.alert("QR Code Found", ipAddress);
+    console.log("QR Code Found", ipAddress);
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
     api.PairController(ipAddress, function(data) {
-      var playerID = data.player || 1;
+      var playerID = data.player;
       console.log('phone paired as controller! playerID:', playerID)
       //open up the ControllerView
       this.props.navigator.push({
@@ -49,10 +52,11 @@ class QRReader extends React.Component {
           gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
         }
       });
+
     });
 
-    //DELETE THIS WHEN GET REQUESTS WORK
-/*    this.props.navigator.push({
+    //DELETE THIS WHEN GET REQUESTS WORK. Done to force controllerview to open up after QR scan
+    this.props.navigator.push({
       component: ControllerView,
       ipAddress: ipAddress, // pass the ipAddress to ControllerView
       playerID: '1', // pass the playerID (p1 or p2) to ControllerView
@@ -60,34 +64,9 @@ class QRReader extends React.Component {
         ...Navigator.SceneConfigs.FloatFromBottom,
         gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
       }
-    });*/
+    });
 
   }
-
-  // IOs barcode scanner
-  // _onBarCodeRead(e) {
-  //   //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50
-  //   var ipAddress = e.data;
-  //   AlertIOS.alert("QR Code Found", ipAddress);
-  //   console.log("QR Code Found", ipAddress);
-  //
-  //   Use the data (the IP address) to connect to the computer using an api.js helper function
-  //   api.PairController(ipAddress, function(data) {
-  //     var playerID = data.player;
-  //     console.log('phone paired as controller! playerID:', playerID)
-  //
-  //     //open up the ControllerView
-  //     this.props.navigator.push({
-  //       component: ControllerView,
-  //       ipAddress: ipAddress, // pass the ipAddress to ControllerView
-  //       playerID: playerID, // pass the playerID (p1 or p2) to ControllerView
-  //       sceneConfig: {
-  //         ...Navigator.SceneConfigs.FloatFromBottom,
-  //         gestures: {} //disable ability to swipe to pop back from ControllerView to QRReader once past the ip address page
-  //       }
-  //     });
-  //   });
-  // }
 
   // For Android
   _toggleTorch() {
@@ -113,37 +92,40 @@ class QRReader extends React.Component {
 
     if (Platform.OS === 'ios') {
       StatusBarIOS.setStyle('light-content');
-      return (
-        <View >
-          <Camera
-            ref={(cam) => {
-              this.camera = cam;
-            }}
-            style={styles.preview}
-            torchMode={this.state.cameraTorchToggle}
-            aspect={Camera.constants.Aspect.Fill}
-            onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
-            defaultOnFocusComponent={ true }
-            onFocusChanged={ this.state.handleFocusChanged }>
-            <View style={styles.rectangleContainer}>
-              <View style={styles.rectangle}/>
-            </View>
-            <View style={styles.bottomButtonContainer}>
-                <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
-                  {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
-                </TouchableOpacity>
-            </View>
+      if (this.state.cameraOn) {
+        return (
+          <View >
+            <Camera
+              ref={(cam) => {
+                this.camera = cam;
+              }}
+              style={styles.preview}
+              torchMode={this.state.cameraTorchToggle}
+              aspect={Camera.constants.Aspect.Fill}
+              onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
+              defaultOnFocusComponent={ true }
+              onFocusChanged={ this.state.handleFocusChanged }>
+              <View style={styles.rectangleContainer}>
+                <View style={styles.rectangle}/>
+              </View>
+              <View style={styles.bottomButtonContainer}>
+                  <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                    {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+                  </TouchableOpacity>
+              </View>
 
-          </Camera>
-        </View>
-      );
+            </Camera>
+          </View>
+        );
+      } else {
+        return null;
+      }
       // else if Android
     } else {
-      StatusBarAndroid.hideNavBar()
       if (this.state.cameraOn) {
         return (
             <BarcodeScanner
-              onBarCodeRead={_.once(this._barcodeReceived.bind(this))}
+              onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
               style={{ flex: 1 }}
               torchMode={this.state.androidTorch}
               >
