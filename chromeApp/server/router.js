@@ -18,20 +18,13 @@ function router(req, res) {
     res.writeHead(200, {
       'Content-Type': 'application/json'
     });
-    var sendData = {ipAddress: ip4, port: port};
     if (numberOfPlayersJoined === 0) {
-      console.log('player 1 just joined');
+      console.log('player has joined');
       numberOfPlayersJoined++;
-      sendData.player = 1;
-      res.end(JSON.stringify(sendData));
-    } else if (numberOfPlayersJoined === 1) {
-      console.log('player 2 just joined');
-      numberOfPlayersJoined++;
-      sendData.player = 2;
-      res.end(JSON.stringify(sendData));
+      res.end(JSON.stringify({ipAddress: ip4, port: port}));
     } else {
       console.log('no more players allowed');
-      res.end(JSON.stringify({player: 'no more players allowed'}));
+      res.end(JSON.stringify({message: 'no more players allowed'}));
     }
   } else if ( // app.post('/player/:action/:button', cb)   like: /player/press/a
     httpVerb === 'POST' && //Post requests are possible and don't fire three times
