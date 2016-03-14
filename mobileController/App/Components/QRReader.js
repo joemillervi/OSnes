@@ -122,7 +122,7 @@ class QRReader extends React.Component {
       );
       // else if Android
     } else {
-      StatusBarAndroid.hideStatusBar()
+      StatusBarAndroid.hideNavBar()
       return (
           <BarcodeScanner
             onBarCodeRead={_.once(this._barcodeReceived.bind(this))}

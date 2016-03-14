@@ -4,6 +4,7 @@ var Orientation = require('react-native-orientation');
 var api = require('../Utils/api');
 var Settings = require('./Settings');
 var _ = require('lodash');
+var StatusBarAndroid = require('react-native-android-statusbar');
 
 var {
   Dimensions,
@@ -33,6 +34,7 @@ class ControllerView extends React.Component {
   }
 
   componentWillMount() {
+    StatusBarAndroid.hideNavBar()
     //The following code is used to make the D-Pad into a joystick so the user can roll their thumb between buttons and trigger a response
     //instead of having to lift a finger and tap
     this._panResponder = PanResponder.create({

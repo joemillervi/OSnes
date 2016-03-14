@@ -2,7 +2,7 @@ angular.module('main',[])
 .controller('mainCtrl', function($scope) {
   $scope.ipAddress = 'filler'
   $scope.title = 'TITLEEEE';
-  $scope.playing = true;
+  $scope.playing = false;
   $scope.togglePlaying = function() {
     console.log("CLICKEDDDD")
     $scope.playing = !$scope.playing;
