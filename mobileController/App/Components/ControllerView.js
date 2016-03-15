@@ -55,6 +55,7 @@ class ControllerView extends React.Component {
           dPadStartY: y2,
         });
 
+        //TODO: don't hardcode theses points of the D-Pad buttons
         var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
         var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
         var distanceToDown = Math.sqrt( (81-x2)*(81-x2) + (150.5-y2)*(150.5-y2) );
@@ -74,11 +75,10 @@ class ControllerView extends React.Component {
 
       },
       onPanResponderMove: (evt, gestureState) => {
-        // the player has moved their finger after touching the area
-        // console.log('move evt', evt.nativeEvent.touches);
+        // The player has moved their finger after touching the D-Pad area
  
         // Find the identifier of the touch that corresponds to the D-Pad: this is done because if another button is clicked (ex. A/B/X/Y with the right thumb)
-        // and the user moves their finger, it will throw off the D-Pad
+        // and the user moves their right finger, it will throw off the D-Pad
         var initialX = this.state.dPadStartX;
         var initialY = this.state.dPadStartY;
         var mapped = evt.nativeEvent.touches.map(function(touch){
@@ -89,13 +89,14 @@ class ControllerView extends React.Component {
         var identifier = closest[0]['identifier'];
         this.setState({dPadTouchesIdentifier:identifier});
 
-        // Register dpad controls based on filtered evt.nativeevent.touches where identifier is the state. 
+        // Register dpad controls based on filtered evt.nativeEvent.touches where identifier is the state. 
         var dPadTouch = evt.nativeEvent.touches.filter(function(touch){
           return touch.identifier = identifier;
         })
         var x2 = dPadTouch[0].locationX;
         var y2 = dPadTouch[0].locationY;
 
+        //TODO: don't hardcode theses points of the D-Pad buttons
         var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
         var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
         var distanceToDown = Math.sqrt( (81-x2)*(81-x2) + (150.5-y2)*(150.5-y2) );
@@ -140,15 +141,10 @@ class ControllerView extends React.Component {
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-        if(closest===distanceToUp) {
-          this._upArrowPressOut(); 
-        } else if (closest===distanceToRight) {
-          this._rightArrowPressOut(); 
-        } else if (closest===distanceToDown) {
-          this._downArrowPressOut(); 
-        } else if (closest===distanceToLeft) {
-          this._leftArrowPressOut(); 
-        }
+        this._upArrowPressOut(); 
+        this._rightArrowPressOut(); 
+        this._downArrowPressOut(); 
+        this._leftArrowPressOut(); 
 
       },
       onPanResponderTerminate: (evt, gestureState) => {
@@ -171,7 +167,7 @@ class ControllerView extends React.Component {
       this.setState({
         circleButtonSize: 105,
         dPadSize: 200,
-        shoulderButtonSize: 0,
+        shoulderButtonSize: 180,
         selectStartButtonSize: 45
       })
     } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
@@ -195,47 +191,31 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   /////////////////////////////////////////////////////////////////////
   _APressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
-      console.log('A pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'b'); //emulator has a and b switched, so we switch again to make it normal
   }
   _APressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b', function () { //emulator has a and b switched, so we switch again to make it normal
-      console.log('A released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'b'); //emulator has a and b switched, so we switch again to make it normal
   }
 
   _BPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
-      console.log('B pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'a'); //emulator has a and b switched, so we switch again to make it normal
   }
   _BPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a', function () { //emulator has a and b switched, so we switch again to make it normal
-      console.log('B released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'a'); //emulator has a and b switched, so we switch again to make it normal
   }
 
   _XPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'x', function () {
-      console.log('X pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'x');
   }
   _XPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'x', function () {
-      console.log('X released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'x');
   }
 
   _YPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'y', function () {
-      console.log('Y pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'y');
   }
   _YPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'y', function () {
-      console.log('Y released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'y');
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -252,15 +232,11 @@ class ControllerView extends React.Component {
       }
     }
     this.setState({dPadButton: "up"});
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
-      console.log('up arrow pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'up');
   }
   _upArrowPressOut() {
     this.setState({dPadButton: undefined});
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'up', function () {
-      console.log('up arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'up');
   }
 
   _downArrowPressIn() {
@@ -274,15 +250,11 @@ class ControllerView extends React.Component {
       }
     }
     this.setState({dPadButton: "down"});
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
-      console.log('down arrow pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'down');
   }
   _downArrowPressOut() {
     this.setState({dPadButton: undefined});
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'down', function () {
-      console.log('down arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'down');
   }
 
   _rightArrowPressIn() {
@@ -296,15 +268,11 @@ class ControllerView extends React.Component {
       }
     }
     this.setState({dPadButton: "right"});
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
-      console.log('right arrow pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'right');
   }
   _rightArrowPressOut() {
     this.setState({dPadButton: undefined});
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'right', function () {
-      console.log('right arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'right');
   }
 
   _leftArrowPressIn() {
@@ -318,15 +286,11 @@ class ControllerView extends React.Component {
       }
     }
     this.setState({dPadButton: "left"});
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
-      console.log('left arrow pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'left');
   }
   _leftArrowPressOut() {
     this.setState({dPadButton: undefined});
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'left', function () {
-      console.log('left arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'left');
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -334,50 +298,34 @@ class ControllerView extends React.Component {
   //TODO: implement shoulder buttons on screen, or ideally with volume rocker
   /////////////////////////////////////////////////////////////////////
   _rightShoulderPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder', function () {
-      console.log('right shoulder pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder');
   }
   _rightShoulderPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder', function () {
-      console.log('right arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'r-shoulder');
   }
 
   _leftShoulderPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder', function () {
-      console.log('left shoulder pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder');
   }
   _leftShoulderPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder', function () {
-      console.log('left arrow released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'l-shoulder');
   }
 
   /////////////////////////////////////////////////////////////////////
   //Start and Select buttons
   /////////////////////////////////////////////////////////////////////
   _startPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'start', function () {
-      console.log('start pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'start');
   }
   _startPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'start', function () {
-      console.log('start released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'start'); 
   }
 
   _selectPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'select', function () {
-      console.log('select pressed');
-    });
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'select');
   }
   _selectPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'select', function () {
-      console.log('select released');
-    });
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'select');
   }
 
   render() {
@@ -387,16 +335,16 @@ class ControllerView extends React.Component {
         <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}> 
 
           <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
@@ -413,10 +361,10 @@ class ControllerView extends React.Component {
           </View>
 
           <View style={styles.selectButton} onTouchStart={this._selectPressIn.bind(this)} onTouchEnd={this._selectPressOut.bind(this)}> 
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
           </View>
           <View style={styles.startButton} onTouchStart={this._startPressIn.bind(this)} onTouchEnd={this._startPressOut.bind(this)}> 
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
           </View>
 
         </Image>
@@ -461,13 +409,13 @@ var styles = StyleSheet.create({
   },
   leftShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * -0.35,
-    left: Dimensions.get('window').height * 0.03,
+    top: Dimensions.get('window').width * -.37,
+    left: Dimensions.get('window').height * 0.12,
   },
   rightShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * -0.35,
-    left: Dimensions.get('window').height * 0.63,
+    top: Dimensions.get('window').width * -.37,
+    left: Dimensions.get('window').height * 0.67,
   },
   selectButton: {
     position: 'absolute',
