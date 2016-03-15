@@ -32,7 +32,7 @@ class QRReader extends React.Component {
 
   _onBarCodeRead(e) {
     this.turnCameraOff();
-    StatusBarAndroid.hideNavBar()
+    // StatusBarAndroid.hideNavBar()
     //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50:1337
     var ipAddress = e.data;
     // AlertIOS.alert("QR Code Found", ipAddress);
