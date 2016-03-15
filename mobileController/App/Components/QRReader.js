@@ -4,6 +4,8 @@ var IconIon = require('react-native-vector-icons/Ionicons');
 var api = require('../Utils/api');
 var ControllerView = require('./ControllerView');
 var _ = require('lodash');
+var BarcodeScanner = require('react-native-barcodescanner');
+var StatusBarAndroid = require('react-native-android-statusbar');
 
 var {
   Dimensions,
@@ -13,7 +15,8 @@ var {
   TouchableOpacity,
   Navigator,
   StatusBarIOS,
-  AlertIOS
+  AlertIOS,
+  Platform
 } = React;
 
 class QRReader extends React.Component {
@@ -22,20 +25,23 @@ class QRReader extends React.Component {
     this.state = {
       cameraTorchToggle: Camera.constants.TorchMode.off,
       handleFocusChanged: () => {},
+      androidTorch: "off",
+      cameraOn: true
     }
   }
 
   _onBarCodeRead(e) {
+    this.turnCameraOff();
+    StatusBarAndroid.hideNavBar()
     //format of QR code: https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=10.6.30.50:1337
     var ipAddress = e.data;
-    AlertIOS.alert("QR Code Found", ipAddress);
-    console.log("QR Code Found", ipAddress); 
+    // AlertIOS.alert("QR Code Found", ipAddress);
+    console.log("QR Code Found", ipAddress);
 
     //Use the data (the IP address) to connect to the computer using an api.js helper function
     api.PairController(ipAddress, function(data) {
       var playerID = data.player;
       console.log('phone paired as controller! playerID:', playerID)
-
       //open up the ControllerView
       this.props.navigator.push({
         component: ControllerView,
@@ -62,36 +68,78 @@ class QRReader extends React.Component {
 
   }
 
+  // For Android
+  _toggleTorch() {
+    console.log(this.state.androidTorch)
+    if (this.state.androidTorch === 'on') {
+      this.setState({androidTorch: 'off'})
+    }
+    else {
+      this.setState({androidTorch: 'on'})
+    }
+  }
+  // For IOS
   _torchEnabled() {
     this.state.cameraTorchToggle === Camera.constants.TorchMode.on ? this.setState({ cameraTorchToggle: Camera.constants.TorchMode.off }) : this.setState({ cameraTorchToggle: Camera.constants.TorchMode.on });
   }
 
+  turnCameraOff() {
+    this.setState({cameraOn:false})
+  }
+
   render() {
-    StatusBarIOS.setStyle('light-content');
-    return (
-      <View >
-        <Camera
-          ref={(cam) => {this.camera = cam;}}
-          style={styles.preview}
-          torchMode={this.state.cameraTorchToggle}
-          aspect={Camera.constants.Aspect.Fill}
-          onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
-          defaultOnFocusComponent={ true } 
-          onFocusChanged={ this.state.handleFocusChanged }>
+    // check for IOS specific
 
-          <View style={styles.rectangleContainer}>
-            <View style={styles.rectangle}/>
+    if (Platform.OS === 'ios') {
+      StatusBarIOS.setStyle('light-content');
+      if (this.state.cameraOn) {
+        return (
+          <View >
+            <Camera
+              ref={(cam) => {
+                this.camera = cam;
+              }}
+              style={styles.preview}
+              torchMode={this.state.cameraTorchToggle}
+              aspect={Camera.constants.Aspect.Fill}
+              onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
+              defaultOnFocusComponent={ true }
+              onFocusChanged={ this.state.handleFocusChanged }>
+              <View style={styles.rectangleContainer}>
+                <View style={styles.rectangle}/>
+              </View>
+              <View style={styles.bottomButtonContainer}>
+                  <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                    {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+                  </TouchableOpacity>
+              </View>
+
+            </Camera>
           </View>
-
-          <View style={styles.bottomButtonContainer}>
-              <TouchableOpacity onPress={this._torchEnabled.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
-                {this.state.cameraTorchToggle === Camera.constants.TorchMode.off ? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
-              </TouchableOpacity>
-          </View>
-
-        </Camera>
-      </View>
-    );
+        );
+      } else {
+        return null;
+      }i
+      // else if Android
+    } else {
+      if (this.state.cameraOn) {
+        return (
+            <BarcodeScanner
+              onBarCodeRead={_.once(this._onBarCodeRead.bind(this))}
+              style={{ flex: 1 }}
+              torchMode={this.state.androidTorch}
+              >
+            <View style={styles.bottomButtonContainerAndroid}>
+                <TouchableOpacity onPress={this._toggleTorch.bind(this)} style={styles.flashButton} underlayColor={'#FC9396'}>
+                  {this.state.androidTorch === 'off'? <IconIon name="ios-bolt-outline" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} /> : <IconIon name="ios-bolt" size={55} color="rgba(237,237,237,0.5)" style={styles.flashIcon} />}
+                </TouchableOpacity>
+            </View>
+          </BarcodeScanner>
+        );
+      } else {
+        return null;
+      }
+    }
   }
 }
 
@@ -121,6 +169,11 @@ var styles = StyleSheet.create({
   },
 
   bottomButtonContainer: {
+    flexDirection: 'row',
+    alignItems:'center',
+    marginBottom: 15
+  },
+  bottomButtonContainerAndroid: {
     flexDirection: 'row',
     alignItems:'center',
     marginBottom: 15
