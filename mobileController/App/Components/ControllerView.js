@@ -205,17 +205,17 @@ class ControllerView extends React.Component {
   }
 
   _XPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'x');
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'y'); //emulator has x and y switched, so we switch again to make it normal
   }
   _XPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'x');
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'y'); //emulator has x and y switched, so we switch again to make it normal
   }
 
   _YPressIn() {
-    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'y');
+    api.Press(this.props.route.ipAddress, this.props.route.playerID, 'x'); //emulator has x and y switched, so we switch again to make it normal
   }
   _YPressOut() {
-    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'y');
+    api.Release(this.props.route.ipAddress, this.props.route.playerID, 'x'); //emulator has x and y switched, so we switch again to make it normal
   }
 
   /////////////////////////////////////////////////////////////////////
