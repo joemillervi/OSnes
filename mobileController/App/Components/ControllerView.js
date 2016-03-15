@@ -47,10 +47,6 @@ class ControllerView extends React.Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         // The gesture has started; player's finger has touched the D-Pad area
-        // console.log('grant gestureState', evt);
-        // console.log('grant x', evt.nativeEvent.locationX);
-        // console.log('grant y', evt.nativeEvent.locationY);
-
         var x2 = evt.nativeEvent.locationX;
         var y2 = evt.nativeEvent.locationY;
         this.setState({
@@ -93,14 +89,11 @@ class ControllerView extends React.Component {
         this.setState({dPadTouchesIdentifier:identifier});
 
         // Register dpad controls based on filtered evt.nativeevent.touches where identifier is the state. 
-
         var dPadTouch = evt.nativeEvent.touches.filter(function(touch){
           return touch.identifier = identifier;
         })
-
         var x2 = dPadTouch[0].locationX;
         var y2 = dPadTouch[0].locationY;
-        console.log(x2, y2);
 
         var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
         var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
@@ -122,9 +115,6 @@ class ControllerView extends React.Component {
       onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches within the responder
-        // This typically means a gesture has succeeded
-
-
         if(gestureState.moveX===0 && gestureState.moveY===0) {
           // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
           // distance should therefore be calculated based on starting tap location (evt.nativeEvent.locationX and evt.nativeEvent.locationY)
@@ -171,7 +161,6 @@ class ControllerView extends React.Component {
       },
     });
   }
-
 
   componentDidMount() {
     Orientation.lockToLandscapeRight(); //this will lock the view to Landscape
