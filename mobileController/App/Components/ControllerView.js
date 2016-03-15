@@ -27,8 +27,11 @@ class ControllerView extends React.Component {
       dPadSize: undefined,
       shoulderButtonSize: undefined,
       selectStartButtonSize: undefined,
-      //used to detect changes in the D-Pad
+      //used to control logic in the D-Pad
       dPadButton: undefined, //currently pressed D-pad button
+      dPadStartX: undefined,
+      dPadStartY: undefined,
+      dPadTouchesIdentifier: undefined //identifier of the D-Pad touch within the evt.nativeEvent.touches array
     }
   }
 
@@ -44,14 +47,21 @@ class ControllerView extends React.Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         // The gesture has started; player's finger has touched the D-Pad area
+        // console.log('grant gestureState', evt);
+        // console.log('grant x', evt.nativeEvent.locationX);
+        // console.log('grant y', evt.nativeEvent.locationY);
 
-        var x2 = gestureState.x0;
-        var y2 = gestureState.y0;
+        var x2 = evt.nativeEvent.locationX;
+        var y2 = evt.nativeEvent.locationY;
+        this.setState({
+          dPadStartX: x2,
+          dPadStartY: y2,
+        });
 
-        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
+        var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
+        var distanceToDown = Math.sqrt( (81-x2)*(81-x2) + (150.5-y2)*(150.5-y2) );
+        var distanceToLeft = Math.sqrt( (32.5-x2)*(32.5-x2) + (107-y2)*(107-y2) );
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
@@ -68,15 +78,34 @@ class ControllerView extends React.Component {
       },
       onPanResponderMove: (evt, gestureState) => {
         // the player has moved their finger after touching the area
-        // console.log('move gestureState', gestureState);
+        // console.log('move evt', evt.nativeEvent.touches);
+ 
+        // Find the identifier of the touch that corresponds to the D-Pad: this is done because if another button is clicked (ex. A/B/X/Y with the right thumb)
+        // and the user moves their finger, it will throw off the D-Pad
+        var initialX = this.state.dPadStartX;
+        var initialY = this.state.dPadStartY;
+        var mapped = evt.nativeEvent.touches.map(function(touch){
+          var distance=Math.sqrt( (initialX-touch.pageX)*(initialX-touch.pageX) + (initialY-touch.pageY)*(initialY-touch.pageY) );
+          return {'distance':distance, 'identifier': touch.identifier};
+        });
+        var closest = _.sortBy(mapped, 'distance');
+        var identifier = closest[0]['identifier'];
+        this.setState({dPadTouchesIdentifier:identifier});
 
-        var x2 = gestureState.moveX;
-        var y2 = gestureState.moveY;
+        // Register dpad controls based on filtered evt.nativeevent.touches where identifier is the state. 
 
-        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        var dPadTouch = evt.nativeEvent.touches.filter(function(touch){
+          return touch.identifier = identifier;
+        })
+
+        var x2 = dPadTouch[0].locationX;
+        var y2 = dPadTouch[0].locationY;
+        console.log(x2, y2);
+
+        var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
+        var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
+        var distanceToDown = Math.sqrt( (81-x2)*(81-x2) + (150.5-y2)*(150.5-y2) );
+        var distanceToLeft = Math.sqrt( (32.5-x2)*(32.5-x2) + (107-y2)*(107-y2) );
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
@@ -95,16 +124,28 @@ class ControllerView extends React.Component {
         // The user has released all touches within the responder
         // This typically means a gesture has succeeded
 
-        // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
-        // distance should therefore be calculated based on starting tap location (gestureState.x0 and gestureState.y0)
-        var x2 = gestureState.moveX===0 ? gestureState.x0 : gestureState.moveX;
-        var y2 = gestureState.moveY===0 ? gestureState.y0 : gestureState.moveY;
 
-        //TODO: don't hardcode theses points of the D-Pad buttons
-        var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
-        var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
-        var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
-        var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        if(gestureState.moveX===0 && gestureState.moveY===0) {
+          // if gestureState.moveX and gestureState.moveY are 0, that means that there is no movement (the user has tapped and not dragged)
+          // distance should therefore be calculated based on starting tap location (evt.nativeEvent.locationX and evt.nativeEvent.locationY)
+          var x2 = evt.nativeEvent.locationX
+          var y2 = evt.nativeEvent.locationY
+
+          //TODO: don't hardcode theses points of the D-Pad buttons
+          var distanceToUp = Math.sqrt( (79-x2)*(79-x2) + (58-y2)*(58-y2) );
+          var distanceToRight = Math.sqrt( (127.5-x2)*(127.5-x2) + (105.5-y2)*(105.5-y2) );
+          var distanceToDown = Math.sqrt( (81-x2)*(81-x2) + (150.5-y2)*(150.5-y2) );
+          var distanceToLeft = Math.sqrt( (32.5-x2)*(32.5-x2) + (107-y2)*(107-y2) );
+        } else {
+          var x2 = gestureState.moveX;
+          var y2 = gestureState.moveY;
+
+          //TODO: don't hardcode theses points of the D-Pad buttons
+          var distanceToUp = Math.sqrt( (140-x2)*(140-x2) + (132.5-y2)*(132.5-y2) );
+          var distanceToRight = Math.sqrt( (186.5-x2)*(186.5-x2) + (180-y2)*(180-y2) );
+          var distanceToDown = Math.sqrt( (140-x2)*(140-x2) + (228.5-y2)*(228.5-y2) );
+          var distanceToLeft = Math.sqrt( (94.5-x2)*(94.5-x2) + (180-y2)*(180-y2) );
+        }
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
@@ -330,7 +371,6 @@ class ControllerView extends React.Component {
   _startPressIn() {
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'start', function () {
       console.log('start pressed');
-      VibrationIOS.vibrate();
     });
   }
   _startPressOut() {
@@ -342,7 +382,6 @@ class ControllerView extends React.Component {
   _selectPressIn() {
     api.Press(this.props.route.ipAddress, this.props.route.playerID, 'select', function () {
       console.log('select pressed');
-      VibrationIOS.vibrate();
     });
   }
   _selectPressOut() {
@@ -372,7 +411,7 @@ class ControllerView extends React.Component {
 
           <View {...this._panResponder.panHandlers}>
             <View style={styles.dPad} > 
-              <IconIon name="record" size={this.state.dPadSize} color="red"/>
+              <IconIon name="record" size={this.state.dPadSize} color="transparent"/>
             </View>
           </View>
 
@@ -383,15 +422,11 @@ class ControllerView extends React.Component {
             <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
           </View>
 
-          <View style={styles.selectButton}> 
-            <TouchableOpacity onPressIn={this._selectPressIn.bind(this)} onPressOut={this._selectPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
-            </TouchableOpacity>
+          <View style={styles.selectButton} onTouchStart={this._selectPressIn.bind(this)} onTouchEnd={this._selectPressOut.bind(this)}> 
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
           </View>
-          <View style={styles.startButton}> 
-            <TouchableOpacity onPressIn={this._startPressIn.bind(this)} onPressOut={this._startPressOut.bind(this)}>
-              <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
-            </TouchableOpacity>
+          <View style={styles.startButton} onTouchStart={this._startPressIn.bind(this)} onTouchEnd={this._startPressOut.bind(this)}> 
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
           </View>
 
         </Image>
