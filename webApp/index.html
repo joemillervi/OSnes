@@ -1,0 +1,66 @@
+<script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<body>
+   <div>
+       <!-- <video data-dashjs-player autoplay src="http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd" controls></video> -->
+       <!doctype html>
+       <video id="player" autoplay="true"></video>
+       <!-- <video class="player" autoplay style="width:40%;"></video> -->
+   </div>
+   <style>
+
+body {
+margin: 0px;
+padding: 0px;
+}
+
+#player {
+width: 50%;
+height: 50%;
+}
+   </style>
+   <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+   <script src="./socket.io-stream.js"></script>
+   <script>
+       // connect to server socket
+        $(function() {
+          var socket = io();
+
+          $('#file').change(function(e) {
+            var file = e.target.files[0];
+            var stream = ss.createStream();
+
+            // upload a file to the server.
+            ss(socket).emit('file', stream, {size: file.size});
+            ss.createBlobReadStream(file).pipe(stream);
+          });
+        });
+
+        // connect to webcam
+       (function(){
+         var mediaOptions = { audio: false, video: true };
+
+         if (!navigator.getUserMedia) {
+             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+         }
+
+         if (!navigator.getUserMedia){
+           return alert('getUserMedia not supported in this browser.');
+         }
+
+         navigator.getUserMedia(mediaOptions, success, function(e) {
+           console.log(e);
+         });
+
+         function success(stream){
+           var video = document.querySelector("#player");
+           video.src = window.URL.createObjectURL(stream);
+           // send this in a socket
+
+
+         }
+    })();
+
+
+   </script>
+</body>

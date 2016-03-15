@@ -1,29 +1,34 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require('express')
 var app = express();
+io = require('socket.io')();
+
+var server = require('http').Server(app);
+io.attach(server);
+server.listen(3000);
 
 
-app.use(bodyParser.json());
-// app.use(express.static(__dirname + '/../client')); // react index.html
+// var ss = require('socket.io-stream');
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
+var path = require('path');
+
+var CLIENTS = [];
+io.on('connection', function(socket) {
+  console.log('a client connected')
+  socket.on('disconnect', function(){
+    console.log('client disconnected');
 });
+})
 
+app.use(express.static('./../'))
 
-app.route('/test')
-  .get(function(req, res){
-    res.send('Hello World');
-});
+//
+// io.of('/user').on('connection', function(socket) {
+//   ss(socket).on('profile-image', function(stream, data) {
+//     var filename = path.basename(data.name);
+//     stream.pipe(fs.createWriteStream(STANDARD OUT));
+//   });
+// });
 
-
-var port = process.env.PORT || 3000;
-console.log('server running on port ' + port);
-
-// start listening to requests on port 3000
-app.listen(port);
 
 // export our app for testing
 module.exports = app;
