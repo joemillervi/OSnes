@@ -14,3 +14,11 @@ render(
   </Provider>,
   document.getElementById('app')
 );
+
+$(document).ready(function () {
+
+  $('.button-collapse').sideNav({
+    edge: 'right'
+  });
+
+});
