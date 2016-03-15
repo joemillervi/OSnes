@@ -1,5 +1,5 @@
 var React = require('react-native');
-var Root = require('./App/Components/Root');
+var QRReader = require('./App/Components/QRReader');
 var ControllerView = require('./App/Components/ControllerView'); //including for now so we can easily set initial route to ControllerView for development purposes
 
 var {
@@ -13,7 +13,7 @@ class mobileController extends React.Component {
     return (
       <Navigator
         initialRoute={{
-          component: Root
+          component: QRReader
         }}
         configureScene={(route) => {
           if (route.sceneConfig) {
