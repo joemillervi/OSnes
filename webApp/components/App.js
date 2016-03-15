@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-import ChatBox from './ChatBox';
-import StreamViewer from './StreamViewer';
-import GameController from './GameController';
+import GameConsole from './GameConsole';
+import Sidebar from './Sidebar';
 
 class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Here is where rad stuff will go</h1>
+      <div className="row">
+        <h2>Here is where the rad stuff will go</h2>
         <Navbar />
-        <ChatBox />
-        <StreamViewer />
-        <GameController />
+        <GameConsole />
+        <Sidebar />
       </div>
     );
   }
