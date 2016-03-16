@@ -58,21 +58,22 @@ height: 50%;
 
               xhr.onload = function() {
                  var recoveredBlob = xhr.response;
+                 console.log(recoveredBlob)
 
                  var reader = new FileReader;
 
                  reader.onload = function() {
                    var blobAsDataUrl = reader.result;
-                   window.location = blobAsDataUrl;
+                   console.log(blobAsDataUrl.slice(0, 100))
                  };
 
                  reader.readAsDataURL(recoveredBlob);
               };
 
-              xhr.open('GET', blobUrl);
+              xhr.open('GET', blobURL);
               xhr.send();
          };
-         mediaRecorder.start(3000);
+         mediaRecorder.start(1000);
        }
 
 
