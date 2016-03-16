@@ -84,7 +84,18 @@ nav {
 }
 
 .dpad {
+  display: inline-block;
   background-image: url('assets/images/dpad-playable.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 70px;
+  width: 70px;
+}
+
+.start-and-select {
+  display: inline-block;
+  position: relative;
+  background-image: url('assets/images/start-and-select_375w_360h.png');
   background-repeat: no-repeat;
   background-size: contain;
   height: 70px;
