@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class StreamViewer extends Component {
   render() {
     return (
-      <div>StreamViewer</div>
+      <div className="height-100">StreamViewer</div>
     );
   }
 }

@@ -7,7 +7,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row height-100 no-bottom-margin">
         <Navbar />
         <GameConsole />
         <Sidebar />

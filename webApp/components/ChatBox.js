@@ -4,7 +4,7 @@ import ChatMessage from './ChatMessage';
 class ChatBox extends Component {
   render() {
     return (
-      <div>
+      <div className="height-60 margin-4">
         ChatBox
         <ChatMessage />
         <ChatMessage />
