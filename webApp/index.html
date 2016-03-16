@@ -1,4 +1,5 @@
 <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
 <body>
    <div>
        <!-- <video data-dashjs-player autoplay src="http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd" controls></video> -->
@@ -18,49 +19,63 @@ width: 50%;
 height: 50%;
 }
    </style>
-   <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
-   <script src="./socket.io-stream.js"></script>
    <script>
-       // connect to server socket
-        $(function() {
-          var socket = io();
+       var mediaOptions = { audio: false, video: true };
 
-          $('#file').change(function(e) {
-            var file = e.target.files[0];
-            var stream = ss.createStream();
+       if (!navigator.getUserMedia) {
+           navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+       }
 
-            // upload a file to the server.
-            ss(socket).emit('file', stream, {size: file.size});
-            ss.createBlobReadStream(file).pipe(stream);
-          });
-        });
+       if (!navigator.getUserMedia){
+          alert('getUserMedia not supported in this browser.');
+       }
 
-        // connect to webcam
-       (function(){
-         var mediaOptions = { audio: false, video: true };
+       navigator.getUserMedia(mediaOptions, success, function(e) {
+         console.log(e);
+       });
 
-         if (!navigator.getUserMedia) {
-             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-         }
+       function success(stream){
+         // stream to webcam
+         var video = document.querySelector("#player");
+         video.src = window.URL.createObjectURL(stream);
+         // fetch blob data
+         var mediaRecorder = new MediaStreamRecorder(stream);
+         mediaRecorder.mimeType = 'video/webm';
 
-         if (!navigator.getUserMedia){
-           return alert('getUserMedia not supported in this browser.');
-         }
+         // for gif recording
+         // mediaRecorder.mimeType = 'image/gif';
 
-         navigator.getUserMedia(mediaOptions, success, function(e) {
-           console.log(e);
-         });
+         mediaRecorder.width = 320;
+         mediaRecorder.height = 240;
 
-         function success(stream){
-           var video = document.querySelector("#player");
-           video.src = window.URL.createObjectURL(stream);
-           // send this in a socket
+         mediaRecorder.ondataavailable = function (blob) {
+             // POST/PUT "Blob" using FormData/XHR2
+              console.log(blob)
+              var blobURL = URL.createObjectURL(blob);
+              // extract data from blob url
+              var xhr = new XMLHttpRequest;
+              xhr.responseType = 'blob';
+
+              xhr.onload = function() {
+                 var recoveredBlob = xhr.response;
+
+                 var reader = new FileReader;
+
+                 reader.onload = function() {
+                   var blobAsDataUrl = reader.result;
+                   window.location = blobAsDataUrl;
+                 };
+
+                 reader.readAsDataURL(recoveredBlob);
+              };
+
+              xhr.open('GET', blobUrl);
+              xhr.send();
+         };
+         mediaRecorder.start(3000);
+       }
 
 
-         }
-    })();
-
-
+    // fetch data blob
    </script>
 </body>

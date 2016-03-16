@@ -1,19 +1,20 @@
 var express = require('express')
 var app = express();
 io = require('socket.io')();
+// var ss = require('socket.io-stream');
 
 var server = require('http').Server(app);
 io.attach(server);
 server.listen(3000);
-
-
-// var ss = require('socket.io-stream');
 
 var path = require('path');
 
 var CLIENTS = [];
 io.on('connection', function(socket) {
   console.log('a client connected')
+  socket.on('uploadBlob', function(data) {
+    console.log(data);
+  })
   socket.on('disconnect', function(){
     console.log('client disconnected');
 });
