@@ -1,25 +1,31 @@
 <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
 <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
+  <video id="live" autoplay></video>
+  <canvas id="snapshot" style="display:none"></canvas>
    <div>
        <!-- <video data-dashjs-player autoplay src="http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd" controls></video> -->
        <!doctype html>
        <video id="player" autoplay="true"></video>
+       <img id ="streamImg" src="" alt="">
        <!-- <video class="player" autoplay style="width:40%;"></video> -->
    </div>
    <style>
 
-body {
-margin: 0px;
-padding: 0px;
-}
+      body {
+      margin: 0px;
+      padding: 0px;
+      }
 
-#player {
-width: 50%;
-height: 50%;
-}
+      #player {
+      width: 50%;
+      height: 50%;
+      }
    </style>
    <script>
+       var socket = io()
+
        var mediaOptions = { audio: false, video: true };
 
        if (!navigator.getUserMedia) {
@@ -36,47 +42,53 @@ height: 50%;
 
        function success(stream){
          // stream to webcam
-         var video = document.querySelector("#player");
-         video.src = window.URL.createObjectURL(stream);
-         // fetch blob data
-         var mediaRecorder = new MediaStreamRecorder(stream);
-         mediaRecorder.mimeType = 'video/webm';
+         var live = document.querySelector("#player");
+         live.src = window.URL.createObjectURL(stream);
+         snapshot = document.getElementById("snapshot")
+         setInterval(function() {
+           snap();
+         }, 50)
+         function snap() {
+            // Make the canvas the same size as the live video
+            snapshot.width = live.clientWidth
+            snapshot.height = live.clientHeight
 
-         // for gif recording
-         // mediaRecorder.mimeType = 'image/gif';
+            // Draw a frame of the live video onto the canvas
+            c = snapshot.getContext("2d")
+            c.drawImage(live, 0, 0, snapshot.width, snapshot.height)
 
-         mediaRecorder.width = 320;
-         mediaRecorder.height = 240;
+            // Create an image element with the canvas image data
+            img = document.createElement("img")
+            img.src = snapshot.toDataURL("image/jpeg")
+            img.style.padding = 5
+            img.width = snapshot.width / 2
+            img.height = snapshot.height / 2
 
-         mediaRecorder.ondataavailable = function (blob) {
-             // POST/PUT "Blob" using FormData/XHR2
-              console.log(blob)
-              var blobURL = URL.createObjectURL(blob);
-              // extract data from blob url
-              var xhr = new XMLHttpRequest;
-              xhr.responseType = 'blob';
-
-              xhr.onload = function() {
-                 var recoveredBlob = xhr.response;
-                 console.log(recoveredBlob)
-
-                 var reader = new FileReader;
-
-                 reader.onload = function() {
-                   var blobAsDataUrl = reader.result;
-                   console.log(blobAsDataUrl.slice(0, 100))
-                 };
-
-                 reader.readAsDataURL(recoveredBlob);
-              };
-
-              xhr.open('GET', blobURL);
-              xhr.send();
-         };
-         mediaRecorder.start(1000);
+            // send img to server
+            console.log(img)
+            socket.emit('uploadPhoto', img.src)
+          }
        }
 
+      var streamImg = document.getElementById("streamImg");
+          // img.src = data;
 
-    // fetch data blob
+       socket.on('newFrame', function(data){
+         console.log('NEW FRAME')
+         streamImg.src = data
+
+       });
+
+    //    function blobToImage(imageData) {
+    //      if (Blob && 'undefined' != typeof URL) {
+    //        var blob = new Blob([imageData], {type: 'image/png'});
+    //        return URL.createObjectURL(blob);
+    //      } else if (imageData.base64) {
+    //        return 'data:image/png;base64,' + imageData.data;
+    //      } else {
+    //        return 'about:blank';
+    //      }
+    //    }
+    // // fetch data blob
    </script>
 </body>
