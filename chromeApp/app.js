@@ -25,7 +25,7 @@ angular.module('main',[])
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
       console.log(ipAddress);
-      if (ipAddress.prefixLength <= 24 && ipAddress.name === "en0") {
+      if (ipAddress.prefixLength <= 28 && ipAddress.name === "en0") {
         $scope.title = 'IP FOUND'
 
         $scope.ipAddress = ip4 = ipAddress.address;
