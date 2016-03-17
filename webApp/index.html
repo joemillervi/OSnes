@@ -45,9 +45,12 @@
          var live = document.querySelector("#player");
          live.src = window.URL.createObjectURL(stream);
          snapshot = document.getElementById("snapshot")
+
+         // take snapshot of webcam and send to server
          setInterval(function() {
            snap();
-         }, 3000)
+         }, 50)
+
          function snap() {
             // Make the canvas the same size as the live video
             snapshot.width = live.clientWidth
@@ -65,19 +68,29 @@
             img.height = snapshot.height / 2
 
             // send img to server
-            console.log(img)
             socket.emit('uploadFrame', img.src)
+            console.log('sent img to server', img.src.slice(0, 50))
           }
        }
-
+      var currentNetworkLatency;
       var streamImg = document.getElementById("streamImg");
-          // img.src = data;
 
+      // render new frame and update currentNetworkLatency
        socket.on('newFrame', function(data){
-         console.log('NEW FRAME')
-         streamImg.src = data
-
+         streamImg.src = data.img;
+         streamImg.timeCreated = data.timeCreated;
+         currentNetworkLatency = new Date().getTime() - streamImg.timeCreated;
+        //  console.log('NEW FRAME', data.img.slice(0, 100), 'timeSent:', data.timeCreated)
+        //  console.log('current NETWORK latency:', new Date().getTime() - streamImg.timeCreated)
        });
+
+      // Dynamically adjust video quality from server
+      setInterval(function() {
+        var currentTime = new Date().getTime();
+        // Sometime images will pile up in chrome memory before being rendered
+        var lagTime = currentTime - streamImg.timeCreated;
+        console.log('Total Lag time from server:', lagTime)
+      }, 1000)
 
     //    function blobToImage(imageData) {
     //      if (Blob && 'undefined' != typeof URL) {
