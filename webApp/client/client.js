@@ -21,4 +21,37 @@ $(document).ready(function () {
     edge: 'right'
   });
 
+  // Styling for game controller hovers
+  $('.a-and-b tr td:last-child')
+    .mouseover(function () {
+      $(this).parent().next().find('td').last().toggleClass('red-text');
+    })
+    .mouseout(function () {
+      $(this).parent().next().find('td').last().toggleClass('red-text');
+    });
+
+  $('.a-and-b tr td:first-child')
+    .mouseover(function () {
+      $(this).parent().next().find('td').first().toggleClass('red-text');
+    })
+    .mouseout(function () {
+      $(this).parent().next().find('td').first().toggleClass('red-text');
+    });
+
+  $('.start-and-select tr:first-child td:last-child')
+    .mouseover(function () {
+      $(this).prev().toggleClass('red-text');
+    })
+    .mouseout(function () {
+      $(this).prev().toggleClass('red-text');
+    });
+
+  $('.start-and-select tr:last-child td:last-child')
+    .mouseover(function () {
+      $(this).prev().toggleClass('red-text');
+    })
+    .mouseout(function () {
+      $(this).prev().toggleClass('red-text');
+    });
+
 });

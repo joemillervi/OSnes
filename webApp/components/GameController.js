@@ -6,7 +6,7 @@ import AandB from './AandB';
 class GameController extends Component {
   render() {
     return (
-      <div className="col s8 height-100">
+      <div className="col s8 height-100 signature-color">
         <div className="row game-controller-container height-90">
           <DPad />
           <StartAndSelect />

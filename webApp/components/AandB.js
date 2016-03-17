@@ -7,12 +7,12 @@ class AandB extends Component {
         <table className="height-100">
           <tbody>
             <tr>
-              <td>B</td>
-              <td>A</td>
+              <td className="td-60 clickable"><div className="circle-button b-button"></div></td>
+              <td className="td-60 clickable"><div className="circle-button a-button"></div></td>
             </tr>
             <tr>
-              <td>B</td>
-              <td>A</td>
+              <td className="td-40 no-select">B</td>
+              <td className="td-40 no-select">A</td>
             </tr>
           </tbody>
         </table>

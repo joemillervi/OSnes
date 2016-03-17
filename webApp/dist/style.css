@@ -2,10 +2,10 @@
   font-family: dockerOne;
   src: url(DockerOne.ttf);
 }
-
+/*
 div {
   border: 1px solid red;
-}
+}*/
 
 nav {
   padding-left: 10px;
@@ -24,6 +24,11 @@ nav {
 
 .height-90 {
   height: 90%;
+  box-sizing: border-box;
+}
+
+.height-80 {
+  height: 80%;
   box-sizing: border-box;
 }
 
@@ -123,12 +128,87 @@ nav {
   margin: 0px;
   height: 100%;
   /*width: 100%;*/
-  cursor: pointer;
 }
 
 .game-controller-piece td {
-  border: 1px solid orange;
-  cursor: pointer;
   text-align: center;
   padding: 0;
+  color: white;
+  font-style: italic;
+}
+
+.dpad table {
+  border-collapse: separate;
+  border-spacing: 1px;
+}
+
+.dpad td {
+  background-color: black;
+  font-weight: bold;
+  border: 1px solid #203346;
+  cursor: pointer;
+}
+
+.dpad td:hover {
+  color: red;
+  border: 1px solid red;
+}
+
+.td-60 {
+    height: 60%;
+}
+
+.td-40 {
+  height: 40%;
+}
+
+.a-and-b tr:first-child td:hover .circle-button {
+  border: 1px solid red;
+}
+
+.circle-button {
+  height: 90%;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.oval-button {
+  width: 60%;
+  height: 30%;
+  border-top-left-radius: 45% 100%;
+  border-top-right-radius: 45% 100%;
+  border-bottom-left-radius: 45% 100%;
+  border-bottom-right-radius: 45% 100%;
+  background-color: black;
+  border: 1px solid white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*.oval-button:hover {
+  border: 1px solid red;
+}*/
+
+.start-and-select td {
+  width: 50%;
+}
+
+.start-and-select tr td:last-child:hover .oval-button {
+  border: 1px solid red;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.no-select {
+  cursor: default;
+}
+
+.red-text {
+  color: red;
 }

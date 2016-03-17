@@ -7,12 +7,12 @@ class StartAndSelect extends Component {
         <table className="height-100">
           <tbody>
             <tr>
-              <td>Start</td>
-              <td>Start</td>
+              <td className="no-select">Start</td>
+              <td className="clickable"><div className="oval-button"></div></td>
             </tr>
             <tr>
-              <td>Select</td>
-              <td>Select</td>
+              <td className="no-select">Select</td>
+              <td className="clickable"><div className="oval-button"></div></td>
             </tr>
           </tbody>
         </table>
