@@ -29,6 +29,29 @@ const Chart = React.createClass({
       this.setState({windowWidth: window.innerWidth * 1/4 * 1.1});
     }
   },
+
+  getButtonLabel: function(index) {
+    switch (index) {
+      case 0:
+          return 'A';
+      case 1:
+          return 'B';
+      case 2:
+          return 'Up';
+      case 3:
+          return 'Right';
+      case 4:
+          return 'Down';
+      case 5:
+          return 'Left';
+      case 6:
+          return 'Start';
+      case 7:
+          return 'Select';
+      default:
+          break;
+    }
+  },
   
   render: function() {
     const data = this.props.data || []
@@ -70,7 +93,7 @@ const Chart = React.createClass({
                   dy=".005em"
                   style={{fill:'Black'}}
                 >
-                  {'Select'}
+                  {this.getButtonLabel(i)}
                 </text>
               </g>
               <g 
