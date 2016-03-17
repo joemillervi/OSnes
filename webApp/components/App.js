@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <div className="row height-100 no-bottom-margin">
         <Navbar />
-        <GameConsole {...this.props} socket={socket} />
+        <GameConsole socket={socket} />
         <Sidebar socket={socket} />
       </div>
     );
