@@ -14,7 +14,8 @@ class StreamViewer extends Component {
   }
 
   // getInitialState() {
-  //   "data:image/png;base64,"
+  //   var initialFrame = getInitalFrame...  
+  //   src: "data:image/png;base64," + initialFrame
   // }
 
   componentDidMount() {
@@ -23,7 +24,6 @@ class StreamViewer extends Component {
     var socket = io(config.ioURL)
 
     socket.on('frame',(data) => {
-      console.log(this.state)
       if (this.state.lastImage && 'undefined' != typeof URL) {
         URL.revokeObjectURL(this.state.lastImage);
       }
