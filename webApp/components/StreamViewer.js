@@ -11,11 +11,6 @@ class StreamViewer extends Component {
     };
   }
 
-  // getInitialState() {
-  //   var initialFrame = getInitalFrame...  
-  //   src: "data:image/png;base64," + initialFrame
-  // }
-
   componentDidMount() {
     const { socket } = this.props;
     socket.on('frame',(data) => {
