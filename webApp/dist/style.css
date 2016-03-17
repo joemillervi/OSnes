@@ -154,6 +154,11 @@ nav {
   border: 1px solid red;
 }
 
+.dpad td:active {
+  color: black;
+  background-color: red;
+}
+
 .td-60 {
     height: 60%;
 }
@@ -164,6 +169,10 @@ nav {
 
 .a-and-b tr:first-child td:hover .circle-button {
   border: 1px solid red;
+}
+
+.a-and-b tr:first-child td:active .circle-button {
+  background-color: red;
 }
 
 .circle-button {
@@ -201,6 +210,10 @@ nav {
   border: 1px solid red;
 }
 
+.start-and-select tr td:last-child:active .oval-button {
+  background-color: red;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -211,4 +224,12 @@ nav {
 
 .red-text {
   color: red;
+}
+
+.rounded-10 {
+  border-radius: 5px;
+}
+
+.border-black {
+  border: 1px solid black;
 }
