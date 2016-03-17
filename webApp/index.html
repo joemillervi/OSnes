@@ -47,7 +47,7 @@
          snapshot = document.getElementById("snapshot")
          setInterval(function() {
            snap();
-         }, 50)
+         }, 3000)
          function snap() {
             // Make the canvas the same size as the live video
             snapshot.width = live.clientWidth
@@ -66,7 +66,7 @@
 
             // send img to server
             console.log(img)
-            socket.emit('uploadPhoto', img.src)
+            socket.emit('uploadFrame', img.src)
           }
        }
 
