@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js",
-    "start": "nodemon server/server.js --ignore components"
+    "start": "nodemon clientServer/server.js --ignore components"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "node": "0.0.0",
     "nodemon": "^1.9.1",
     "react-redux": "^4.4.1",
+    "redis": "^2.5.2",
     "redux": "^3.3.1",
     "redux-logger": "^2.6.1"
   },
