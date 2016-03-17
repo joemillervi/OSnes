@@ -4,8 +4,8 @@ import GameConsole from './GameConsole';
 import Sidebar from './Sidebar';
 
 
-var configURL = "http://localhost:3001";
-var socket = io(configURL)
+const configURL = "http://localhost:3001";
+const socket = io(configURL)
 
 class App extends Component {
 
@@ -13,8 +13,8 @@ class App extends Component {
     return (
       <div className="row height-100 no-bottom-margin">
         <Navbar />
-        <GameConsole />
-        <Sidebar />
+        <GameConsole {...this.props} socket={socket} />
+        <Sidebar socket={socket} />
       </div>
     );
   }

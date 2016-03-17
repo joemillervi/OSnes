@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 
 
@@ -9,8 +9,6 @@ class StreamViewer extends Component {
       src: null,
       lastImage: null
     };
-
-    this.blobToImage = this.blobToImage.bind(this);
   }
 
   // getInitialState() {
@@ -19,10 +17,7 @@ class StreamViewer extends Component {
   // }
 
   componentDidMount() {
-    var config = {};
-    config.ioURL = "http://localhost:3001";
-    var socket = io(config.ioURL)
-
+    const { socket } = this.props;
     socket.on('frame',(data) => {
       if (this.state.lastImage && 'undefined' != typeof URL) {
         URL.revokeObjectURL(this.state.lastImage);
