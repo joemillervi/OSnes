@@ -4,17 +4,25 @@ io = require('socket.io')();
 const Imagemin = require('imagemin');
 var sharp = require('sharp');
 
+
 // var Jimp = require("jimp");
 // var ss = require('socket.io-stream');
 // var gulp = require('gulp');
 // var imagemin = require('gulp-imagemin');
-
 var server = require('http').Server(app);
-io.attach(server);
 server.listen(3000, '127.0.0.1');
+io.listen(server,{
+        log: false,
+        origins: '*:*'
+    });
 
 var path = require('path');
 
+io.set('transports', [
+  'websocket', // 'disconnect' EVENT will work only with 'websocket'
+  // 'xhr-polling',
+  // 'jsonp-polling'
+]);
 function mapImageToDifferentRes(img) {
   new Imagemin()
   .src(img)
@@ -26,38 +34,13 @@ var copiesOfCurrentFrame = {low: null, medium: null, high: null};
 var currentStreamer = null;
 var CLIENTS = {};
 io.on('connection', function(socket) {
+      socket.emit('becomeFirstStreamer')
   console.log('new user connected')
-  // set default quality
-  socket.quality = 'high';
   CLIENTS[socket.id] = socket;
   // if it is the first client, make them the current streamer and set up listeners
   if (Object.keys(CLIENTS).length === 1) {
     currentStreamer = socket;
-    currentStreamer.on('uploadFrame', function(photo) {
-      photo = photo.slice('data:image/jpeg;base64,'.length)
-      // make high quality
-      sharp(new Buffer(photo, 'base64')).quality(80)
-      .toBuffer()
-      .then(function(buffer) {
-        copiesOfCurrentFrame.high = {img:'data:image/jpeg;base64,' + buffer.toString('base64'), timeCreated: new Date().getTime()}
-      })
-      sharp(new Buffer(photo, 'base64')).quality(50)
-      .toBuffer()
-      .then(function(buffer) {
-        copiesOfCurrentFrame.medium = {img:'data:image/jpeg;base64,' + buffer.toString('base64'), timeCreated: new Date().getTime()}
-      })
-      // make low quality
-      sharp(new Buffer(photo, 'base64')).quality(20)
-      .toBuffer()
-      .then(function(buffer) {
-        copiesOfCurrentFrame.low = {img:'data:image/jpeg;base64,' + buffer.toString('base64'), timeCreated: new Date().getTime()}
-      })
-      for (id in CLIENTS) {
-        // serve up appropriate image quality for the client
-        // console.log(copiesOfCurrentFrame[CLIENTS[id].quality])
-        CLIENTS[id].emit('newFrame', copiesOfCurrentFrame[CLIENTS[id].quality]);
-      }
-    })
+    socket.emit('becomeFirstStreamer')
   }
   // listen for quality change
   socket.on('updateQuality', function(quality) {
@@ -67,7 +50,67 @@ io.on('connection', function(socket) {
     console.log('a user disconnected')
     delete CLIENTS[socket.id]
   });
-})
+  // CP
+  var listOfBroadcasts = {};
+  var getFirstAvailableBraodcater = function getFirstAvailableBraodcater(user) {
+      var broadcasters = listOfBroadcasts[user.broadcastid].broadcasters;
+      var firstResult;
+      for (var userid in broadcasters) {
+          if (broadcasters[userid].numberOfViewers <= 3) {
+              firstResult = broadcasters[userid];
+              continue;
+          } else delete listOfBroadcasts[user.broadcastid].broadcasters[userid];
+      }
+      return firstResult;
+  }
+
+  var currentUser;
+  socket.on('join-broadcast', function(user) {
+      currentUser = user;
+
+      user.numberOfViewers = 0;
+      if (!listOfBroadcasts[user.broadcastid]) {
+          listOfBroadcasts[user.broadcastid] = {
+              broadcasters: {},
+              allusers: {},
+              typeOfStreams: user.typeOfStreams // object-booleans: audio, video, screen
+          };
+      }
+
+      var firstAvailableBroadcaster = getFirstAvailableBraodcater(user);
+      if (firstAvailableBroadcaster) {
+          listOfBroadcasts[user.broadcastid].broadcasters[firstAvailableBroadcaster.userid].numberOfViewers++;
+          socket.emit('join-broadcaster', firstAvailableBroadcaster, listOfBroadcasts[user.broadcastid].typeOfStreams);
+
+          console.log('User <', user.userid, '> is trying to get stream from user <', firstAvailableBroadcaster.userid, '>');
+      } else {
+          currentUser.isInitiator = true;
+          socket.emit('start-broadcasting', listOfBroadcasts[user.broadcastid].typeOfStreams);
+
+          console.log('User <', user.userid, '> will be next to serve broadcast.');
+      }
+
+      listOfBroadcasts[user.broadcastid].broadcasters[user.userid] = user;
+      listOfBroadcasts[user.broadcastid].allusers[user.userid] = user;
+  });
+
+  socket.on('message', function(message) {
+      socket.broadcast.emit('message', message);
+  });
+
+  socket.on('disconnect', function() {
+      if (!currentUser) return;
+      if (!listOfBroadcasts[currentUser.broadcastid]) return;
+      if (!listOfBroadcasts[currentUser.broadcastid].broadcasters[currentUser.userid]) return;
+
+      delete listOfBroadcasts[currentUser.broadcastid].broadcasters[currentUser.userid];
+      if (currentUser.isInitiator) {
+          delete listOfBroadcasts[currentUser.broadcastid];
+      }
+  });
+});
+
+
 
 
 
