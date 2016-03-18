@@ -4,7 +4,7 @@ class AandB extends Component {
 
   // sendButtonClick(button: string): void
   sendButtonClick(button) {
-    socket.emit('move', button);
+    this.props.socket.emit('move', button);
   }
 
   render() {
@@ -13,8 +13,18 @@ class AandB extends Component {
         <table className="height-100">
           <tbody>
             <tr>
-              <td onClick={this.sendButtonClick.bind(this, 'b')} className="td-60 clickable"><div className="circle-button b-button"></div></td>
-              <td onClick={this.sendButtonClick.bind(this, 'a')} className="td-60 clickable"><div className="circle-button a-button"></div></td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'b')}
+                className="td-60 clickable"
+              >
+                <div className="circle-button b-button"></div>
+              </td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'a')}
+                className="td-60 clickable"
+              >
+                <div className="circle-button a-button"></div>
+              </td>
             </tr>
             <tr>
               <td className="td-40 no-select">B</td>

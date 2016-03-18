@@ -4,7 +4,7 @@ class StartAndSelect extends Component {
 
   // sendButtonClick(button: string): void
   sendButtonClick(button) {
-    socket.emit('move', button);
+    this.props.socket.emit('move', button);
   }
 
   render() {
@@ -14,11 +14,21 @@ class StartAndSelect extends Component {
           <tbody>
             <tr>
               <td className="no-select">Start</td>
-              <td onClick={this.sendButtonClick.bind(this, 'start')} className="clickable"><div className="oval-button"></div></td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'start')}
+                className="clickable"
+              >
+                <div className="oval-button"></div>
+              </td>
             </tr>
             <tr>
               <td className="no-select">Select</td>
-              <td onClick={this.sendButtonClick.bind(this, 'select')} className="clickable"><div className="oval-button"></div></td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'select')}
+                className="clickable"
+              >
+                <div className="oval-button"></div>
+              </td>
             </tr>
           </tbody>
         </table>
