@@ -18,7 +18,7 @@ class StreamViewer extends Component {
         URL.revokeObjectURL(this.state.lastImage);
       }
       var src = this.blobToImage(data);
-      this.setState({ 
+      this.setState({
         src: src,
         lastImage: src
       });

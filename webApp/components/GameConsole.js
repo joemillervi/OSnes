@@ -6,7 +6,7 @@ import CrowdChoice from './CrowdChoice';
 class GameConsole extends Component {
   render() {
     return (
-      <div className="col m8 s12 height-90">
+      <div className="col m8 s12 height-90 height-min-110px">
         <div className="row no-bottom-margin height-70 margin-2">
           <StreamViewer socket={this.props.socket} />
         </div>

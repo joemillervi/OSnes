@@ -1,7 +1,7 @@
 
 ## How to install
 
-Make sure [Cairo](https://github.com/Automattic/node-canvas/wiki) is installed, then run:
+Make sure [Cairo](https://github.com/Automattic/node-canvas/wiki,  https://github.com/Automattic/node-canvas ) is installed, then run:
 
 ```bash
 $ npm install
