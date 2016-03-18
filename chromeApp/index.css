@@ -28,7 +28,7 @@ html, body, canvas {
 }
 #qrcode {
   margin: 0 auto;
-  border: thick solid white;
+  border: thick solid transparent;
   margin-top:10%;
   width: 255px;
 }
@@ -36,9 +36,13 @@ html, body, canvas {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: red;
+  background-color: black;
   background-size: cover;
   background-image: url('wallp1.jpg');
+}
+#loading {
+  font-family: dockerOne;
+  color: white;
 }
 .draghint {
   display: table;

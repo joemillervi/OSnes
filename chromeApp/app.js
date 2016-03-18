@@ -11,6 +11,19 @@ angular.module('main',[])
 
   window.togglePlaying = $scope.togglePlaying;
 
+  // For testing keydown events
+  // $('body').on('keydown', function (e) {
+  //   console.log('event triggerd: ', e);
+  // });
+
+  $("#qrcode").css("border-color", "white");
+  $("#title").text("Scan QR to Start");
+
+
+  document.querySelector('body').addEventListener('keydown', function (e) {
+    console.log('da event triggurd: ', e);
+  });
+
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
       if (ipAddress.prefixLength <= 28 && ipAddress.name === "en0") {
