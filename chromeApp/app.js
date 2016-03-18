@@ -18,6 +18,10 @@ angular.module('main',[])
   //   console.log('event triggerd: ', e);
   // });
 
+  $("#qrcode").css("border-color", "white");
+  $("#title").text("Scan QR to Start");
+
+
   document.querySelector('body').addEventListener('keydown', function (e) {
     console.log('da event triggurd: ', e);
   });

@@ -9,16 +9,23 @@
 <body>
   <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="mainCtrl">
     <div id="qrcode"></div>
-    <div id="title">Scan QR to Start</div>
+    <div id="title"></div>
   </div>
   <!-- this is the emulator -->
   <div class="draghint hidden screen" id="draghint">
-    <input type="file" id="chooser" class="chooser"/>
-    <div class="dragtext">
-      <h1>drag a game here to play</h1>
+    <div>
+      <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a>
+    </div>
+    <div>
+      <input type="file" id="chooser" class="chooser"/>
+      <div class="dragtext">
+        <h1>Drag a game here to play</h1>
+      </div>
     </div>
   </div>
-  <div id="loading" class="message screen"><h1>loading ...</h1></div>
+  <div id="loading" class="message screen">
+    <h1>loading ...</h1>
+  </div>
   <div id="error" class="message hidden screen">
     <h1>error!</h1>
     <p>quit and reopen to try again</p>
