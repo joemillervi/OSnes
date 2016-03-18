@@ -48,6 +48,7 @@ class ChatBox extends Component {
 
     var messages = this.state.messages
     messages.push(message)
+    messages = messages.slice(-7);
     this.setState({ 
       messages: messages
     });
@@ -91,18 +92,18 @@ class ChatBox extends Component {
     // If message is empty, don't emit
     if (msg === '' ) return;
     
-    // Set input to null
-    this.setState({ input: '' }, ()=>{
-    })
 
-    // If joined already, render and emit message, else join
+    // If joined already, render and emit message, else join the chat
     if (this.state.joined) {
       this.renderMessage(msg, by)
       socket.emit('message', msg);
     } else {
       this.join(msg);
     }
-    // 
+
+    // Set input to null
+    this.setState({ input: '' }, ()=>{
+    })
 
   }
 
@@ -110,7 +111,7 @@ class ChatBox extends Component {
     return (
       <div className="height-60 margin-4">
         <div>{this.state.joined}</div>
-        <input type="text" placeholder={this.state.placeholder} value={this.state.input} 
+        <input className="white-text" type="text" placeholder={this.state.placeholder} value={this.state.input} 
         onChange={this.handleInput} onKeyPress={this.handleInput} />
         {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} />
