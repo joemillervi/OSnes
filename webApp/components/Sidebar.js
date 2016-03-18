@@ -7,7 +7,7 @@ class Sidebar extends Component {
     return (
       <div className="col m4 hide-on-small-and-down signature-color height-90">
         <Jumbotron />
-        <ChatBox />
+        <ChatBox socket={this.props.socket} />
       </div>
     );
   }

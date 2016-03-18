@@ -8,11 +8,11 @@ class GameConsole extends Component {
     return (
       <div className="col m8 s12 height-90">
         <div className="row no-bottom-margin height-70 margin-2">
-          <StreamViewer />
+          <StreamViewer socket={this.props.socket} />
         </div>
         <div className="row no-bottom-margin height-20 margin-2">
-          <GameController />
-          <CrowdChoice />
+          <GameController socket={this.props.socket} />
+          <CrowdChoice socket={this.props.socket} />
         </div>
       </div>
     );
