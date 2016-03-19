@@ -7,16 +7,23 @@
   <title>OSnes</title>
 </head>
 <body>
+  <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="mainCtrl">
-    <div id="qrcode"></div>
-    <div id="title"></div>
+    <div id="keyboardSide">
+      <div id="keyboardIcon"></div>
+      <div id="keyboardTitle"></div>
+    </div>
+    <div id="qrSide">
+      <div id="qrCode"></div>
+      <div id="qrTitle"></div>
+    </div>
   </div>
   <!-- this is the emulator -->
+  <div class="draghint hidden screen" id="draghint">
     <div>
       <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a>
     </div>
-  <div class="draghint hidden screen" id="draghint">
-    <div>
+    <div class='dragGameHere' id='dragGameHere'>
       <input type="file" id="chooser" class="chooser"/>
       <div class="dragtext">
         <h1>Drag a game here to play</h1>
