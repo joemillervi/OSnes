@@ -89,23 +89,6 @@ io.on('connection', function(socket){
     socket.hasVoted = true;
   });
 
-  // broadcast moves, throttling them first
-  socket.on('move', function(key){
-    if (null == keys[key]) return;
-    redis.get('crowdmu:move-last:' + ip, function(err, last){
-      if (last) {
-        last = last.toString();
-        if (Date.now() - last < throttle) {
-          return;
-        }
-      }
-      redis.set('crowdmu:move-last:', Date.now());
-      redis.publish('crowdmu:move', keys[key]);
-      socket.emit('move', key, socket.nick);
-      broadcast(socket, 'move', key, socket.nick);
-    });
-  });
-
   // send chat mesages
   socket.on('message', function(msg){
     broadcast(socket, 'message', msg, socket.nick);
@@ -125,12 +108,6 @@ setInterval(function () {
   var winningMove = mode(moves);
   if (moves.length) {
     redis.get('crowdmu:move-last:', function(err, last){
-      // if (last) {
-      //   last = last.toString();
-      //   if (Date.now() - last < throttle) {
-      //     return;
-      //   }
-      // }
       redis.set('crowdmu:move-last:', Date.now());
       redis.publish('crowdmu:move', keys[winningMove]);
       // socket.emit('move', winningMove, socket.nick); // do we need these?
