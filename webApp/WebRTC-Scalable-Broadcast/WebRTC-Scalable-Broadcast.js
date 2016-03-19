@@ -110,7 +110,7 @@ function WebRTC_Scalable_Broadcast(app) {
     // Tell a random sockett to be the next broadcaster
     // tell everyone else to listen to them
     setInterval(function() {
-      if (currentStreamerSocket) {
+      if (Object.keys(CLIENTS).length > 0) {
         currentStreamerSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
         // update current broadcast ID ??
         currentStreamerSocket.user.broadcastid = currentBroadCastID = String(Math.floor(Math.random() * 100000));
