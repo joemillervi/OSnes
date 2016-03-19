@@ -41,7 +41,7 @@ class StreamViewer extends Component {
 
   render() {
     return (
-      <img alt="game" className="responsive-img" style={{width: 100 + '%', height: 100 + '%'}} src={this.state.src} />
+      <img alt="game" className="z-depth-3 responsive-img" style={{width: 100 + '%', height: 100 + '%'}} src={this.state.src} />
     );
   }
 }
