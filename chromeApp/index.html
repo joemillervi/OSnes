@@ -10,12 +10,14 @@
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="mainCtrl">
     <div id="keyboardSide">
+      <div id='keyboardTitle'></div>
       <div id="keyboardIcon"></div>
-      <div id="keyboardTitle"></div>
+      <div id="keyboardInstructions"></div>
     </div>
     <div id="qrSide">
+      <div id='qrTitle'></div>
       <div id="qrCode"></div>
-      <div id="qrTitle"></div>
+      <div id="qrInstructions"></div>
     </div>
   </div>
   <!-- this is the emulator -->

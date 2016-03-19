@@ -21,18 +21,27 @@ html, body, canvas {
 
 #qrSide {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-right: 100px;
+  margin-right: 15%;
 }
 #qrTitle {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.8em;
+}
+#qrInstructions {
+  text-align: center;
   margin-top: 12.5%;
   font-family: dockerOne;
   color: white;
   font-size: 2.2em;
 }
 #qrCode {
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   border: thick solid transparent;
   margin-top:10%;
   width: 255px;
@@ -40,27 +49,36 @@ html, body, canvas {
 
 #keyboardSide {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 15%;
 }
 #keyboardTitle {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.8em;
+}
+#keyboardInstructions {
+  text-align: center;
   margin-top: 12.5%;
   font-family: dockerOne;
   color: white;
   font-size: 2.2em;
 }
 #keyboardIcon {
-  margin: 0 auto;
-  border: thick solid white;
+  /*margin: 0 auto;*/
+  border: thick solid transparent;
   margin-top:10%;
   width: 255px;
   height:256px;
-  background-color: black;
+  background-color: transparent; /* we don't give the image a black background until the QR code is ready; they should appear at the same time*/
   background-size: 255px 84px;
   background-repeat: no-repeat;
   background-position: center; 
-  background-image: url('keyboard.png');
+  /*background-image: url('keyboard.png'); we don't render the image until the QR code is ready; they should appear at the same time*/ 
 }
 
 #menu-screen {
