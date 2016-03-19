@@ -11,13 +11,13 @@ class GameController extends Component {
     };
   }
 
-  onFocus() {
+  onFocus(e) {
     this.setState({
       listenForKeyPress: true
     })
   }
 
-  onBlur() {
+  onBlur(e) {
     this.setState({
       listenForKeyPress: false
     })
@@ -27,9 +27,9 @@ class GameController extends Component {
     // If controller is not in focus, ignore keypresses
     if (!this.state.listenForKeyPress) return;
 
-    // 
+    // Else emit keypress to emulator
     var key = e.keyCode;
-    
+
     var keys = {
       65: 'a',
       66: 'b',
@@ -47,7 +47,10 @@ class GameController extends Component {
 
   render() {
     return (
-      <div tabIndex={1} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onKeyDown={this.handleKeyPress.bind(this)} className="col s8 height-100 signature-color rounded-10 border-black">
+      <div tabIndex={1} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} 
+      onKeyDown={this.handleKeyPress.bind(this)} 
+      style={(this.state.listenForKeyPress) ? style : {}}
+      className="col s8 height-100 signature-color rounded-10 border-black">
         <div className="row game-controller-container height-90">
           <DPad socket={this.props.socket} />
           <StartAndSelect socket={this.props.socket} />
@@ -58,4 +61,10 @@ class GameController extends Component {
   }
 }
 
+
+var style = {
+  backgroundColor: "#364d65",
+  outlineColor: "#009688",
+  boxShadow: "0 40px 77px rgba(0, 0, 0, .7)"
+}
 export default GameController;
