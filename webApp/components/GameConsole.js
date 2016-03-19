@@ -12,7 +12,7 @@ class GameConsole extends Component {
         </div>
         <div className="row no-bottom-margin height-20 margin-2">
           <GameController socket={this.props.socket} />
-          <CrowdChoice socket={this.props.socket} />
+          <CrowdChoice socket={this.props.socket} votes={this.props.votes} />
         </div>
       </div>
     );

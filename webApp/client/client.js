@@ -4,7 +4,9 @@ import App from '../components/App';
 import configureStore from '../redux/configureStore';
 import { Provider } from 'react-redux';
 
-let initialState = {};
+let initialState = {
+  votes: [0, 0, 0, 0, 0, 0, 0, 0]
+};
 
 let store = configureStore(initialState);
 
