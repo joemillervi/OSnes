@@ -50,7 +50,7 @@ class GameController extends Component {
       <div tabIndex={1} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} 
       onKeyDown={this.handleKeyPress.bind(this)} 
       style={(this.state.listenForKeyPress) ? style : {}}
-      className="col s8 height-100 signature-color rounded-10 border-black">
+      className="col s8 z-depth-3 height-100 signature-color rounded-10 border-black">
         <div className="row game-controller-container height-90">
           <DPad socket={this.props.socket} />
           <StartAndSelect socket={this.props.socket} />
