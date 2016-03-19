@@ -23,8 +23,7 @@ function WebRTC_Scalable_Broadcast(app) {
 
     io.set('transports', [
         'websocket', // 'disconnect' EVENT will work only with 'websocket'
-        'xhr-polling',
-        'jsonp-polling'
+        'polling'
     ]);
     var currentStreamerSocket; // current streamer
     var listOfBroadcasts = {};
