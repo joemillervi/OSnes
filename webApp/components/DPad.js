@@ -4,7 +4,7 @@ class DPad extends Component {
 
   // sendButtonClick(button: string): void
   sendButtonClick(button) {
-    socket.emit('move', button);
+    this.props.socket.emit('move', button);
   }
 
   render() {
@@ -13,12 +13,30 @@ class DPad extends Component {
         <table className="height-100">
           <tbody>
             <tr>
-              <td onClick={this.sendButtonClick.bind(this, 'left')} rowSpan="2"><i className="material-icons">keyboard_arrow_left</i></td>
-              <td onClick={this.sendButtonClick.bind(this, 'up')}><i className="material-icons">keyboard_arrow_up</i></td>
-              <td onClick={this.sendButtonClick.bind(this, 'right')} rowSpan="2"><i className="material-icons">keyboard_arrow_right</i></td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'left')}
+                rowSpan="2"
+              >
+                <i className="material-icons">keyboard_arrow_left</i>
+              </td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'up')}
+              >
+                <i className="material-icons">keyboard_arrow_up</i>
+              </td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'right')}
+                rowSpan="2"
+              >
+                <i className="material-icons">keyboard_arrow_right</i>
+              </td>
             </tr>
             <tr>
-              <td onClick={this.sendButtonClick.bind(this, 'down')}><i className="material-icons">keyboard_arrow_down</i></td>
+              <td
+                onClick={this.sendButtonClick.bind(this, 'down')}
+              >
+                <i className="material-icons">keyboard_arrow_down</i>
+              </td>
             </tr>
           </tbody>
         </table>

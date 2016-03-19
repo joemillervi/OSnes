@@ -4,11 +4,6 @@ import App from '../components/App';
 import configureStore from '../redux/configureStore';
 import { Provider } from 'react-redux';
 
-// Make the socket connection globally available
-var config = {};
-config.ioURL = "http://localhost:3001";
-window.socket = io(config.ioURL);
-
 let initialState = {};
 
 let store = configureStore(initialState);
