@@ -1,5 +1,5 @@
 angular.module('main',[])
-.controller('mainCtrl', function($scope) {
+.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
   $scope.ipFound = false;
   $scope.emulator = { playing: false}
@@ -13,6 +13,8 @@ angular.module('main',[])
   document.querySelector('body').addEventListener('keydown', function (e) {
     console.log('da event triggurd: ', e);
   });
+
+  document.getElementById('keyboardIcon').addEventListener('click', window.togglePlaying);
 
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
