@@ -38,6 +38,23 @@ var voteCount = {};
 
 var socketList = [];
 
+// helper function to find the winning vote:
+var mode = function (arr) {
+  var counts = {};
+  arr.forEach(function (elt) {
+    counts[elt] = (counts[elt]) ? (counts[elt] + 1) : 1;
+  });
+  var highWaterMark = 0;
+  var mostCommon;
+  for (var key in counts) {
+    if (counts[key] > highWaterMark) {
+      highWaterMark = counts[key];
+      mostCommon = key;
+    }
+  }
+  return mostCommon;
+};
+
 io.total = 0;
 io.on('connection', function(socket){
   // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
@@ -61,23 +78,6 @@ io.on('connection', function(socket){
     });
   });
 
-  // helper function to find the winning vote:
-  var mode = function (arr) {
-    var counts = {};
-    arr.forEach(function (elt) {
-      counts[elt] = (counts[elt]) ? (counts[elt] + 1) : 1;
-    });
-    var highWaterMark = 0;
-    var mostCommon;
-    for (var key in counts) {
-      if (counts[key] > highWaterMark) {
-        highWaterMark = counts[key];
-        mostCommon = key;
-      }
-    }
-    return mostCommon;
-  };
-
   // populate the moves array when users cast their move vote:
   socket.on('submitMove', function (key) {
     if (socket.hasVoted) {
@@ -85,6 +85,7 @@ io.on('connection', function(socket){
     }
     moves.push(key);
     voteCount[key] = (voteCount[key]) ? (voteCount[key] + 1) : 1;
+    io.sockets.emit('sendVoteCount', voteCount);
     socket.hasVoted = true;
   });
 
@@ -98,7 +99,7 @@ io.on('connection', function(socket){
           return;
         }
       }
-      redis.set('crowdmu:move-last:' + ip, Date.now());
+      redis.set('crowdmu:move-last:', Date.now());
       redis.publish('crowdmu:move', keys[key]);
       socket.emit('move', key, socket.nick);
       broadcast(socket, 'move', key, socket.nick);
@@ -123,21 +124,21 @@ io.on('connection', function(socket){
 setInterval(function () {
   var winningMove = mode(moves);
   if (moves.length) {
-    redis.get('crowdmu:move-last:' + ip, function(err, last){
+    redis.get('crowdmu:move-last:', function(err, last){
       // if (last) {
       //   last = last.toString();
       //   if (Date.now() - last < throttle) {
       //     return;
       //   }
       // }
-      redis.set('crowdmu:move-last:' + ip, Date.now());
+      redis.set('crowdmu:move-last:', Date.now());
       redis.publish('crowdmu:move', keys[winningMove]);
       // socket.emit('move', winningMove, socket.nick); // do we need these?
       // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
-      io.sockets.emit('sendVoteCount', voteCount);
       socketList.forEach(function (socket) { // can we do io.sockets.forEach instead?
         socket.hasVoted = false;
       });
+      io.sockets.emit('sendVoteCount', {});
       moves = [];
       voteCount = {};
     });
