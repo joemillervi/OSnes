@@ -1,20 +1,21 @@
-angular.module('main',[])
-.controller('inputSelection', function($scope) {
+var app = angular.module('app',[]);
+app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
   $scope.ipFound = false;
-  $scope.emulator = { playing: false}
-  $scope.togglePlaying = function() {
-    $scope.emulator.playing = true;
+  $scope.inputSelection = { hidden: false}
+  $scope.toggleInputSelectionScreen = function() {
+    window.retro.stop();
+    $scope.inputSelection.hidden = true;
     $scope.$apply();
   }
 
-  window.togglePlaying = $scope.togglePlaying;
+  window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
 
   document.querySelector('body').addEventListener('keydown', function (e) {
     console.log('da event triggurd: ', e);
   });
 
-  document.getElementById('keyboardIcon').addEventListener('click', window.togglePlaying);
+  document.getElementById('keyboardIcon').addEventListener('click', window.toggleInputSelectionScreen);
 
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
@@ -47,4 +48,19 @@ angular.module('main',[])
     });
 
   });
+
+});
+
+app.controller('gameSelection', function($scope) {
+  $scope.gameSelection = { hidden: false}
+  $scope.toggleGameSelectionScreen = function() {
+    $scope.gameSelection.hidden = true;
+    window.retro.stop();
+    $scope.$apply();
+  }
+  window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
+
+  document.getElementById('dragGameHere').addEventListener('click', window.toggleGameSelectionScreen);
+
+
 });
