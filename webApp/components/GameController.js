@@ -42,7 +42,7 @@ class GameController extends Component {
     };
 
     var button = keys[key];
-    this.props.socket.emit('move', button);
+    this.props.socket.emit('submitMove', button);
   }
 
   render() {
