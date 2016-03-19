@@ -18,8 +18,11 @@ angular.module('main',[])
   //   console.log('event triggerd: ', e);
   // });
 
-  $("#qrcode").css("border-color", "white");
-  $("#title").text("Scan QR to Start");
+  $("#qrCode").css("border-color", "white");
+  $("#qrTitle").text("Scan QR");
+
+  // $("#qrCode").css("border-color", "white");
+  $("#keyboardTitle").text("Click keyboard");
 
 
   document.querySelector('body').addEventListener('keydown', function (e) {
@@ -37,7 +40,7 @@ angular.module('main',[])
               // console.log('toQ');
               // console.log(toQ);
         if($scope.ipFound === false) {
-          new QRCode(document.getElementById('qrcode'), toQ);
+          new QRCode(document.getElementById('qrCode'), toQ);
         }
 
         $scope.ipFound = true;
