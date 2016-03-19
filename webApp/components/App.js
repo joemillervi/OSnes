@@ -4,7 +4,7 @@ import GameConsole from './GameConsole';
 import Sidebar from './Sidebar';
 
 
-const configURL = "http://localhost:3001";
+const configURL = "http://10.6.30.148:3001";
 const socket = io(configURL)
 
 class App extends Component {
