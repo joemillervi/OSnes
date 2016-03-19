@@ -6,9 +6,21 @@
   <link rel="stylesheet" href="index.css">
   <title>OSnes</title>
 </head>
-<body>
+<body ng-app="app">
+  <!-- this is the game selection screen -->
+  <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
+    <div class="availableGames" id="availableGames">
+      <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a>
+    </div>
+    <div class='dragGameHere' id='dragGameHere'>
+      <input type="file" id="chooser" class="chooser"/>
+      <div class="dragtext">
+        <h1>Drag a game here to play</h1>
+      </div>
+    </div>
+  </div>
   <!-- this is the Keyboard vs Mobile choice selection screen -->
-  <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="inputSelection">
+  <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
     <div id="keyboardSide">
       <div id='keyboardTitle'></div>
       <div id="keyboardIcon"></div>
@@ -20,18 +32,9 @@
       <div id="qrInstructions"></div>
     </div>
   </div>
-  <!-- this is the emulator -->
-  <div class="draghint hidden screen" id="draghint">
-    <div>
-      <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a>
-    </div>
-    <div class='dragGameHere' id='dragGameHere'>
-      <input type="file" id="chooser" class="chooser"/>
-      <div class="dragtext">
-        <h1>Drag a game here to play</h1>
-      </div>
-    </div>
-  </div>
+
+
+  <!-- these are the error and loading screens -->
   <div id="loading" class="message screen">
     <h1>loading ...</h1>
   </div>
@@ -39,6 +42,8 @@
     <h1>error!</h1>
     <p>quit and reopen to try again</p>
   </div>
+
+  <!-- this is the overlay screen that appears on right click: pauses game and shows options -->
   <div id="overlay" class="overlay"></div>
   <div class="menu hidden screen" id="menu">
     <input type="file" id="savechooser" class="chooser"/>
@@ -67,6 +72,8 @@
       <pre id="av-info"></pre>
     </div>
   </div>
+
+  <!-- original emulator dependencies -->
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>
@@ -75,6 +82,7 @@
   <script src="config.js"></script>
   <script src="build.js"></script>
   <script src="bootstrap.js"></script>
+
   <!-- our dependencies -->
   <script src="lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>

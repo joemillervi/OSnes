@@ -81,7 +81,7 @@ html, body, canvas {
   /*background-image: url('keyboard.png'); we don't render the image until the QR code is ready; they should appear at the same time*/ 
 }
 
-#menu-screen {
+#inputSelectionScreen {
   position: fixed;
   height: 100%;
   width: 100%;
@@ -97,16 +97,24 @@ html, body, canvas {
   font-family: dockerOne;
   color: white;
 }
+
 .dragGameHere {
-  background-color: red;
-}
-.draghint {
-  display: table;
-  box-sizing: border-box;
+  background-color: black;
   border-width: 10px;
   border-style: dashed;
-  background-color: white;
   border-color: #ccc;
+  flex: 1;
+}
+.availableGames {
+  background-color: transparent;
+  flex: 1;
+}
+.gameSelection {
+  background-color: black;
+  background-size: cover;
+  background-image: url('wallp1.jpg');
+  display: flex;
+  flex-direction: row;
 }
 .screen {
   width: 100%;
