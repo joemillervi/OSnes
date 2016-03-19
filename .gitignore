@@ -3,3 +3,4 @@ node_modules
 .DS_Store
 Pokemon_Crystal.gbc
 webApp/emulatorNode/npm-debug.log
+dump.rdb
