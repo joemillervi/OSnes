@@ -32,7 +32,8 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "socket.io": "0.9.x"
+    "express": "^4.13.4",
+    "socket.io": "^0.9.17"
   },
   "bugs": {
     "url": "https://github.com/muaz-khan/WebRTC-Scalable-Broadcast/issues",
