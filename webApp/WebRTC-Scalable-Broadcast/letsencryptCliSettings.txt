@@ -1,0 +1,18 @@
+letsencrypt certonly \
+  --agree-tos --email gstajoe@gmail.com \
+  --standalone \
+  --domains osnes.website,www.osnes.website \
+  --server https://acme-v01.api.letsencrypt.org/directory \
+  --config-dir ~/letsencrypt/etc
+
+
+
+
+PRODUCTION:
+
+  sudo letsencrypt certonly \
+  --agree-tos --email gstajoe@gmail.com \
+  --webroot --webroot-path /root/OSnes/webApp/WebRTC-Scalable-Broadcast \
+  --config-dir /etc/letsencrypt \
+  --domains osnes.website,www.osnes.website \
+  --server https://acme-v01.api.letsencrypt.org/directory
