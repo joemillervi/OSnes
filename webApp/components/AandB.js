@@ -4,7 +4,7 @@ class AandB extends Component {
 
   // sendButtonClick(button: string): void
   sendButtonClick(button) {
-    this.props.socket.emit('move', button);
+    this.props.socket.emit('submitMove', button);
   }
 
   render() {

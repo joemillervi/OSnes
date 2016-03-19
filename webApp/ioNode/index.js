@@ -32,8 +32,16 @@ var keys = {
 var uid = process.env.CROWDMU_SERVER_UID || port;
 debug('server uid %s', uid);
 
+// initialize array of user-selected moves and vote count object:
+var moves = [];
+var voteCount = {};
+
+var socketList = [];
+
 io.total = 0;
 io.on('connection', function(socket){
+  // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
+  socketList.push(socket);
   var req = socket.request;
   var ip = forwarded(req, req.headers);
   debug('client ip %s', ip);
@@ -51,6 +59,33 @@ io.on('connection', function(socket){
       data = data.toString();
       socket.emit.apply(socket, JSON.parse(data));
     });
+  });
+
+  // helper function to find the winning vote:
+  var mode = function (arr) {
+    var counts = {};
+    arr.forEach(function (elt) {
+      counts[elt] = (counts[elt]) ? (counts[elt] + 1) : 1;
+    });
+    var highWaterMark = 0;
+    var mostCommon;
+    for (var key in counts) {
+      if (counts[key] > highWaterMark) {
+        highWaterMark = counts[key];
+        mostCommon = key;
+      }
+    }
+    return mostCommon;
+  };
+
+  // populate the moves array when users cast their move vote:
+  socket.on('submitMove', function (key) {
+    if (socket.hasVoted) {
+      return;
+    }
+    moves.push(key);
+    voteCount[key] = (voteCount[key]) ? (voteCount[key] + 1) : 1;
+    socket.hasVoted = true;
   });
 
   // broadcast moves, throttling them first
@@ -83,6 +118,31 @@ io.on('connection', function(socket){
     broadcast(socket, 'join', nick);
   });
 });
+
+// periodically tally the move votes, perform the move, and then clear the moves array:
+setInterval(function () {
+  var winningMove = mode(moves);
+  if (moves.length) {
+    redis.get('crowdmu:move-last:' + ip, function(err, last){
+      // if (last) {
+      //   last = last.toString();
+      //   if (Date.now() - last < throttle) {
+      //     return;
+      //   }
+      // }
+      redis.set('crowdmu:move-last:' + ip, Date.now());
+      redis.publish('crowdmu:move', keys[winningMove]);
+      // socket.emit('move', winningMove, socket.nick); // do we need these?
+      // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
+      io.sockets.emit('sendVoteCount', voteCount);
+      socketList.forEach(function (socket) { // can we do io.sockets.forEach instead?
+        socket.hasVoted = false;
+      });
+      moves = [];
+      voteCount = {};
+    });
+  }
+}, 3000);
 
 // sends connections count to everyone
 // by aggregating all servers
