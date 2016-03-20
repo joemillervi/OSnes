@@ -13,7 +13,7 @@ function router(req, res) {
     httpPath === '/pair-controller'
   ) {
 
-    window.togglePlaying();
+    window.toggleInputSelectionScreen();
 
     res.writeHead(200, {
       'Content-Type': 'application/json'

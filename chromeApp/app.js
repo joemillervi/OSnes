@@ -4,7 +4,7 @@ app.controller('inputSelection', function($scope) {
   $scope.ipFound = false;
   $scope.inputSelection = { hidden: false}
   $scope.toggleInputSelectionScreen = function() {
-    window.retro.stop();
+    window.retro.start();
     $scope.inputSelection.hidden = true;
     $scope.$apply();
   }
@@ -55,12 +55,8 @@ app.controller('gameSelection', function($scope) {
   $scope.gameSelection = { hidden: false}
   $scope.toggleGameSelectionScreen = function() {
     $scope.gameSelection.hidden = true;
-    window.retro.stop();
     $scope.$apply();
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
-
-  document.getElementById('dragGameHere').addEventListener('click', window.toggleGameSelectionScreen);
-
 
 });
