@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Chart from './barChart.js'
 
 class CrowdChoice extends Component {
-
   render() {
     return (
       <div className="col s4 height-100">
