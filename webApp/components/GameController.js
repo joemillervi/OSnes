@@ -42,6 +42,10 @@ class GameController extends Component {
     };
 
     var button = keys[key];
+
+    // If keypress is not a button we care about, don't emit
+    if(!button) return
+
     this.props.socket.emit('submitMove', button);
   }
 
