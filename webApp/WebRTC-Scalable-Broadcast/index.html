@@ -57,7 +57,7 @@ input, input:focus, input:active {
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="/RTCMultiConnection.js"></script>
 <script>
-var socket = io.connect();
+var socket = io.connect('https://osnes.website', {secure: true});
 
 // using single socket for RTCMultiConnection signaling
 var onMessageCallbacks = {};
