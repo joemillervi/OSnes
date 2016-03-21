@@ -1,0 +1,236 @@
+@font-face {
+  font-family: dockerOne;
+  src: url(DockerOne.ttf);
+}
+/*
+div {
+  border: 1px solid red;
+}*/
+
+nav {
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 60px;
+  border-bottom: 1px solid white;
+}
+
+.thin-white-border {
+  border: 1px solid white;
+}
+
+.height-100 {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.height-90 {
+  height: 90%;
+  box-sizing: border-box;
+}
+
+.height-80 {
+  height: 80%;
+  box-sizing: border-box;
+}
+
+.height-70 {
+  height: 70%;
+  box-sizing: border-box;
+}
+
+.height-60 {
+  height: 60%;
+  box-sizing: border-box;
+}
+
+.height-30 {
+  height: 30%;
+  box-sizing: border-box;
+}
+
+.height-20 {
+  height: 20%;
+  box-sizing: border-box;
+}
+
+.height-10 {
+  height: 10%;
+  box-sizing: border-box;
+}
+
+.height-min-110px {
+  min-height: 110px;
+}
+
+.margin-4 {
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+.margin-2 {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.no-bottom-margin {
+  margin-bottom: 0;
+}
+
+.signature-color {
+  background-color: #203346;
+}
+
+.brand-logo {
+  cursor: pointer;
+  font-family: dockerOne;
+}
+
+.button-collapse {
+  cursor: pointer;
+}
+
+.a-little-bigger {
+  font-size: 120%;
+}
+
+.game-controller-container {
+  margin-top: 5px;
+}
+
+.game-controller-piece {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.dpad {
+  /*background-image: url('assets/images/dpad-playable.png');*/
+}
+
+.start-and-select {
+  /*background-image: url('assets/images/start-and-select_550w_300h.png');*/
+}
+
+.a-and-b {
+  /*background-image: url('assets/images/a-and-b.png');*/
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.dpad-direction {
+  margin: 0px;
+  height: 100%;
+  /*width: 100%;*/
+}
+
+.game-controller-piece td {
+  text-align: center;
+  padding: 0;
+  color: white;
+  font-style: italic;
+}
+
+.dpad table {
+  border-collapse: separate;
+  border-spacing: 1px;
+}
+
+.dpad td {
+  background-color: black;
+  font-weight: bold;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.dpad td:hover {
+  color: red;
+  border: 1px solid red;
+}
+
+.dpad td:active {
+  color: black;
+  background-color: red;
+}
+
+.td-60 {
+    height: 60%;
+}
+
+.td-40 {
+  height: 40%;
+}
+
+.a-and-b tr:first-child td:hover .circle-button {
+  border: 1px solid red;
+}
+
+.a-and-b tr:first-child td:active .circle-button {
+  background-color: red;
+}
+
+.circle-button {
+  height: 90%;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.oval-button {
+  width: 60%;
+  height: 30%;
+  border-top-left-radius: 45% 100%;
+  border-top-right-radius: 45% 100%;
+  border-bottom-left-radius: 45% 100%;
+  border-bottom-right-radius: 45% 100%;
+  background-color: black;
+  border: 1px solid white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*.oval-button:hover {
+  border: 1px solid red;
+}*/
+
+.start-and-select td {
+  width: 50%;
+}
+
+.start-and-select tr td:last-child:hover .oval-button {
+  border: 1px solid red;
+}
+
+.start-and-select tr td:last-child:active .oval-button {
+  background-color: red;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.no-select {
+  cursor: default;
+}
+
+.red-text {
+  color: red;
+}
+
+.rounded-10 {
+  border-radius: 5px;
+}
+
+.border-black {
+  border: 1px solid black;
+}
