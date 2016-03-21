@@ -36,14 +36,14 @@ function WebRTC_Scalable_Broadcast(app) {
     })
   })
 
-  // every couple seconds reset who is streaming
-  setInterval(function() {
-    console.log(Object.keys(CLIENTS))
-    // currentStreamerSocket.emit('stop-streaming')
-    // currentStreamerSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
-    // currentStreamerSocket.emit('become-streamer', allSDP)
-    // for (id in CLIENTS) {
-    //   CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
-    // }
-  }, 4000)
+  // // every couple seconds reset who is streaming
+  // setInterval(function() {
+  //   console.log(Object.keys(CLIENTS))
+  //   currentStreamerSocket.emit('stop-streaming')
+  //   currentStreamerSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
+  //   currentStreamerSocket.emit('become-streamer', allSDP)
+  //   for (id in CLIENTS) {
+  //     CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
+  //   }
+  // }, 4000)
 }

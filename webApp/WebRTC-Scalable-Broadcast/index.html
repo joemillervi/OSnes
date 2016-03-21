@@ -35,12 +35,15 @@ socket.on('become-streamer', function(allIDs) {
     // make stream global for peers who connect later
     outsideStream = stream;
     // create peer connections wil all sockets and stream to them
-
       allIDs.forEach(function(id) {
         peers[id] = {};
+        peers[id].isConnected = false;
         peers[id].peer = new SimplePeer({ initiator: true, stream: stream, trickle: false})
         peers[id].peer.on('signal', function(data) {
-          socket.emit('connect-to-peer', {id: id, SDP: data})
+          if (!peers[id].isConnected) {
+            socket.emit('connect-to-peer', {id: id, SDP: data})
+            peers[id].isConnected = true
+          }
         })
       })
   }, function(error) {
@@ -72,23 +75,30 @@ socket.on('signal-peer2', function(data) {
 // if you are not the streamer connect with them
 socket.on('connect-to-streamers-peer', function(data) {
   console.log('connect-to-streamers-peer', data.SDP)
-  peers[data.id] = {};
-  peers[data.id].isConnected = false;
-  peers[data.id].peer = new SimplePeer();
-  peers[data.id].peer.signal(data.SDP);
-  peers[data.id].peer.on('signal', function(SDP) {
-    if (!peers[data.id].isConnected) {
-      socket.emit('signal-peer1', {id: data.id, SDP: SDP})
-      peers[data.id].isConnected = true;
-    }
-  })
-  peers[data.id].peer.on('stream', function (stream) {
-    // got remote video stream, now let's show it in a video tag
-    var video = document.getElementById('video-player')
-    console.log('video! stream', stream)
-    video.src = window.URL.createObjectURL(stream)
-    video.play()
-  })
+  // handle the case where video streamer is the peer
+  if (peers[data.id] !== undefined) {
+    // console.log('im the streamer!')
+    // var video = document.getElementById('video-player')
+    // video.src = window.URL.createObjectURL(outsideStream)
+  } else {
+    peers[data.id] = {};
+    peers[data.id].isConnected = false;
+    peers[data.id].peer = new SimplePeer();
+    peers[data.id].peer.signal(data.SDP);
+    peers[data.id].peer.on('signal', function(SDP) {
+      if (!peers[data.id].isConnected) {
+        socket.emit('signal-peer1', {id: data.id, SDP: SDP})
+        peers[data.id].isConnected = true;
+      }
+    })
+    peers[data.id].peer.on('stream', function (stream) {
+      // got remote video stream, now let's show it in a video tag
+      var video = document.getElementById('video-player')
+      console.log('video! stream', stream)
+      video.src = window.URL.createObjectURL(stream)
+      video.play()
+    })
+  }
 })
 
 
