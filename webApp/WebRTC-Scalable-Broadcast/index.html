@@ -29,24 +29,30 @@ var peers = {
 };
 
 var outsideStream;
+var myID;
 
-socket.on('become-streamer', function(allIDs) {
+socket.on('become-streamer', function(idInfo) {
   console.log('become-streamer')
   // get video stream
   navigator.getUserMedia({ video: true, audio: false }, function(stream) {
     // make stream global for peers who connect later
     outsideStream = stream;
+    $('#streamer').html('STREAMER')
+    var video = document.getElementById('video-player')
+    video.src = window.URL.createObjectURL(outsideStream)
     // create peer connections wil all sockets and stream to them
-      allIDs.forEach(function(id) {
-        peers[id] = {};
-        peers[id].isConnected = false;
-        peers[id].peer = new SimplePeer({ initiator: true, stream: stream, trickle: false})
-        peers[id].peer.on('signal', function(data) {
-          if (!peers[id].isConnected) {
-            socket.emit('connect-to-peer', {id: id, SDP: data})
-            peers[id].isConnected = true
-          }
-        })
+      idInfo.allIDs.forEach(function(id) {
+        if (idInfo.myID !== id) {
+          peers[id] = {};
+          peers[id].isConnected = false;
+          peers[id].peer = new SimplePeer({ initiator: true, stream: stream, trickle: false})
+          peers[id].peer.on('signal', function(data) {
+            if (!peers[id].isConnected) {
+              socket.emit('connect-to-peer', {id: id, SDP: data})
+              peers[id].isConnected = true
+            }
+          })
+        }
       })
   }, function(error) {
     console.log(error)
@@ -110,9 +116,9 @@ socket.on('stop-streaming', function() {
 
 
 // if (peers[data.id] !== undefined) {
-//   $('#streamer').html('STREAMER')
-//   var video = document.getElementById('video-player')
-//   video.src = window.URL.createObjectURL(outsideStream)
+  // $('#streamer').html('STREAMER')
+  // var video = document.getElementById('video-player')
+  // video.src = window.URL.createObjectURL(outsideStream)
 // } else {
 //   // clear peers
 //   peers = {};

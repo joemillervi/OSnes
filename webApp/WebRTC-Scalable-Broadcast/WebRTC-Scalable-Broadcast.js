@@ -14,7 +14,7 @@ function WebRTC_Scalable_Broadcast(app) {
   CLIENTS[socket.id] = socket;
     if (Object.keys(CLIENTS).length === 1) {
       console.log('first streamer')
-      socket.emit('become-streamer', Object.keys(CLIENTS))
+      socket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: socket.id})
       currentStreamerSocket = socket;
     } else {
       console.log('server: new peer')
@@ -37,14 +37,14 @@ function WebRTC_Scalable_Broadcast(app) {
 
   // every couple seconds reset who is streaming
   setInterval(function() {
-    console.log(Object.keys(CLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
     if (currentStreamerSocket && Object.keys(CLIENTS).length > 0) {
+      console.log(Object.keys(CLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
       var randomSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
       if (randomSocket.id !== currentStreamerSocket.id) {
         currentStreamerSocket.emit('stop-streaming')
         // set new streamer
         currentStreamerSocket = randomSocket;
-        currentStreamerSocket.emit('become-streamer', Object.keys(CLIENTS))
+        currentStreamerSocket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: currentStreamerSocket.id})
       }
       // for (id in CLIENTS) {
       //   CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
