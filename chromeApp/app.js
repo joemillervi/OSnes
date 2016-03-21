@@ -59,21 +59,22 @@ app.controller('gameSelection', function($scope) {
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
 
+
   $scope.games = [{
     title: 'blah',
     description: 'Hysteria is a space shooter clone that, while really easy, has something about it that will get you hooked and keep you playing. The music is great, and the graphics and control arent bad either. Try it out.', 
     platform: 'snes'
   }, {
     title: 'blah2222222', 
-    platform: 'snes'
+    platform: 'nes'
   }, {
     title: 'blah2222222', 
-    platform: 'snes'
+    platform: 'GBA'
   }, {
     title: 'blah2222222', 
-    platform: 'snes'
+    platform: 'GB'
   }, {
-    title: 'blah2222222', 
+    title: 'pokemon', 
     platform: 'snes'
   }, {
     title: 'blah2222222', 

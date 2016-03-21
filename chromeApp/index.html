@@ -18,8 +18,9 @@
       <button class="btn" data-ng-click="fetchDocs(flase)">Search</button>
       <button class="btn" id="close-button" title="Close">x</button>
     </nav>
+      <input type='text' ng-model='search' placeholder='filter' />
     <ul>
-      <li data-ng-repeat="game in games">
+      <li data-ng-repeat="game in games | filter:search">
         <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
         <img data-ng-src="{{game.icon}}"> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
         <span class="date">{{game.platform}}</span>
