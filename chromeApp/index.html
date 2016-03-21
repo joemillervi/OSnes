@@ -5,17 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="index.css">
   <title>OSnes</title>
+  <link rel="stylesheet" media="all" href="bootstrap.css">
 </head>
 <body ng-app="app">
   <!-- this is the game selection screen -->
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
     <div class="availableGames" id="availableGames">
-      <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a>
+
+      <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
+    <nav>
+      <h2>Find a Game</h2>
+      <button class="btn" data-ng-click="fetchDocs(flase)">Search</button>
+      <button class="btn" id="close-button" title="Close">x</button>
+    </nav>
+    <ul>
+      <li data-ng-repeat="game in games">
+        <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
+        <img data-ng-src="{{game.icon}}"> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
+        <span class="date">{{game.platform}}</span>
+      </li>
+    </ul>
+
+
     </div>
     <div class='dragGameHere' id='dragGameHere'>
       <input type="file" id="chooser" class="chooser"/>
       <div class="dragtext">
-        <h1>Drag a game here to play</h1>
+        <h1 id="dragHint1">Have a game already?</h1>
+        <h1 id="dragHint2">Drag it in here to play</h1>
       </div>
     </div>
   </div>
@@ -73,7 +90,7 @@
     </div>
   </div>
 
-  <!-- original emulator dependencies -->
+  <!-- emulator dependencies -->
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>

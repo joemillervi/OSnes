@@ -59,4 +59,89 @@ app.controller('gameSelection', function($scope) {
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
 
+  $scope.games = [{
+    title: 'blah',
+    description: 'Hysteria is a space shooter clone that, while really easy, has something about it that will get you hooked and keep you playing. The music is great, and the graphics and control arent bad either. Try it out.', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }, {
+    title: 'blah2222222', 
+    platform: 'snes'
+  }];
+
 });
+
