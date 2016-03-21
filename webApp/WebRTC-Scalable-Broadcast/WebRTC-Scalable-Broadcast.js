@@ -22,7 +22,6 @@ function WebRTC_Scalable_Broadcast(app) {
     }
     // route new peer connection to peer that requested it
     socket.on('connect-to-peer', function(data) {
-      console.log(data)
       CLIENTS[data.id].emit('connect-to-streamers-peer', data)
     });
 
@@ -36,14 +35,20 @@ function WebRTC_Scalable_Broadcast(app) {
     })
   })
 
-  // // every couple seconds reset who is streaming
-  // setInterval(function() {
-  //   console.log(Object.keys(CLIENTS))
-  //   currentStreamerSocket.emit('stop-streaming')
-  //   currentStreamerSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
-  //   currentStreamerSocket.emit('become-streamer', allSDP)
-  //   for (id in CLIENTS) {
-  //     CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
-  //   }
-  // }, 4000)
+  // every couple seconds reset who is streaming
+  setInterval(function() {
+    console.log(Object.keys(CLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
+    if (currentStreamerSocket && Object.keys(CLIENTS).length > 0) {
+      var randomSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
+      if (randomSocket.id !== currentStreamerSocket.id) {
+        currentStreamerSocket.emit('stop-streaming')
+        // set new streamer
+        currentStreamerSocket = randomSocket;
+        currentStreamerSocket.emit('become-streamer', Object.keys(CLIENTS))
+      }
+      // for (id in CLIENTS) {
+      //   CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
+      // }
+    }
+  }, 8000)
 }

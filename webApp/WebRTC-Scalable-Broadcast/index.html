@@ -5,7 +5,9 @@
     <title></title>
   </head>
   <body>
+    <h3 id='streamer'></h3>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/6.0.2/simplepeer.min.js"></script>
     <video id="video-player" width="400" height="300" autoplay></video>
   </body>
@@ -31,7 +33,7 @@ var outsideStream;
 socket.on('become-streamer', function(allIDs) {
   console.log('become-streamer')
   // get video stream
-  navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+  navigator.getUserMedia({ video: true, audio: false }, function(stream) {
     // make stream global for peers who connect later
     outsideStream = stream;
     // create peer connections wil all sockets and stream to them
@@ -76,11 +78,8 @@ socket.on('signal-peer2', function(data) {
 socket.on('connect-to-streamers-peer', function(data) {
   console.log('connect-to-streamers-peer', data.SDP)
   // handle the case where video streamer is the peer
-  if (peers[data.id] !== undefined) {
-    // console.log('im the streamer!')
-    // var video = document.getElementById('video-player')
-    // video.src = window.URL.createObjectURL(outsideStream)
-  } else {
+  console.log('not undefined:', peers[data.id])
+
     peers[data.id] = {};
     peers[data.id].isConnected = false;
     peers[data.id].peer = new SimplePeer();
@@ -98,13 +97,25 @@ socket.on('connect-to-streamers-peer', function(data) {
       video.src = window.URL.createObjectURL(stream)
       video.play()
     })
-  }
+})
+
+// turn off webcam if not streaming
+socket.on('stop-streaming', function() {
+  $('#streamer').html('')
+  console.log('stop-streaming')
+  outsideStream.getVideoTracks()[0].stop();
+  peers = {}; // clear all peers in case we become the streamer again
 })
 
 
 
-
-
+// if (peers[data.id] !== undefined) {
+//   $('#streamer').html('STREAMER')
+//   var video = document.getElementById('video-player')
+//   video.src = window.URL.createObjectURL(outsideStream)
+// } else {
+//   // clear peers
+//   peers = {};
 
 
 </script>
