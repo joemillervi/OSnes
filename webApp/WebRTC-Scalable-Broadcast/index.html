@@ -7,91 +7,89 @@
   <body>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/6.0.2/simplepeer.min.js"></script>
-    <label>Your ID:</label><br/>
-    <textarea id="yourId"></textarea><br/>
-    <label>Other ID:</label><br/>
-    <textarea id="otherId"></textarea>
-    <button id="connect">connect</button><br/>
-
-    <label>Enter Message:</label><br/>
-    <textarea id="yourMessage"></textarea>
-    <button id="send">send</button>
-    <pre id="messages"></pre>
+    <video id="video-player" width="400" height="300" autoplay></video>
   </body>
 </html>
 <script>
 
 var socket = io.connect();
-var isTheStreamer = false;
+
+navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+
 var peers = {
-  id: {
-    peer: null,
-    connected: false
+  'id': { // <- actual id
+    'peer': null,
+    'isConnected': false
   }
 };
 
-socket.on('become-first-streamer') {
-  isTheStreamer = true;
-}
+var outsideStream;
 
-// new peer has requested connection
-socket.on('new-peer', function(id) {
-  // create new peer
-  peers[id] = {};
-  peers[id].peer = new SimplePeer({
-    initiator: true;
-    trickle: false;
+socket.on('become-streamer', function(allIDs) {
+  console.log('become-streamer')
+  // get video stream
+  navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+    // make stream global for peers who connect later
+    outsideStream = stream;
+    // create peer connections wil all sockets and stream to them
+
+      allIDs.forEach(function(id) {
+        peers[id] = {};
+        peers[id].peer = new SimplePeer({ initiator: true, stream: stream, trickle: false})
+        peers[id].peer.on('signal', function(data) {
+          socket.emit('connect-to-peer', {id: id, SDP: data})
+        })
+      })
+  }, function(error) {
+    console.log(error)
   })
-  // listener to send SDP back
-  peers[id].peer.on('signal', function(SDP) {
-    // if not already connected
-    if (!peers[id].connected) {
-      socket.emit('connect-to-peer', {id: id, SDP: SDP})
-      peers[id].connected = true;
+})
+
+// as new peers join give them the stream
+socket.on('new-peer', function(id) {
+  console.log('new-peer', id)
+  peers[id] = {};
+  peers[id].peer = new SimplePeer({ initiator: true, stream: outsideStream, trickle: false })
+  peers[id].peer.on('signal', function(data) {
+    if (!peers[id].isConnected) {
+      console.log(data)
+      socket.emit('connect-to-peer', {id: id, SDP: data})
+      peers[id].isConnected = true;
     }
   })
 })
 
-// complete peer connection
-socket.on('got-requested-SDP', function(data) {
-  peers[data.id].signal(data.SDP)
+socket.on('signal-peer2', function(data) {
+  console.log(data.id)
+  console.log(peers[data.id].peer)
+  // peers[data.id] = {};
+  peers[data.id].peer.signal(data.SDP);
 })
 
-
-
-
-var peer = new SimplePeer({
-  initiator: location.hash === '#init',
-  trickle: false
-  // stream: stream
+// if you are not the streamer connect with them
+socket.on('connect-to-streamers-peer', function(data) {
+  console.log('connect-to-streamers-peer', data.SDP)
+  peers[data.id] = {};
+  peers[data.id].isConnected = false;
+  peers[data.id].peer = new SimplePeer();
+  peers[data.id].peer.signal(data.SDP);
+  peers[data.id].peer.on('signal', function(SDP) {
+    if (!peers[data.id].isConnected) {
+      socket.emit('signal-peer1', {id: data.id, SDP: SDP})
+      peers[data.id].isConnected = true;
+    }
+  })
+  peers[data.id].peer.on('stream', function (stream) {
+    // got remote video stream, now let's show it in a video tag
+    var video = document.getElementById('video-player')
+    console.log('video! stream', stream)
+    video.src = window.URL.createObjectURL(stream)
+    video.play()
+  })
 })
-
-peer.on('signal', function (data) {
-  console.log('got signaled')
-  document.getElementById('yourId').value = JSON.stringify(data)
-})
-
-document.getElementById('connect').addEventListener('click', function () {
-  var otherId = JSON.parse(document.getElementById('otherId').value)
-  peer.signal(otherId)
-})
-
-document.getElementById('send').addEventListener('click', function () {
-  var yourMessage = document.getElementById('yourMessage').value
-  peer.send(yourMessage)
-})
-
-peer.on('data', function (data) {
-  document.getElementById('messages').textContent += data + '\n'
-})
-//
-// peer.on('stream', function (stream) {
-//   var video = document.createElement('video')
-//   document.body.appendChild(video)
-//
-//   video.src = window.URL.createObjectURL(stream)
-//   video.play()
-// })
 
 
 
