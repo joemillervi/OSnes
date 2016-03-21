@@ -43,7 +43,7 @@ var app = require('http').createServer(function (request, response) {
     });
 });
 
-app = app.listen(process.env.PORT || 8888, process.env.IP || "0.0.0.0", function() {
+app = app.listen(3000, function() {
     var addr = app.address();
     console.log("Server listening at", addr.address + ":" + addr.port);
 });
