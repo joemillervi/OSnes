@@ -36,7 +36,7 @@ app.controller('inputSelection', function($scope) {
           $("#keyboardIcon").css("border-color", "white");
           $("#keyboardInstructions").text("Click keyboard");
           $("#keyboardIcon").css("background-color", 'black');
-          $("#keyboardIcon").css("background-image", 'url(' + '../images/keyboard.png' + ')');
+          $("#keyboardIcon").css("background-image", 'url(' + '../img/keyboard.png' + ')');
           new QRCode(document.getElementById('qrCode'), toQ);
         }
 
