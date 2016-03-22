@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(bodyParser.json());
-app.use(express.static('./dist'));
+app.use(express.static('./../dist'));
 
 
 var url = process.env.CROWDMU_IO_URL || 'http://localhost:3001';

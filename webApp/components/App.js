@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import actions from '../redux/actions';
 
 
-const configURL = "http://104.236.155.123:3001";
+const configURL = "https://osnes.website:3001";
 const socket = io(configURL);
 
 class App extends Component {
