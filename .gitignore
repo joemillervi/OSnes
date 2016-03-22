@@ -7,3 +7,4 @@ dump.rdb
 webApp/dist/bundle.js
 npm-debug.log
 env.js
+sslcerts

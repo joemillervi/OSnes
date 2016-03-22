@@ -1,3 +1,4 @@
+require('./../env.js');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -7,13 +8,32 @@ var config = require('../webpack.config.js');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleWare = require('webpack-hot-middleware');
-
+var https = require('https');
+console.log(process.env.NODE_ENV)
 process.title = 'crowdmu-web';
 
-var compiler = webpack(config);
+if (process.env.NODE_ENV === 'production') {
+  // for ssl server
+  var fs = require('fs');
+  var https = require('https');
+  var privateKey  = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/mydomain.key'), 'utf8');
+  var certificate = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/2_www.osnes.website.crt'), 'utf8');
+  var ca = [
+              fs.readFileSync(path.resolve(__dirname+'/../sslcerts/1_Intermediate.crt'), 'utf8'),
+              fs.readFileSync(path.resolve(__dirname+'/../sslcerts/root.crt'), 'utf8')
+          ]
+  var credentials = {key: privateKey, cert: certificate, ca: ca};
+}
 
-// app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
-// app.use(webpackHotMiddleWare(compiler));
+var port = process.env.NODE_ENV === 'production' ? 80 : 3000;
+var httpsPort = process.env.HTTPS_PORT || 443;
+
+if (process.env.NODE_ENV !== 'production') {
+  var compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+  app.use(webpackHotMiddleWare(compiler));
+}
+
 app.use(bodyParser.json());
 app.use(express.static('./dist'));
 
@@ -39,15 +59,20 @@ app.get('/screenshot.png', function(req, res, next) {
   });
 });
 
-var port = process.env.CROWDMU_PORT || 3000;
-
-// start listening to requests on port 3000
+// start listening to requests
 app.listen(port, function (err) {
   if (err) {
     throw err;
   }
   console.log('Server listening on port ', port);
 });
+
+if (process.env.NODE_ENV = 'production') {
+  // start https server
+  var httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(httpsPort);
+  console.info('https running on port %s.', httpsPort);
+}
 
 // export our app for testing
 module.exports = app;
