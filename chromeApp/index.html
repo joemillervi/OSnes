@@ -24,11 +24,22 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <li>
+            <a data-ng-click="checkAll()">
+              <i class="icon-ok-sign"></i>
+              Check All
+            </a>
+          </li>
+          <li>
+            <a data-ng-click="selectedConsole=[];">
+              <i class="icon-remove-sign"></i>
+              Uncheck All
+            </a>
+          </li>
+          <li class="divider"></li>
           <li data-ng-repeat="console in consoleList"> 
             <a data-ng-click="setSelectedConsole()">
               {{console.name}}
-              <!-- <img src="checkmark.png" height="10" width="10"></img> -->
-              <!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
               <span data-ng-class="isChecked(console.id)"></span>
             </a>
           </li>
@@ -126,5 +137,7 @@
   <script src="./lib/qr-code.js"></script>
 
   <script src="./app.js"></script>
+  <script src="./gamesList.js"></script>
+
 </body>
 </html>
