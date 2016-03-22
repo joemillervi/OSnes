@@ -1,4 +1,4 @@
-var app = angular.module('app',[]);
+var app = angular.module('app', ['app.filters']);
 app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
   $scope.ipFound = false;
@@ -36,7 +36,7 @@ app.controller('inputSelection', function($scope) {
           $("#keyboardIcon").css("border-color", "white");
           $("#keyboardInstructions").text("Click keyboard");
           $("#keyboardIcon").css("background-color", 'black');
-          $("#keyboardIcon").css("background-image", 'url(' + './keyboard.png' + ')');
+          $("#keyboardIcon").css("background-image", 'url(' + '../images/keyboard.png' + ')');
           new QRCode(document.getElementById('qrCode'), toQ);
         }
 
@@ -74,116 +74,237 @@ app.controller('gameSelection', function($scope) {
     name: 'GBA'
   }];
 
+  $scope.setSelectedConsole = function () {
+    var id = this.console.id;
+    if (_.contains($scope.selectedConsole, id)) {
+      $scope.selectedConsole = _.without($scope.selectedConsole, id);
+      // console.log($scope.selectedConsole);
+    } else {
+      $scope.selectedConsole.push(id);
+      // console.log($scope.selectedConsole);
+    }
+    return false;
+  };
+
+  $scope.isChecked = function (id) {
+    if (_.contains($scope.selectedConsole, id)) {
+      return 'checkmark pull-right';
+    }
+    return false;
+  };
+
 
   $scope.games = [{
     title: 'blah',
     description: 'Hysteria is a space shooter clone that, while really easy, has something about it that will get you hooked and keep you playing. The music is great, and the graphics and control aren\'t bad either. Try it out.', 
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'Airwolf \'92', 
     description: 'A timed Space Invaders type shooter. Whatever you do, don\'t shoot the yellow balloons.',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'Astrohawk', 
     description: 'A great Asteroids type game.. if you miss flying around and shooting big rocks before they smash into you, this is a game you NEED.',
-    platform: 'GBA'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'Bioworm', 
     description: '',
-    platform: 'GB'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'pokemon', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',   
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 2,
+      name: 'SNES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 1,
+      name: 'NES'
+    }
   }, {
     title: 'blah2222222', 
     description: '',
-    platform: 'snes'
+    console: {
+      id: 3,
+      name: 'GB'
+    }
   }, {
     title: 'ZZZZZZZZZZ', 
     description: 'zzzzzzz description',
-    platform: 'GBA'
+    console: {
+      id: 4,
+      name: 'GBA'
+    }
   }];
 
 });
+
+angular.module('app.filters', []).filter('consoleFilter', [function () {
+  return function (games, selectedConsole) {
+    if (!angular.isUndefined(games) && !angular.isUndefined(selectedConsole) && selectedConsole.length > 0) {
+      var tempGames = [];
+      angular.forEach(selectedConsole, function (id) {
+        angular.forEach(games, function (game) {
+          if (angular.equals(game.console.id, id)) {
+            tempGames.push(game);
+          }
+        });
+      });
+      return tempGames;
+      console.log('tempGames', tempGames);
+    } else {
+      return games;
+      console.log('games', games);
+
+    }
+  };
+}]);
 

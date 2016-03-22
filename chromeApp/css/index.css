@@ -1,0 +1,271 @@
+html, body, canvas {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+@font-face {
+  font-family: dockerOne;
+  src: url('../fonts/DockerOne.ttf');
+}
+.button {
+  height:100px;
+  width:300px;
+  background-color: blue;
+}
+
+#qrSide {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 15%;
+}
+#qrTitle {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.8em;
+}
+#qrInstructions {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.2em;
+}
+#qrCode {
+  border: thick solid transparent;
+  margin-top:10%;
+  width: 255px;
+}
+
+#keyboardSide {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 15%;
+}
+#keyboardTitle {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.8em;
+}
+#keyboardInstructions {
+  text-align: center;
+  margin-top: 12.5%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 2.2em;
+}
+#keyboardIcon {
+  /*margin: 0 auto;*/
+  border: thick solid transparent;
+  margin-top:10%;
+  width: 255px;
+  height:256px;
+  background-color: transparent; /* we don't give the image a black background until the QR code is ready; they should appear at the same time*/
+  background-size: 255px 84px;
+  background-repeat: no-repeat;
+  background-position: center; 
+  /*background-image: url('keyboard.png'); we don't render the image until the QR code is ready; they should appear at the same time*/ 
+}
+
+#inputSelectionScreen {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  background-size: cover;
+  background-image: url('../images/wallp1.jpg');
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#loading {
+  font-family: dockerOne;
+  color: white;
+}
+
+.dragGameHere {
+  background-color: transparent;
+  border-width: 10px;
+  border-style: dashed;
+  border-color: #ccc;
+  flex: 1;
+
+/*  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;*/
+}
+.dragtext {
+/*  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;*/
+  /*flex: 1;*/
+}
+#dragHint1 {
+  /*flex:1;*/
+  font-family: dockerOne;
+  text-align: center;
+  color: white;
+  font-size: 2.2em;
+}
+#dragHint2 {
+  /*flex:1;*/
+  font-family: dockerOne;
+  text-align: center;
+  color: white;
+  font-size: 2.2em;
+}
+.availableGames {
+  background-color: white;
+  flex: 1;
+  border-width: 5px;
+  border-style: dashed;
+  border-color: transparent;
+}
+.gameSelection {
+  background-color: black;
+  background-size: cover;
+  background-image: url('../images/wallp1.jpg');
+  display: flex;
+  flex-direction: row;
+}
+.screen {
+  width: 100%;
+  height: 100%;
+}
+.menu {
+  overflow: scroll;
+  height: 100%;
+  width: 256pt;
+  margin: 0 auto;
+}
+.hidden {
+  display: none;
+}
+.hover {
+  border-color: #333;
+}
+.chooser {
+  position: fixed;
+  top: -1000px;
+}
+.message {
+  text-align: center;
+}
+.message h1, .message p {
+  position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.overlay {
+  opacity: .5;
+}
+/*
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url(DroidSans.woff) format('woff');
+}
+*/
+body ::-webkit-scrollbar {
+  height: 16px;
+  overflow: visible;
+  width: 16px;
+}
+body ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .1);
+  background-clip: padding-box;
+  border: solid transparent;
+  min-height: 28px;
+  padding: 100px 0 0;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
+  border-width: 1px 1px 1px 6px;
+}
+body ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 0 0 0 4px;
+}
+body ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.gamesList {
+  margin: 0;
+  max-height: calc(100vh - 36px - 69px);
+  overflow: auto;
+}
+
+.gamesListEntry {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 5px;
+  margin-bottom: 3px;
+  background: -webkit-linear-gradient(right, #eee, rgba(255,255,255,0), #eee);
+  color: #666666;
+}
+
+#main > nav {
+  padding-top: 15px;
+  margin-bottom: 10px;
+  -webkit-app-region: drag;
+}
+
+#main > nav button {
+  -webkit-app-region: no-drag;
+} 
+
+nav {
+  /*margin-left: 25px;*/
+}
+
+h2 {
+  display: inline-block;
+}
+
+.searchBar {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  margin-top: 20px;
+
+  display: inline-block;
+}
+
+nav:hover #close-button {
+  opacity: 1;
+}
+
+#close-button {
+  float: right;
+  padding: 0 5px 2px 5px;
+  font-weight: bold;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+}
+
+.date {
+  float: right;
+}
