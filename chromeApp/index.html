@@ -15,12 +15,27 @@
       <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
     <nav>
       <h2>Find a Game</h2>
-      <button class="btn" data-ng-click="fetchDocs(flase)">Search</button>
-      <button class="btn" id="close-button" title="Close">x</button>
     </nav>
-      <input type='text' ng-model='search' placeholder='filter' />
-    <ul>
-      <li data-ng-repeat="game in games | filter:search">
+    <div>
+      <input class='searchBar' type='text' ng-model='search' placeholder='Search' />
+
+      <div class="btn-group" data-ng-class="{open: open}">
+        <button class="btn dropdown-toggle" data-ng-click="open=!open">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <li data-ng-repeat="console in consoleList"> 
+            <a data-ng-click="setSelectedConsole()">
+              {{console.name}}
+              <span data-ng-class="isChecked(company.id)"></span>
+            </a>
+        </ul>
+      </div>
+    </div>
+
+
+    <ul class='gamesList'>
+      <li class='gamesListEntry' data-ng-repeat="game in games | filter:search | orderBy: 'title'">
         <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
         <img data-ng-src="{{game.icon}}"> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
         <span class="date">{{game.platform}}</span>
