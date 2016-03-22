@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="./css/index.css">
   <title>OSnes</title>
-  <link rel="stylesheet" media="all" href="bootstrap.css">
+  <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
 <body ng-app="app">
   <!-- this is the game selection screen -->
@@ -27,18 +27,21 @@
           <li data-ng-repeat="console in consoleList"> 
             <a data-ng-click="setSelectedConsole()">
               {{console.name}}
-              <span data-ng-class="isChecked(company.id)"></span>
+              <!-- <img src="checkmark.png" height="10" width="10"></img> -->
+              <!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
+              <span data-ng-class="isChecked(console.id)"></span>
             </a>
+          </li>
         </ul>
       </div>
     </div>
 
 
     <ul class='gamesList'>
-      <li class='gamesListEntry' data-ng-repeat="game in games | filter:search | orderBy: 'title'">
+      <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
         <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
         <img data-ng-src="{{game.icon}}"> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
-        <span class="date">{{game.platform}}</span>
+        <span class="date">{{game.console.name}}</span>
       </li>
     </ul>
 
@@ -117,6 +120,7 @@
   <script src="bootstrap.js"></script>
 
   <!-- our dependencies -->
+  <script src="lib/underscore-min.js"></script>
   <script src="lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>
   <script src="./lib/qr-code.js"></script>
