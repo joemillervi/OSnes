@@ -78,17 +78,15 @@ app.controller('gameSelection', function($scope) {
     var id = this.console.id;
     if (_.contains($scope.selectedConsole, id)) {
       $scope.selectedConsole = _.without($scope.selectedConsole, id);
-      // console.log($scope.selectedConsole);
     } else {
       $scope.selectedConsole.push(id);
-      // console.log($scope.selectedConsole);
     }
     return false;
   };
 
   $scope.isChecked = function (id) {
     if (_.contains($scope.selectedConsole, id)) {
-      return 'checkmark pull-right';
+      return 'icon-ok pull-right';
     }
     return false;
   };
@@ -299,11 +297,8 @@ angular.module('app.filters', []).filter('consoleFilter', [function () {
         });
       });
       return tempGames;
-      console.log('tempGames', tempGames);
     } else {
       return games;
-      console.log('games', games);
-
     }
   };
 }]);
