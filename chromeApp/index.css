@@ -212,9 +212,7 @@ body ::-webkit-scrollbar-corner {
 
 .gamesList {
   margin: 0;
-  /*border: 100px;*/
-  /*width: 92%;*/
-  height: 600px;
+  max-height: calc(100vh - 36px - 69px);
   overflow: auto;
 }
 
