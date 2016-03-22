@@ -11,14 +11,14 @@
   <!-- this is the game selection screen -->
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
     <div class="availableGames" id="availableGames">
-
-      <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
     <nav>
       <h2>Find a Game</h2>
     </nav>
+
+      <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
+
     <div>
       <input class='searchBar' type='text' ng-model='search' placeholder='Search' />
-
       <div class="btn-group" data-ng-class="{open: open}">
         <button class="btn dropdown-toggle" data-ng-click="open=!open">
           <span class="caret"></span>
@@ -96,11 +96,11 @@
     <input type="file" id="savechooser" class="chooser"/>
     <div class="options">
       <h1>Your game is paused.</h1>
-      <button id="resume" class="resume">resume</button>
-      <button id="reset" class="reset">reset</button>
-      <button id="save" class="save">save game</button>
-      <button id="load" class="load">load save</button>
-      <button id="mute" class="mute">mute</button>
+      <button id="resume" class="resume">Resume</button>
+      <button id="reset" class="reset">Reset</button>
+      <button id="save" class="save">Save Game</button>
+      <button id="load" class="load">Load Save</button>
+      <button id="mute" class="mute">Mute</button>
     </div>
     <div>
       <h1>Controls:</h1>
@@ -111,12 +111,6 @@
       <div>L button = L key</div>
       <div>R button = R key</div>
       <div>D-pad = arrow keys</div>
-    </div>
-    <div>
-      <h1>Core Info:</h1>
-      <pre id="core-name"></pre>
-      <pre id="system-info"></pre>
-      <pre id="av-info"></pre>
     </div>
   </div>
 

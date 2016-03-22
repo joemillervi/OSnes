@@ -59,7 +59,7 @@ app.controller('gameSelection', function($scope) {
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
 
-  $scope.selectedConsole = [];
+  $scope.selectedConsole = [1,2,3,4]; //initialize showing all consoles/games
   $scope.consoleList = [{
     id: 1,
     name: 'NES'
@@ -101,19 +101,15 @@ app.controller('gameSelection', function($scope) {
 
 angular.module('app.filters', []).filter('consoleFilter', [function () {
   return function (games, selectedConsole) {
-    if (!angular.isUndefined(games) && !angular.isUndefined(selectedConsole) && selectedConsole.length > 0) {
-      var tempGames = [];
-      angular.forEach(selectedConsole, function (id) {
-        angular.forEach(games, function (game) {
-          if (angular.equals(game.console.id, id)) {
-            tempGames.push(game);
-          }
-        });
+    var gamestoShow = [];
+    angular.forEach(selectedConsole, function (id) {
+      angular.forEach(games, function (game) {
+        if (angular.equals(game.console.id, id)) {
+          gamestoShow.push(game);
+        }
       });
-      return tempGames;
-    } else {
-      return games;
-    }
+    });
+    return gamestoShow;
   };
 }]);
 
