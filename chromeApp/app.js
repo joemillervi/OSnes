@@ -11,6 +11,7 @@ app.controller('inputSelection', function($scope) {
 
   window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
 
+  //show keydown events for debugging purposes
   document.querySelector('body').addEventListener('keydown', function (e) {
     console.log('da event triggurd: ', e);
   });
@@ -27,7 +28,7 @@ app.controller('inputSelection', function($scope) {
         var toQ = $scope.ipAddress + ':' + port;
 
         if($scope.ipFound === false) {
-
+          //QR code takes a while to render but we want everything to show up together so we use jQuery to make the rest of the screen show when QR is ready
           $("#qrTitle").text("Play on Mobile");
           $("#qrCode").css("border-color", "white");
           $("#qrInstructions").text("Scan QR");
@@ -52,14 +53,15 @@ app.controller('inputSelection', function($scope) {
 });
 
 app.controller('gameSelection', function($scope) {
+  //used to hide and show the game selection screen
   $scope.gameSelection = { hidden: false}
   $scope.toggleGameSelectionScreen = function() {
     $scope.gameSelection.hidden = true;
     $scope.$apply();
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
-
-  $scope.selectedConsole = [1,2,3,4]; //initialize showing all consoles/games
+  
+  //list of available consoles: used to filter list of games
   $scope.consoleList = [{
     id: 1,
     name: 'NES'
@@ -74,6 +76,13 @@ app.controller('gameSelection', function($scope) {
     name: 'GBA'
   }];
 
+  //initialize showing all consoles/games
+  $scope.selectedConsole = [1,2,3,4]; 
+  
+  //'import' list of games to render from gamesList.js
+  $scope.games = window.gamesList;
+
+  //methods to filter and show games from the list
   $scope.setSelectedConsole = function () {
     var id = this.console.id;
     if (_.contains($scope.selectedConsole, id)) {
@@ -95,10 +104,9 @@ app.controller('gameSelection', function($scope) {
       $scope.selectedConsole = _.pluck($scope.consoleList, 'id');
   };
 
-  $scope.games = window.gamesList;
-
 });
 
+//used as filter in index.html
 angular.module('app.filters', []).filter('consoleFilter', [function () {
   return function (games, selectedConsole) {
     var gamestoShow = [];
