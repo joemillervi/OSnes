@@ -68,7 +68,6 @@ html, body, canvas {
   font-size: 2.2em;
 }
 #keyboardIcon {
-  /*margin: 0 auto;*/
   border: thick solid transparent;
   margin-top:10%;
   width: 255px;
@@ -86,7 +85,7 @@ html, body, canvas {
   width: 100%;
   background-color: black;
   background-size: cover;
-  background-image: url('../images/wallp1.jpg');
+  background-image: url('../img/wallp1.jpg');
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -103,28 +102,17 @@ html, body, canvas {
   border-style: dashed;
   border-color: #ccc;
   flex: 1;
-
-/*  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;*/
 }
 .dragtext {
-/*  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;*/
-  /*flex: 1;*/
+
 }
 #dragHint1 {
-  /*flex:1;*/
   font-family: dockerOne;
   text-align: center;
   color: white;
   font-size: 2.2em;
 }
 #dragHint2 {
-  /*flex:1;*/
   font-family: dockerOne;
   text-align: center;
   color: white;
@@ -140,7 +128,7 @@ html, body, canvas {
 .gameSelection {
   background-color: black;
   background-size: cover;
-  background-image: url('../images/wallp1.jpg');
+  background-image: url('../img/wallp1.jpg');
   display: flex;
   flex-direction: row;
 }
@@ -175,14 +163,7 @@ html, body, canvas {
 .overlay {
   opacity: .5;
 }
-/*
-@font-face {
-  font-family: 'Droid Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Droid Sans'), local('DroidSans'), url(DroidSans.woff) format('woff');
-}
-*/
+
 body ::-webkit-scrollbar {
   height: 16px;
   overflow: visible;
@@ -234,10 +215,6 @@ body ::-webkit-scrollbar-corner {
 #main > nav button {
   -webkit-app-region: no-drag;
 } 
-
-nav {
-  /*margin-left: 25px;*/
-}
 
 h2 {
   display: inline-block;
