@@ -176,7 +176,6 @@ html, body, canvas {
   opacity: .5;
 }
 
-
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
@@ -211,15 +210,15 @@ body ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-ul {
+.gamesList {
   margin: 0;
   /*border: 100px;*/
   /*width: 92%;*/
-  height: 700px;
+  height: 600px;
   overflow: auto;
 }
 
-li {
+.gamesListEntry {
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 5px;
@@ -239,10 +238,21 @@ li {
 } 
 
 nav {
-  margin-left: 25px;
+  /*margin-left: 25px;*/
 }
 
 h2 {
+  display: inline-block;
+}
+
+.searchBar {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  margin-top: 20px;
+
   display: inline-block;
 }
 

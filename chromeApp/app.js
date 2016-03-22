@@ -59,89 +59,130 @@ app.controller('gameSelection', function($scope) {
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
 
+  $scope.selectedConsole = [];
+  $scope.consoleList = [{
+    id: 1,
+    name: 'NES'
+  }, {
+    id: 2,
+    name: 'SNES'
+  }, {
+    id: 3,
+    name: 'GB'
+  }, {
+    id: 4,
+    name: 'GBA'
+  }];
+
 
   $scope.games = [{
     title: 'blah',
-    description: 'Hysteria is a space shooter clone that, while really easy, has something about it that will get you hooked and keep you playing. The music is great, and the graphics and control arent bad either. Try it out.', 
+    description: 'Hysteria is a space shooter clone that, while really easy, has something about it that will get you hooked and keep you playing. The music is great, and the graphics and control aren\'t bad either. Try it out.', 
     platform: 'snes'
   }, {
-    title: 'blah2222222', 
-    platform: 'nes'
+    title: 'Airwolf \'92', 
+    description: 'A timed Space Invaders type shooter. Whatever you do, don\'t shoot the yellow balloons.',
+    platform: 'snes'
   }, {
-    title: 'blah2222222', 
+    title: 'Astrohawk', 
+    description: 'A great Asteroids type game.. if you miss flying around and shooting big rocks before they smash into you, this is a game you NEED.',
     platform: 'GBA'
   }, {
-    title: 'blah2222222', 
+    title: 'Bioworm', 
+    description: '',
     platform: 'GB'
   }, {
     title: 'pokemon', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',   
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
     title: 'blah2222222', 
+    description: '',
     platform: 'snes'
   }, {
-    title: 'blah2222222', 
-    platform: 'snes'
+    title: 'ZZZZZZZZZZ', 
+    description: 'zzzzzzz description',
+    platform: 'GBA'
   }];
 
 });
