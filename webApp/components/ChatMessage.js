@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Timeago from '../node_modules/react-timeago/timeago'
-import marked from '../node_modules/marked/lib/marked.js'
+import marked from '../node_modules/marked-for-chat/marked-for-chat.min.js'
 
 class ChatMessage extends Component {
 
