@@ -51,8 +51,8 @@
     <ul class='gamesList'>
       <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
         <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
-        <img data-ng-src="{{game.icon}}"> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
-        <span class="date">{{game.console.name}}</span>
+        <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
+        <!-- <span class="date">{{game.console.name}}</span> -->
       </li>
     </ul>
 
