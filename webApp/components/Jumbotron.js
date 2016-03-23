@@ -96,7 +96,6 @@ class Jumbotron extends Component {
       outsideStream.getVideoTracks()[0].stop();
       peers = {}; // clear all peers in case we become the streamer again
     })
-
   }
 
   render() {
