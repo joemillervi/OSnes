@@ -40,9 +40,16 @@ class StreamViewer extends Component {
 
 
   render() {
-    return (
-      <img alt="game" className="z-depth-3 responsive-img" style={{width: 100 + '%', height: 100 + '%'}} src={this.state.src} />
-    );
+    if(!this.state.src) {
+      return(
+        <img src='https://www.bcw.edu/cs/groups/images/documents/images/zglu/z19p/~edisp/loading_icon.gif' 
+        className="center-align loading"/>
+      );
+    } else {    
+      return (
+        <img alt="game" className="z-depth-3 responsive-img" style={{width: 100 + '%', height: 100 + '%'}} src={this.state.src} />
+      );
+    }
   }
 }
 
