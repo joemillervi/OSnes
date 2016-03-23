@@ -1,4 +1,5 @@
-
+module.exports = socketServer;
+function socketServer(app){
 var sio = require('socket.io');
 var forwarded = require('forwarded-for');
 var debug = require('debug');
@@ -6,7 +7,7 @@ var debug = require('debug');
 process.title = 'crowdmu-io';
 
 var port = process.env.CROWDMU_PORT || 3001;
-var io = module.exports = sio(port);
+var io = module.exports = sio.listen(app);
 console.log('listening on *:' + port);
 
 var throttle = process.env.CROWDMU_IP_THROTTLE || 100;
@@ -35,9 +36,7 @@ debug('server uid %s', uid);
 // initialize array of user-selected moves and vote count object:
 var moves = [];
 var voteCount = {};
-
-var socketList = [];
-
+var CLIENTS = {};
 // helper function to find the winning vote:
 var mode = function (arr) {
   var counts = {};
@@ -57,8 +56,32 @@ var mode = function (arr) {
 
 io.total = 0;
 io.on('connection', function(socket){
+  console.log('a client connected');
   // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
-  socketList.push(socket);
+  CLIENTS[socket.id] = socket;
+
+  if (Object.keys(CLIENTS).length === 1) {
+    console.log('first streamer')
+    socket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: socket.id})
+    currentStreamerSocket = socket;
+  } else {
+    console.log('server: new peer')
+    currentStreamerSocket.emit('new-peer', socket.id)
+  }
+  // route new peer connection to peer that requested it
+  socket.on('connect-to-peer', function(data) {
+    CLIENTS[data.id].emit('connect-to-streamers-peer', data)
+  });
+
+  socket.on('signal-peer1', function(data) {
+    currentStreamerSocket.emit('signal-peer2', data);
+  })
+
+  socket.on('disconnect', function() {
+    console.log('a user disconnected')
+    delete CLIENTS[socket.id]
+  })
+
   var req = socket.request;
   var ip = forwarded(req, req.headers);
   debug('client ip %s', ip);
@@ -113,16 +136,33 @@ setInterval(function () {
       }
       redis.set('crowdmu:move-last:', Date.now());
       redis.publish('crowdmu:move', keys[winningMove]);
-      socketList.forEach(function (socket) {
-        socket.hasVoted = false;
-      });
+      // socket.emit('move', winningMove, socket.nick); // do we need these?
+      // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
+      for (id in SOCKETS) {
+        SOCKETS[id].hasVoted = false
+      }
       io.sockets.emit('sendVoteCount', {});
       moves = [];
       voteCount = {};
     });
   }
 }, 3000);
-
+// jumbotron show a new person every x seconds
+setInterval(function() {
+  if (currentStreamerSocket && Object.keys(CLIENTS).length > 0) {
+    console.log(Object.keys(CLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
+    var randomSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
+    if (randomSocket.id !== currentStreamerSocket.id) {
+      currentStreamerSocket.emit('stop-streaming')
+      // set new streamer
+      currentStreamerSocket = randomSocket;
+      currentStreamerSocket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: currentStreamerSocket.id})
+    }
+    // for (id in CLIENTS) {
+    //   CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
+    // }
+  }
+}, 6000)
 // sends connections count to everyone
 // by aggregating all servers
 function updateCount(total){
@@ -136,4 +176,5 @@ function broadcast(socket/*, …*/){
   redis.lpush('crowdmu:log', JSON.stringify(args));
   redis.ltrim('crowdmu:log', 0, 20);
   socket.broadcast.emit.apply(socket, args);
+}
 }
