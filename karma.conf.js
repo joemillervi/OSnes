@@ -7,14 +7,15 @@ module.exports = function (config) {
       // Dependencies & libraries
       'chromeApp/lib/jquery-min.js',
       'chromeApp/lib/angular-min.js',
-      'chromeApp/lib/node.js',
+      'chromeApp/lib/angular-mocks.js',
+      // 'chromeApp/lib/node.js',
       'chromeApp/lib/qr-code.js',
-
+      'node_modules/sinon-chrome/dist/sinon-chrome.latest.js',
       // Files to test
-      'chromeApp/app.js',
+      // 'chromeApp/app.js',
 
       // Specs
-      'test/client/angularAppSpec.js'
+      // 'test/client/angularAppSpec.js'
     ],
     exclude: [
       'karma.conf.js'
