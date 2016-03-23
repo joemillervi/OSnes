@@ -50,7 +50,7 @@ class StreamViewer extends Component {
     if(!this.state.src) {
       return(
         <img src='https://www.bcw.edu/cs/groups/images/documents/images/zglu/z19p/~edisp/loading_icon.gif' 
-        className="center-align loading"/>
+        className="loading"/>
       );
 
     // Render emulator
