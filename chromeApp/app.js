@@ -1,12 +1,13 @@
 var app = angular.module('app', ['app.filters']);
 
-//Allows use to use data-ng-src in chrome app
+//Allows us to use data-ng-src in chrome app
 app.config([
   '$compileProvider',
   function ($compileProvider) {
       //  Default imgSrcSanitizationWhitelist: /^\s*((https?|ftp|file|blob):|data:image\/)/
       //  chrome-extension: will be added to the end of the expression
       $compileProvider.imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|blob|chrome-extension):|data:image\/)/);
+
   }
 ]);
 

@@ -12,15 +12,15 @@
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
     <div class="availableGames" id="availableGames">
     <nav>
-      <h2>Find a Game</h2>
+      <h1 class='needAGame'>Need a Game?</h1>
     </nav>
 
       <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
 
     <div>
-      <input class='searchBar' type='text' ng-model='search' placeholder='Search' />
       <div class="btn-group" data-ng-class="{open: open}">
         <button class="btn dropdown-toggle" data-ng-click="open=!open">
+          <span >Filter</span>
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
@@ -44,17 +44,23 @@
             </a>
           </li>
         </ul>
+        <input class='searchBar' type='text' ng-model='search' placeholder='Find it here' />
       </div>
     </div>
 
-
-    <ul class='gamesList'>
-      <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
-        <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
-        <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> <a href="{{game.alternateLink}}">{{game.title}}</a>  {{game.description}}
-        <!-- <span class="date">{{game.console.name}}</span> -->
-      </li>
-    </ul>
+    <div class='games'>
+      <ul class='gamesList'>
+        <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
+          <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> 
+          <a id='gameTitle' href="{{game.link}}" target="_blank">
+            {{game.title}}
+          </a>
+          <div id='gameDescription'>  
+          <!-- {{game.description}} -->
+          </div>  
+        </li>
+      </ul>
+    </div>
 
 
     </div>
@@ -62,7 +68,6 @@
       <input type="file" id="chooser" class="chooser"/>
       <div class="dragtext">
         <h1 id="dragHint1">Have a game already?</h1>
-        <h1 id="dragHint2">Drag it in here to play</h1>
       </div>
     </div>
   </div>
