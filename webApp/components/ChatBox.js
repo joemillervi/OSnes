@@ -5,7 +5,7 @@ class ChatBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [ { msg: 'I\'ma Wario, I\'ma gonna win!', by: 'Wario'}],
+      messages: [ {}],
       joined: false,
       input: '',
       placeholder: 'what\'s your name?',
@@ -25,7 +25,8 @@ class ChatBox extends Component {
     socket.on('connect', () => {
 
       // Render a message telling the user they're connected
-      this.renderMessage('Connected!', 'CrowdMU')
+      var timestamp = new Date();
+      this.renderMessage('Connected!', 'crowdMU', timestamp)
 
       // Check if this is a returning user, if so, join them to the game
       if (window.localStorage && localStorage.nickname) {
@@ -34,21 +35,22 @@ class ChatBox extends Component {
     });
 
     // Start listening for messages
-    socket.on('message',(msg, by) => {
-      this.renderMessage(msg, by) 
+    socket.on('message',(msg, by, timestamp) => {
+      this.renderMessage(msg, by, timestamp) 
     });
   }
 
   // Pass message down to ChatMessage children
-  renderMessage(msg, by) {
+  renderMessage(msg, by, timestamp) {
     var message = {
       msg: msg,
-      by: by
+      by: by,
+      date: timestamp
     }
 
     var messages = this.state.messages
     messages.push(message)
-    messages = messages.slice(-7);
+    messages = messages.slice(-50);
     this.setState({ 
       messages: messages
     });
@@ -77,11 +79,11 @@ class ChatBox extends Component {
     
     //If it is called by someone pressing enter, then run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {  
-      this.handleSumbit(e.target.value.substr(0, 140), this.state.nickname);
+      this.handleSumbit(e.target.value.substr(0, 280), this.state.nickname);
     
     //Update component state
     } else {
-      this.setState({ input: e.target.value.substr(0, 140) });
+      this.setState({ input: e.target.value.substr(0, 280) });
     }
 
   }
@@ -95,8 +97,9 @@ class ChatBox extends Component {
 
     // If joined already, render and emit message, else join the chat
     if (this.state.joined) {
-      this.renderMessage(msg, by)
-      socket.emit('message', msg);
+      var timestamp = new Date();
+      this.renderMessage(msg, by, timestamp)
+      socket.emit('message', msg, timestamp);
     } else {
       this.join(msg);
     }
@@ -109,13 +112,17 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div className="height-60 margin-4">
+      <div className="height-60 grey lighten-4">
         <div>{this.state.joined}</div>
-        <input className="white-text" type="text" placeholder={this.state.placeholder} value={this.state.input} 
-        onChange={this.handleInput} onKeyPress={this.handleInput} />
-        {this.state.messages.map ((message, index) =>
+        <div className="chats">
+          {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} />
-        )}
+          )}
+        </div>
+        <div className="input-field">
+          <input className="black-text .rounded-10" type="text" placeholder={this.state.placeholder} value={this.state.input} 
+          onChange={this.handleInput} onKeyPress={this.handleInput} />
+        </div>
       </div>
     );
   }
