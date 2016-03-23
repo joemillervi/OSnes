@@ -1,4 +1,15 @@
 var app = angular.module('app', ['app.filters']);
+
+//Allows use to use data-ng-src in chrome app
+app.config([
+  '$compileProvider',
+  function ($compileProvider) {
+      //  Default imgSrcSanitizationWhitelist: /^\s*((https?|ftp|file|blob):|data:image\/)/
+      //  chrome-extension: will be added to the end of the expression
+      $compileProvider.imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|blob|chrome-extension):|data:image\/)/);
+  }
+]);
+
 app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
   $scope.ipFound = false;
@@ -64,16 +75,21 @@ app.controller('gameSelection', function($scope) {
   //list of available consoles: used to filter list of games
   $scope.consoleList = [{
     id: 1,
-    name: 'NES'
+    name: 'NES',
+    image: './img/nes.png'
   }, {
     id: 2,
-    name: 'SNES'
+    name: 'SNES',
+    image: './img/snes.png'
   }, {
     id: 3,
-    name: 'GB'
+    name: 'GB',
+    image: './img/gameboy.png'
+
   }, {
     id: 4,
-    name: 'GBA'
+    name: 'GBA',
+    image: './img/gameboyadvanced.png'
   }];
 
   //initialize showing all consoles/games
@@ -104,6 +120,19 @@ app.controller('gameSelection', function($scope) {
       $scope.selectedConsole = _.pluck($scope.consoleList, 'id');
   };
 
+  //
+  $scope.getIcon = function (id) {
+    if(id===1) {
+      return './img/nes.png';
+    } else if (id===2) {
+      return './img/snes.png';
+    } else if (id===3) {
+      return './img/gameboy.png';
+    } else if (id===4) {
+      return './img/gameboyadvanced.png';
+    }
+  }
+
 });
 
 //used as filter in index.html
@@ -120,4 +149,6 @@ angular.module('app.filters', []).filter('consoleFilter', [function () {
     return gamestoShow;
   };
 }]);
+
+
 
