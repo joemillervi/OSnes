@@ -248,6 +248,12 @@ nav {
   margin-bottom: 0px;
 }
 
+/*Chats are rendered in p tags without className. This removes default margin on chats*/
+p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
 .chat-date {
   font-size: 80%;
 }
