@@ -5,7 +5,6 @@ import marked from '../node_modules/marked-for-chat/marked-for-chat.min.js'
 class ChatMessage extends Component {
 
   componentDidMount () {
-
     // Set markdown preferences
     marked.setOptions({
       renderer: new marked.Renderer(),
@@ -38,7 +37,7 @@ class ChatMessage extends Component {
           <b className="left-align black-text no-bottom-margin">{this.props.message.by}  </b>
           <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 chat-date"/>
         </div>
-        <div className="left-algin black-text chat" dangerouslySetInnerHTML={this.rawMarkdown()}/>
+        <div className="left-algin black-text no-bottom-margin" dangerouslySetInnerHTML={this.rawMarkup()}/>
       </div>
     );
   }
