@@ -106,8 +106,6 @@ io.on('connection', function(socket){
 // periodically tally the move votes, perform the move, and then clear the moves array:
 setInterval(function () {
   var winningMove = mode(moves);
-  console.log('winningMove');
-  console.log(winningMove);
   if (winningMove) {
     redis.get('crowdmu:move-last:', function(err, last){
       if (err) {
