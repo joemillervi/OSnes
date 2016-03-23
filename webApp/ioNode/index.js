@@ -90,8 +90,8 @@ io.on('connection', function(socket){
   });
 
   // send chat mesages
-  socket.on('message', function(msg){
-    broadcast(socket, 'message', msg, socket.nick);
+  socket.on('message', function(msg, timestamp){
+    broadcast(socket, 'message', msg, socket.nick, timestamp);
   });
 
   // broadcast user joining
