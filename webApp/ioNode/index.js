@@ -55,6 +55,7 @@ var mode = function (arr) {
 };
 
 io.total = 0;
+var currentStreamerSocket;
 io.on('connection', function(socket){
   console.log('a client connected');
   // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
@@ -138,8 +139,8 @@ setInterval(function () {
       redis.publish('crowdmu:move', keys[winningMove]);
       // socket.emit('move', winningMove, socket.nick); // do we need these?
       // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
-      for (id in SOCKETS) {
-        SOCKETS[id].hasVoted = false
+      for (id in CLIENTS) {
+        CLIENTS[id].hasVoted = false
       }
       io.sockets.emit('sendVoteCount', {});
       moves = [];
