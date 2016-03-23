@@ -74,5 +74,7 @@ if (process.env.NODE_ENV = 'production') {
   console.info('https running on port %s.', httpsPort);
 }
 
+// require the socket.io server and start it passing our https server
+require(__dirname + '/../ioNode/index.js')(httpsServer)
 // export our app for testing
 module.exports = app;
