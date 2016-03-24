@@ -103,7 +103,7 @@ const Chart = React.createClass({
               <g 
                 transform={`translate(${margin},${barHeight*i})`}>
                 <rect 
-                  fill={'white'} 
+                  fill={'#e0e0e0'} 
                   width={labelSpace} 
                   height={barHeight-1}
                  />

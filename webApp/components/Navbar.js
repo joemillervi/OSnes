@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Navbar extends Component {
   render() {
     return (
-      <nav className="signature-color height-10">
+      <nav className="z-depth-3 deep-purple darken-4 height-10">
         <div className="nav-wrapper">
           <a className="brand-logo">crowd<span className="a-little-bigger">MU</span></a>
           <a data-activates="slide-in" className="right button-collapse"><i className="material-icons">menu</i></a>

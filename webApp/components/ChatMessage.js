@@ -1,11 +1,44 @@
 import React, { Component } from 'react';
+import Timeago from '../node_modules/react-timeago/timeago'
+import marked from '../node_modules/marked-for-chat/marked-for-chat.min.js'
 
 class ChatMessage extends Component {
+
+  componentDidMount () {
+
+    // Set markdown preferences
+    marked.setOptions({
+      renderer: new marked.Renderer(),
+      gfm: true,
+      tables: false,
+      breaks: false,
+      pedantic: false,
+      sanitize: true,
+      smartLists: false,
+      smartypants: false
+    });
+  }
+
+  // parse chats for markdown syntax
+  rawMarkdown () {
+      return { __html: marked(this.props.message.msg, {sanitize: true}) };
+  }
+
   render() {
+
+    // If there is no socket connection, don't render chats
+    if (!this.props.message.date) {
+      return (<div></div>)
+    }
+
+    // Render chats
     return (
-      <div className="row no-bottom-margin">
-        <div className="left-algin col s9 push-s3 white-text">{this.props.message.msg}</div>
-        <div className="left-align col s3 pull-s9 white-text">{this.props.message.by}</div>
+      <div className="">
+        <div className="row no-bottom-margin">
+          <b className="left-align black-text no-bottom-margin">{this.props.message.by}  </b>
+          <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 chat-date"/>
+        </div>
+        <div className="left-algin black-text chat" dangerouslySetInnerHTML={this.rawMarkdown()}/>
       </div>
     );
   }
