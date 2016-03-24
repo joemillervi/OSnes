@@ -45,8 +45,8 @@ class GameController extends Component {
 
     // If keypress is not a button we care about, don't emit
     if(!button) return
-
-    this.props.socket.emit('submitMove', button);
+    var timestamp =  new Date()
+    this.props.socket.emit('submitMove', button, timestamp);
   }
 
   render() {
