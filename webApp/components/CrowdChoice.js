@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from './barChart.js'
+import Chart from './Chart.js'
 
 class CrowdChoice extends Component {
   constructor(props) {
