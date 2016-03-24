@@ -96,7 +96,7 @@ class Jumbotron extends Component {
     peers = {}; // clear all peers in case we become the streamer again
   })
 
-return (<video id="video-player" width="400" height="300" autoPlay></video>)
+return (<video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video>)
 }}
 
 export default Jumbotron;
