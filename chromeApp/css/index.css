@@ -86,7 +86,7 @@ html, body, canvas {
   width: 100%;
   background-color: black;
   background-size: cover;
-  background-image: url('../img/wallp1.jpg');
+  /*background-image: url('../img/wallp1.jpg');*/
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -15,8 +15,6 @@
       <h1 class='needAGame'>Need a Game?</h1>
     </nav>
 
-      <!-- <a href="http://gateway.ipfs.io/ipfs/QmeqhHr426TSLZyuEK6xN4fUrF6puuAPV1pHK44SvW2gn2/AIRWOLF.SMC" target="_blank">Click to find games</a> -->
-
     <div>
       <div class="btn-group" data-ng-class="{open: open}">
         <button class="btn dropdown-toggle" data-ng-click="open=!open">
@@ -44,7 +42,7 @@
             </a>
           </li>
         </ul>
-        <input class='searchBar' type='text' ng-model='search' placeholder='Find it here' />
+        <input class='searchBar' type='text' ng-model='search' placeholder='...Find what you need here' />
       </div>
     </div>
 
@@ -88,6 +86,7 @@
 
   <!-- these are the error and loading screens -->
   <div id="loading" class="message screen">
+    <img src="./img/loading.gif" height="40px" width="40px"/>
     <h1>loading ...</h1>
   </div>
   <div id="error" class="message hidden screen">
