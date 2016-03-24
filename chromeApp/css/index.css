@@ -96,9 +96,7 @@ html, body, canvas {
   font-family: dockerOne;
   color: white;
   background-color: #e0a04c;
-  display: flex;
-  flex-direction: column;
-  align-content: flex-end;
+  position: relative;
 }
 
 #loadingGif {
@@ -110,32 +108,25 @@ html, body, canvas {
   margin:auto;
 }
 
-#loadingText {
-  flex: 1;
-}
 
-#loadingText2 {
-  flex: 1;
-  margin-bottom: 20px;
+#loadingText {
+  margin-bottom: 100px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .dragGameHere {
-  /*border-width: 10px;*/
-  /*border-style: dashed;*/
   border: 10px dashed #D3D3D3;
   flex: 1;
-
-
-  /*padding: 0 15px 15px 15px;*/
   overflow: hidden;
   background: gray url(../img/snesconsole2.png) no-repeat center center;
   background-size: 400px 400px, 100%;
 
   display: flex;
   flex-direction: column;
-  /*align-items: ;*/
   justify-content: space-between;
-
 }
 
 #dragHint1 {
@@ -153,25 +144,17 @@ html, body, canvas {
   color: white;
   font-size: 2.2em;
 }
-/*
-#dragText {
-  display: flex;
-  flex-direction: column;
-  background-color: red;
-}*/
 
 .availableGames {
   background-color: transparent;
   flex: 1;
   border-top: 10px solid white;
-
-
-
   padding: 0 15px 15px 15px;
   overflow: hidden;
   background: url(../img/snescartridge.png) no-repeat center center;
   background-size: 270px 215px, 100%;
 }
+
 .gameSelection {
   /*background-color: black;*/
   background-size: cover;
@@ -179,22 +162,22 @@ html, body, canvas {
   display: flex;
   flex-direction: row;
 }
+
 .screen {
   width: 100%;
   height: 100%;
 }
+
 .menu {
   overflow: scroll;
   height: 100%;
   width: 256pt;
   margin: 0 auto;
 }
+
 .hidden {
   display: none;
 }
-/*.hover {
-  border-color: #333;
-}*/
 
 .filterText {
   color: gray;
@@ -207,7 +190,7 @@ html, body, canvas {
 .message {
   text-align: center;
 }
-.message h1, .message p {
+.message p {
   position: relative;
 	top: 50%;
 	transform: translateY(-50%);
@@ -244,7 +227,6 @@ body ::-webkit-scrollbar-corner {
 }
 
 #gameTitle {
-  /*padding-top: 20px;*/
   font-size: 2em;
 }
 
