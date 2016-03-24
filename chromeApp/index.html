@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/index.css">
-  <title>OSnes</title>
   <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
 <body ng-app="app">
@@ -63,17 +62,14 @@
       </ul>
     </div>
 
-
     </div>
     <div class='dragGameHere' id='dragGameHere'>
       <input type="file" id="chooser" class="chooser"/>
-      <!-- <div class="dragtext"> -->
         <h1 id="dragHint1">Have a game?</h1>
         <h1 id="dragHint2">Drag it in here!</h1>
-
-      <!-- </div> -->
     </div>
   </div>
+  
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
     <div id="keyboardSide">
@@ -91,10 +87,8 @@
 
   <!-- these are the error and loading screens -->
   <div id="loading" class="message screen">
-    <img id="loadingGif" src="./img/snesloading.gif" height="400px" width="300px"/>
+    <img id="loadingGif" src="./img/snesloadingfast.gif" height="400px" width="300px"/>
     <h1 id="loadingText">loading ...</h1>
-    <!-- <h1 id="loadingText"></h1> -->
-
   </div>
   <div id="error" class="message hidden screen">
     <h1>error!</h1>

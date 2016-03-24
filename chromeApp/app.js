@@ -18,6 +18,8 @@ app.controller('inputSelection', function($scope) {
   $scope.toggleInputSelectionScreen = function() {
     window.retro.start();
     $scope.inputSelection.hidden = true;
+    inputSelectionScreen = document.getElementById('inputSelectionScreen');
+    inputSelectionScreen.classList.add('hidden');
     $scope.$apply();
   }
 
@@ -85,7 +87,7 @@ app.controller('gameSelection', function($scope) {
     $("#filterButton").css("border-color", "#cccccc");
   });
   
-  
+
 
   
   //list of available consoles: used to filter list of games
