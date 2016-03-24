@@ -8,7 +8,8 @@ import actions from '../redux/actions';
 
 
 // const configURL = "https://osnes.website:3001";
-const configURL = "http://104.236.155.123:3001";
+// const configURL = "http://104.236.155.123:3001";
+const configURL = "http://localhost:3001";
 const socket = io(configURL);
 
 class App extends Component {

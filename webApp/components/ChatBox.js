@@ -26,7 +26,7 @@ class ChatBox extends Component {
 
       // Render a message telling the user they're connected
       var timestamp = new Date();
-      this.renderMessage('Connected!', 'crowdMU', timestamp)
+      this.renderMessage('Connected!', 'crowdMU', timestamp);
 
       // Check if this is a returning user, if so, join them to the game
       if (window.localStorage && localStorage.nickname) {
@@ -36,8 +36,15 @@ class ChatBox extends Component {
 
     // Start listening for messages
     socket.on('message',(msg, by, timestamp) => {
-      this.renderMessage(msg, by, timestamp) 
+      console.log('message heard in ChatBox', msg, by)
+      this.renderMessage(msg, by, timestamp);
     });
+
+    // Start listening for moves
+    socket.on('submitMove', (move, by, timestamp) => {
+      move = 'Pushed ' + move.charAt(0).toUpperCase() + move.slice(1);
+      this.renderMessage(move, by, timestamp);
+    })
   }
 
   // Pass message down to ChatMessage children
@@ -46,7 +53,7 @@ class ChatBox extends Component {
       msg: msg,
       by: by,
       date: timestamp
-    }
+    };
 
     var messages = this.state.messages
     messages.push(message)
