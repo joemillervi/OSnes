@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 
 class Jumbotron extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showVideo: true,
+      outsideStream: null
+    }
+  }
+
+  toggleVideo() {
+    this.setState({showVideo: !this.state.showVideo})
+    if (!this.state.showVideo) {
+      console.log(this.state.showVideo)
+      // wait for DOM render
+      setTimeout(this.connectVideoToStream.bind(this), 1000)
+    };
+  }
+
+  connectVideoToStream() {
+    var video = document.getElementById('video-player')
+    console.log(this.state.outsideStream)
+    video.src = window.URL.createObjectURL(this.state.outsideStream)
+    video.play()
+  }
+
   componentDidMount() {
     navigator.getUserMedia  = navigator.getUserMedia ||
                               navigator.webkitGetUserMedia ||
@@ -22,6 +46,7 @@ class Jumbotron extends Component {
       navigator.getUserMedia({ video: true, audio: false }, (stream) => {
         // make stream global for peers who connect later
         outsideStream = stream;
+        this.setState({outsideStream: stream})
         var video = document.getElementById('video-player')
         video.src = window.URL.createObjectURL(outsideStream)
         // create peer connections wil all sockets and stream to them
@@ -83,24 +108,27 @@ class Jumbotron extends Component {
         })
         peers[data.id].peer.on('stream',  (stream) => {
           // got remote video stream, now let's show it in a video tag
+          this.setState({outsideStream: stream});
           var video = document.getElementById('video-player')
-          console.log('video! stream', stream)
           video.src = window.URL.createObjectURL(stream)
           video.play()
         })
     })
-
     // turn off webcam if not streaming
     this.props.socket.on('stop-streaming', () => {
       console.log('stop-streaming')
       outsideStream.getVideoTracks()[0].stop();
       peers = {}; // clear all peers in case we become the streamer again
     })
-
   }
 
   render() {
-    return (<video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video>)
-  }}
-
+    return (
+      <div>
+        <div onClick={this.toggleVideo.bind(this)}>Toggle Jumbotron</div>
+        {this.state.showVideo ? <video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video> : ''}
+      </div>
+    )
+  }
+}
 export default Jumbotron;
