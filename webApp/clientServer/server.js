@@ -60,14 +60,14 @@ app.get('/screenshot.png', function(req, res, next) {
 });
 
 // start listening to requests
-app.listen(port, function (err) {
+var server = app.listen(port, function (err) {
   if (err) {
     throw err;
   }
   console.log('Server listening on port ', port);
 });
 
-if (process.env.NODE_ENV = 'production') {
+if (process.env.NODE_ENV === 'production') {
   // start https server
   var httpsServer = https.createServer(credentials, app);
   httpsServer.listen(httpsPort);
@@ -75,6 +75,6 @@ if (process.env.NODE_ENV = 'production') {
 }
 
 // require the socket.io server and start it passing our https server
-require(__dirname + '/../ioNode/index.js')(httpsServer)
+require(__dirname + '/../ioNode/index.js')(process.env.NODE_ENV === 'production' ? httpsServer : server)
 // export our app for testing
 module.exports = app;
