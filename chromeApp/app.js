@@ -77,20 +77,16 @@ app.controller('gameSelection', function($scope) {
   $scope.consoleList = [{
     id: 1,
     name: 'NES',
-    image: './img/nes.png'
   }, {
     id: 2,
     name: 'SNES',
-    image: './img/snes.png'
   }, {
     id: 3,
     name: 'GB',
-    image: './img/gameboy.png'
 
   }, {
     id: 4,
     name: 'GBA',
-    image: './img/gameboyadvanced.png'
   }];
 
   //initialize showing all consoles/games
@@ -130,7 +126,7 @@ app.controller('gameSelection', function($scope) {
     } else if (id===3) {
       return './img/gameboy.png';
     } else if (id===4) {
-      return './img/gameboyadvanced.png';
+      return './img/gameboyadvance.png';
     }
   }
 
