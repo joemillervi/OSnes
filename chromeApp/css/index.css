@@ -106,7 +106,7 @@ html, body, canvas {
 
   /*padding: 0 15px 15px 15px;*/
   overflow: hidden;
-  background: gray url(../img/snesconsole.png) no-repeat center center;
+  background: gray url(../img/snesconsolewithtext.png) no-repeat center center;
   background-size: 400px 400px, 100%;
 
 }
@@ -213,8 +213,13 @@ body ::-webkit-scrollbar-corner {
   max-height: calc(100vh - 36px - 69px - 30px);
   overflow: auto;
 }
-.games {
-  /*margin-bottom: 10px*/
+
+#gameTitle {
+  margin-left: 20px;
+  flex: 1;
+  font-family: dockerOne;
+  color: #9767ab;
+  font-size: 1.5em;
 }
 
 .gamesListEntry {
@@ -222,8 +227,11 @@ body ::-webkit-scrollbar-corner {
   border-radius: 3px;
   padding: 5px;
   margin-bottom: 3px;
-  background: -webkit-linear-gradient(right, #eee, rgba(255,255,255,0), #eee);
+  background: -webkit-linear-gradient(right, #f8f8f8, rgba(255,255,255,0), #f8f8f8);
   color: #666666;
+
+  display: flex;
+  align-items: center;
 }
 
 #main > nav {
@@ -237,7 +245,6 @@ body ::-webkit-scrollbar-corner {
 } 
 
 .needAGame {
-  /*display: inline-block;*/
   margin-top: 20px;
   font-family: dockerOne;
   text-align: center;
@@ -246,12 +253,8 @@ body ::-webkit-scrollbar-corner {
 }
 
 .searchBar {
-  /*display: inline-block;*/
   width: calc(50vw - 92px);
   margin-left: -2px;
-  /*border-left: 1px solid gray;*/
-  /*padding-left: 100px;*/
-  /*margin-bottom: 21px;*/
 }
 
 .searchBar {
@@ -277,8 +280,4 @@ nav:hover #close-button {
   font-weight: bold;
   opacity: 0;
   -webkit-transition: all 0.3s ease-in-out;
-}
-
-.date {
-  float: right;
 }
