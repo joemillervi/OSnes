@@ -3,6 +3,7 @@ function socketServer(app){
 var sio = require('socket.io');
 var forwarded = require('forwarded-for');
 var debug = require('debug');
+var redis = require('./redis')();
 
 process.title = 'crowdmu-io';
 
@@ -57,6 +58,11 @@ var mode = function (arr) {
 io.total = 0;
 var currentStreamerSocket;
 io.on('connection', function(socket){
+  // send them the most recent frame of the emulator
+  redis.get('crowdmu:frame', function(err, image) {
+    if (err) console.log(err)
+    else socket.emit('frame', image)
+  });
   console.log('a client connected');
   // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
   CLIENTS[socket.id] = socket;
@@ -71,6 +77,7 @@ io.on('connection', function(socket){
   }
   // route new peer connection to peer that requested it
   socket.on('connect-to-peer', function(data) {
+    console.log('connect-to-peer')
     CLIENTS[data.id].emit('connect-to-streamers-peer', data)
   });
 

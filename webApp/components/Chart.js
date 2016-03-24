@@ -10,7 +10,7 @@ const Chart = React.createClass({
   getInitialState: function() {
     return {
       windowWidth: 0,
-      showBarLabel: false   
+      showBarLabel: false
     }
   },
 
@@ -22,7 +22,7 @@ const Chart = React.createClass({
 
   componentWillUnmount: function() {
     window.removeEventListener('resize', this.handleResize);
-  },  
+  },
 
   handleResize: function(e) {
     if(window.innerWidth > 600) {
@@ -65,34 +65,34 @@ const Chart = React.createClass({
 
   _getBarLabelPosition: function(x, n) {
     if(x(n)<=7) {
-      return n.toString().length>1 ? +12 : +7; //bar chart too short for label to be in it; move it to the right: by 12 if label is a 2 digit number and by 7 if label is a 1 digit number 
+      return n.toString().length>1 ? +12 : +7; //bar chart too short for label to be in it; move it to the right: by 12 if label is a 2 digit number and by 7 if label is a 1 digit number
     } else {
-      return -2 //bar chart is long enough for label to be in it; move left by 2 
+      return -2 //bar chart is long enough for label to be in it; move left by 2
     }
   },
-  
+
   render: function() {
     const data = this.props.data || []
     const width = this.state.windowWidth
     const barHeight = 12;
     const margin = 0;
     const labelSpace = 40;
-    
+
     const x = d3.scale.linear()
                 .domain([0, _.max(data)])
                 .range([0, width-labelSpace-margin])
-    
+
     const colorScaleBar = d3.scale.linear()
                          .domain(data)
                          .range(["#084594","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef","#deebf7", "#f7fbff"])
 
     return (
-      <svg 
-        className="chart csstrans" 
-        width={width} 
+      <svg
+        className="chart csstrans"
+        width={width}
         height={barHeight * data.length}>
         <ReactCSSTransitionGroup
-          transitionName="addBar" 
+          transitionName="addBar"
           component="g"
           transitionEnterTimeout={2000}
           transitionLeaveTimeout={3000}
@@ -100,32 +100,32 @@ const Chart = React.createClass({
         {
           data.map((n, i) => (
             <g key={i}>
-              <g 
+              <g
                 transform={`translate(${margin},${barHeight*i})`}>
-                <rect 
-                  fill={'#e0e0e0'} 
+                <rect
+                  fill={'#e0e0e0'}
                   width={labelSpace} 
                   height={barHeight-1}
                  />
-                <text 
-                  x="30" 
-                  y="9" 
+                <text
+                  x="30"
+                  y="9"
                   dy=".005em"
                   style={{fill:'Black'}}
                 >
                   {this._getButtonLabel(i)}
                 </text>
               </g>
-              <g 
+              <g
                 transform={`translate(${labelSpace},${barHeight*i})`}>
-                <rect 
-                  fill={colorScaleBar(n)} 
-                  width={x(n)} 
+                <rect
+                  fill={colorScaleBar(n)}
+                  width={x(n)}
                   height={barHeight-1}
                  />
-                <text 
-                  x={x(n)+this._getBarLabelPosition(x, n)} 
-                  y="9" 
+                <text
+                  x={x(n)+this._getBarLabelPosition(x, n)}
+                  y="9"
                   dy=".005em"
                   style={{fill:this._getBarLabelColor(x, n)}}
                 >

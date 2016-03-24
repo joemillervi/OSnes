@@ -14,9 +14,7 @@ class StreamViewer extends Component {
   componentDidMount() {
     // start listening for emulator frames
     const { socket } = this.props;
-    console.log('socket', socket);
     socket.on('frame',(data) => {
-      console.log('socket in StreamViewer', socket)
       if (this.state.lastImage && 'undefined' != typeof URL) {
         URL.revokeObjectURL(this.state.lastImage);
       }
