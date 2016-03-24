@@ -84,7 +84,7 @@ html, body, canvas {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: transparent;
   background-size: cover;
   /*background-image: url('../img/wallp1.jpg');*/
   display: flex;
@@ -97,22 +97,37 @@ html, body, canvas {
   color: white;
 }
 
+#loadingGif {
+  min-height:100%;
+  min-width:100%;
+  height:auto;
+  width:auto;
+  position:absolute;
+  top:-100%; bottom:-100%;
+  left:-100%; right:-100%;
+  margin:auto;
+}
+
 .dragGameHere {
   /*border-width: 10px;*/
   /*border-style: dashed;*/
-  border-left: 10px solid gray;
+  border: 10px dashed #D3D3D3;
   flex: 1;
 
 
   /*padding: 0 15px 15px 15px;*/
   overflow: hidden;
-  background: gray url(../img/snesconsolewithtext.png) no-repeat center center;
+  background: gray url(../img/snesconsole2.png) no-repeat center center;
   background-size: 400px 400px, 100%;
+
+  display: flex;
+  flex-direction: column;
+  /*align-items: ;*/
+  justify-content: space-between;
 
 }
 
 #dragHint1 {
-  /*flex:2;*/
   margin-top: 20px;
   font-family: dockerOne;
   text-align: center;
@@ -120,10 +135,24 @@ html, body, canvas {
   font-size: 2.2em;
 }
 
+#dragHint2 {
+  margin-bottom: 20px;
+  font-family: dockerOne;
+  text-align: center;
+  color: white;
+  font-size: 2.2em;
+}
+/*
+#dragText {
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+}*/
+
 .availableGames {
-  background-color: black;
+  background-color: transparent;
   flex: 1;
-  border-right: 10px solid gray;
+  border-top: 10px solid white;
 
 
 
@@ -155,6 +184,10 @@ html, body, canvas {
 /*.hover {
   border-color: #333;
 }*/
+
+.filterText {
+  color: gray;
+}
 .chooser {
   position: fixed;
   top: -1000px;
