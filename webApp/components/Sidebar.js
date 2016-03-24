@@ -5,7 +5,7 @@ import Jumbotron from './Jumbotron';
 class Sidebar extends Component {
   render() {
     return (
-      <div className="col m4 hide-on-small-and-down signature-color height-90">
+      <div className="col s12 m4 signature-color height-90">
         <Jumbotron />
         <ChatBox socket={this.props.socket} />
       </div>

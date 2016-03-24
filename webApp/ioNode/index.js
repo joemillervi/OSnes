@@ -106,13 +106,14 @@ io.on('connection', function(socket){
 // periodically tally the move votes, perform the move, and then clear the moves array:
 setInterval(function () {
   var winningMove = mode(moves);
-  if (moves.length) {
+  if (winningMove) {
     redis.get('crowdmu:move-last:', function(err, last){
+      if (err) {
+        throw err;
+      }
       redis.set('crowdmu:move-last:', Date.now());
       redis.publish('crowdmu:move', keys[winningMove]);
-      // socket.emit('move', winningMove, socket.nick); // do we need these?
-      // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
-      socketList.forEach(function (socket) { // can we do io.sockets.forEach instead?
+      socketList.forEach(function (socket) {
         socket.hasVoted = false;
       });
       io.sockets.emit('sendVoteCount', {});

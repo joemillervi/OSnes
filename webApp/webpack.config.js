@@ -1,8 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
 
+var PROD = JSON.parse(process.env.PROD_ENV || '0');
+
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: PROD ? 'inline-source-map' : null,
   entry: [
     'webpack-hot-middleware/client',
     './client/client.js'
@@ -15,14 +17,22 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({minimize: true})
   ],
   module: {
     loaders: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          /clientServerExample/,
+          /emulatorNode/,
+          /ioNode/,
+          /presenceNode/,
+          /clientServer/
+        ],
         query: {
           presets: [
             'react',

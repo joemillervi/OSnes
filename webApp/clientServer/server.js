@@ -12,8 +12,8 @@ process.title = 'crowdmu-web';
 
 var compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
-app.use(webpackHotMiddleWare(compiler));
+// app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+// app.use(webpackHotMiddleWare(compiler));
 app.use(bodyParser.json());
 app.use(express.static('./dist'));
 
