@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import Timeago from '../node_modules/react-timeago/timeago'
 import marked from '../node_modules/marked-for-chat/marked-for-chat.min.js'
 
@@ -16,6 +17,10 @@ class ChatMessage extends Component {
       smartLists: false,
       smartypants: false
     });
+
+    // Scroll new chats into view
+    var node = ReactDom.findDOMNode(this);
+    node.scrollIntoView();
   }
 
   // parse chats for markdown syntax
@@ -32,7 +37,7 @@ class ChatMessage extends Component {
 
     // Render chats
     return (
-      <div className="">
+      <div>
         <div className="row no-bottom-margin">
           <b className="left-align black-text no-bottom-margin">{this.props.message.by}  </b>
           <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 chat-date"/>
