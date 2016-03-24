@@ -71,6 +71,7 @@ io.on('connection', function(socket){
   }
   // route new peer connection to peer that requested it
   socket.on('connect-to-peer', function(data) {
+    console.log('connect-to-peer')
     CLIENTS[data.id].emit('connect-to-streamers-peer', data)
   });
 
