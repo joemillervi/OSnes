@@ -5,8 +5,9 @@
   "main": "client/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon clientServer/server.js --ignore components",
     "build": "webpack --config webpack.config.js",
-    "start": "nodemon clientServer/server.js --ignore components"
+    "buildP": "webpack --config webpackProduction.config.js"
   },
   "author": "",
   "license": "ISC",
