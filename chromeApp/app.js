@@ -72,6 +72,21 @@ app.controller('gameSelection', function($scope) {
     $scope.$apply();
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
+
+  document.getElementById('searchBar').addEventListener('focusin', function() {
+    $("#searchBar").css("border-color", "#9767ab");
+    $("#filterButton").css("border-left-color", "#9767ab");
+    $("#filterButton").css("border-top-color", "#9767ab");
+    $("#filterButton").css("border-bottom-color", "#9767ab");
+  });
+
+  document.getElementById('searchBar').addEventListener('focusout', function() {
+    $("#searchBar").css("border-color", "#cccccc");
+    $("#filterButton").css("border-color", "#cccccc");
+  });
+  
+  
+
   
   //list of available consoles: used to filter list of games
   $scope.consoleList = [{
