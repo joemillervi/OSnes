@@ -105,7 +105,7 @@ var gamesList = [
     }
   }, {
     title: 'A Gameboy Game', 
-    description: 'zzzzzzz description',
+    description: 'zzzzzzz some description',
     link: 'http://gateway.ipfs.io/ipfs/QmTuSzxDwpPBFkgiFm1pUsv1hFCQZHGofsdTp712Z4nC91/AIRWOLF.SMC',
     console: {
       id: 4,
@@ -113,7 +113,7 @@ var gamesList = [
     }
   }, {
     title: 'A NES Game', 
-    description: 'zzzzzzz description',
+    description: 'zzzzzzz some description',
     link: 'http://gateway.ipfs.io/ipfs/QmTuSzxDwpPBFkgiFm1pUsv1hFCQZHGofsdTp712Z4nC91/AIRWOLF.SMC',
     console: {
       id: 1,
@@ -121,7 +121,7 @@ var gamesList = [
     }
   }, {
     title: 'A Gameboy Advance Game', 
-    description: 'zzzzzzz description',
+    description: 'zzzzzzz some description',
     link: 'http://gateway.ipfs.io/ipfs/QmTuSzxDwpPBFkgiFm1pUsv1hFCQZHGofsdTp712Z4nC91/AIRWOLF.SMC',
     console: {
       id: 3,
