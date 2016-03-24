@@ -110,7 +110,7 @@ io.on('connection', function(socket){
   });
 
   // populate the moves array when users cast their move vote:
-  socket.on('submitMove', function (key) {
+  socket.on('submitMove', function (key, timestamp) {
     if (socket.hasVoted) {
       return;
     }
@@ -118,6 +118,9 @@ io.on('connection', function(socket){
     voteCount[key] = (voteCount[key]) ? (voteCount[key] + 1) : 1;
     io.sockets.emit('sendVoteCount', voteCount);
     socket.hasVoted = true;
+
+    // broadcast all moves so they can be rendered in chat
+    broadcast(socket, 'submitMove', key, socket.nick, timestamp)
   });
 
   // send chat mesages
