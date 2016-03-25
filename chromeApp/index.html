@@ -7,6 +7,16 @@
   <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
 <body ng-app="app" >
+  <!-- these are the error and loading screens -->
+  <div id="loading" class="message screen">
+    <img id="loadingGif" src="./img/snesloadingfastcropped.gif" height="330px" width="158px"/>
+    <h1 id="loadingText">loading ...</h1>
+  </div>
+  <div id="error" class="message hidden screen">
+    <h1>error!</h1>
+    <p>quit and reopen to try again</p>
+  </div>
+
   <!-- this is the game selection screen -->
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
     <div class="availableGames" id="availableGames">
@@ -14,36 +24,34 @@
       <h1 class='needAGame'>Need a Game?</h1>
     </nav>
 
-    <!-- <div> -->
-      <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
-        <button class="btn dropdown-toggle" data-ng-click="open=!open" id='filterButton'>
-          <span class='filterText' >Filter</span>
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-          <li>
-            <a data-ng-click="checkAll()">
-              <i class="icon-ok-sign"></i>
-              Check All
-            </a>
-          </li>
-          <li>
-            <a data-ng-click="selectedConsole=[];">
-              <i class="icon-remove-sign"></i>
-              Uncheck All
-            </a>
-          </li>
-          <li class="divider"></li>
-          <li data-ng-repeat="console in consoleList"> 
-            <a data-ng-click="setSelectedConsole()">
-              {{console.name}}
-              <span data-ng-class="isChecked(console.id)"></span>
-            </a>
-          </li>
-        </ul>
-        <input class='searchBar' type='text' ng-model='search' placeholder='Find what you need here!' id='searchBar'/>
-      </div>
-    <!-- </div> -->
+    <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
+      <button class="btn dropdown-toggle" data-ng-click="open=!open" id='filterButton'>
+        <span class='filterText' >Filter</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+        <li>
+          <a data-ng-click="checkAll()">
+            <i class="icon-ok-sign"></i>
+            Check All
+          </a>
+        </li>
+        <li>
+          <a data-ng-click="selectedConsole=[];">
+            <i class="icon-remove-sign"></i>
+            Uncheck All
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li data-ng-repeat="console in consoleList"> 
+          <a data-ng-click="setSelectedConsole()">
+            {{console.name}}
+            <span data-ng-class="isChecked(console.id)"></span>
+          </a>
+        </li>
+      </ul>
+      <input class='searchBar' type='text' ng-model='search' placeholder='Find what you need here!' id='searchBar'/>
+    </div>
 
     <div class='games' ng-cloak>
       <ul class='gamesList'>
@@ -53,7 +61,7 @@
             {{game.title}}
           </a>
           <div id='gameDescription'>  
-            {{game.description}}
+            <!-- {{game.description}} -->
           </div>  
           <div>
             <img src="./img/infoicongray.png" id="infoButton" height="20px" width="20px"/>
@@ -73,27 +81,25 @@
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
     <div id="keyboardSide">
-      <div id='keyboardTitle'></div>
       <div id="keyboardIcon"></div>
-      <div id="keyboardInstructions"></div>
+      <div id='keyboardTitle'>Keyboard</div>
+      <div id='keyboardDescription'>Desktop Only</div>
+
+      <!-- <img src="./img/desktopicon.png"> -->
+      <!-- <div id="keyboardInstructions"></div> -->
     </div>
-    <div id="qrSide">
-      <div id='qrTitle'></div>
-      <div id="qrCode"></div>
-      <div id="qrInstructions"></div>
+    <div id="mobileSide">
+      <div id="mobileIcon"></div>
+      <div id='mobileTitle'>Mobile Phone</div>
+      <div id='mobileDescription'>Desktop + Phone</div>
+
+
+      <!-- <div id="qrCode"></div> -->
+      <!-- <div id="qrInstructions"></div> -->
     </div>
   </div>
 
 
-  <!-- these are the error and loading screens -->
-  <div id="loading" class="message screen">
-    <img id="loadingGif" src="./img/snesloadingfastcropped.gif" height="330px" width="158px"/>
-    <h1 id="loadingText">loading ...</h1>
-  </div>
-  <div id="error" class="message hidden screen">
-    <h1>error!</h1>
-    <p>quit and reopen to try again</p>
-  </div>
 
   <!-- this is the overlay screen that appears on right click: pauses game and shows options -->
   <div id="overlay" class="overlay"></div>

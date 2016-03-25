@@ -43,15 +43,15 @@ app.controller('inputSelection', function($scope) {
 
         if($scope.ipFound === false) {
           //QR code takes a while to render but we want everything to show up together so we use jQuery to make the rest of the screen show when QR is ready
-          $("#qrTitle").text("Play on Mobile");
-          $("#qrCode").css("border-color", "white");
-          $("#qrInstructions").text("Scan QR");
+          // $("#qrTitle").text("Play on Mobile");
+          // $("#qrCode").css("border-color", "white");
+          // $("#qrInstructions").text("Scan QR");
 
-          $("#keyboardTitle").text("Play on Desktop");
-          $("#keyboardIcon").css("border-color", "white");
-          $("#keyboardInstructions").text("Click keyboard");
-          $("#keyboardIcon").css("background-color", 'black');
-          $("#keyboardIcon").css("background-image", 'url(' + '../img/keyboard.png' + ')');
+          // $("#keyboardTitle").text("Play on Desktop");
+          // $("#keyboardIcon").css("border-color", "white");
+          // $("#keyboardInstructions").text("Click keyboard");
+          // $("#keyboardIcon").css("background-color", 'black');
+          // $("#keyboardIcon").css("background-image", 'url(' + '../img/desktopicon.png' + ')');
           new QRCode(document.getElementById('qrCode'), toQ);
         }
 
