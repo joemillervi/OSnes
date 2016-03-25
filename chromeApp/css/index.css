@@ -20,21 +20,35 @@ html, body, canvas {
   background-color: blue;
 }
 
-#qrSide {
+#mobileSide {
+  height: 100%;
+  width: 100%;
+
+  flex: 1;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-right: 15%;
+  background-color: white;
+
 }
-#qrTitle {
+#mobileTitle {
   text-align: center;
-  margin-top: 12.5%;
+  margin-top: 2.5%;
+  margin-left: 15%;
   font-family: dockerOne;
-  color: white;
-  font-size: 2.8em;
+  color: black;
+  font-size: 2em;
 }
-#qrInstructions {
+#mobileDescription {
+  text-align: center;
+  margin-top: 2.5%;
+  margin-left: 15%;
+  font-family: dockerOne;
+  color: black;
+  font-size: 1.5em;
+}
+/*#qrInstructions {
   text-align: center;
   margin-top: 12.5%;
   font-family: dockerOne;
@@ -45,48 +59,71 @@ html, body, canvas {
   border: thick solid transparent;
   margin-top:10%;
   width: 255px;
-}
+}*/
 
 #keyboardSide {
+  height: 100%;
+  width: 100%;
+  flex: 1;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-left: 15%;
+  background-color: black;
 }
 #keyboardTitle {
   text-align: center;
-  margin-top: 12.5%;
+  margin-top: 2.5%;
+  margin-right: 15%;
   font-family: dockerOne;
   color: white;
-  font-size: 2.8em;
+  font-size: 2em;
 }
-#keyboardInstructions {
+#keyboardDescription {
+  text-align: center;
+  margin-top: 2.5%;
+  margin-right: 15%;
+  font-family: dockerOne;
+  color: white;
+  font-size: 1.5em;
+}
+/*#keyboardInstructions {
   text-align: center;
   margin-top: 12.5%;
   font-family: dockerOne;
   color: white;
   font-size: 2.2em;
-}
+}*/
 #keyboardIcon {
-  border: thick solid transparent;
-  margin-top:10%;
+  /*margin-top:10%;*/
+  margin-right: 15%;
   width: 255px;
-  height:256px;
-  background-color: transparent; /* we don't give the image a black background until the QR code is ready; they should appear at the same time*/
-  background-size: 255px 84px;
+  height:255px;
+  background-color: transparent;
+  background-size: 255px 255px;
   background-repeat: no-repeat;
   background-position: center; 
-  /*background-image: url('keyboard.png'); we don't render the image until the QR code is ready; they should appear at the same time*/ 
+  background-image: url('../img/desktopicon.png'); 
+}
+
+#mobileIcon {
+  /*margin-top:10%;*/
+  margin-left: 15%;
+  width: 255px;
+  height:255px;
+  background-color: transparent; 
+  background-size: 255px 255px;
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-image: url('../img/desktopwithmobileicon.png'); 
 }
 
 #inputSelectionScreen {
-  position: fixed;
+  position: absolute;
   height: 100%;
   width: 100%;
-  background-color: transparent;
+  background-color: green;
   background-size: cover;
-  /*background-image: url('../img/wallp1.jpg');*/
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -156,9 +193,7 @@ html, body, canvas {
 }
 
 .gameSelection {
-  /*background-color: black;*/
   background-size: cover;
-  /*background-image: url('../img/wallp1.jpg');*/
   display: flex;
   flex-direction: row;
 }
