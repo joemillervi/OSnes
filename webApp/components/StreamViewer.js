@@ -21,11 +21,7 @@ class StreamViewer extends Component {
 
       // convert frame into image
       var src = this.blobToImage(data);
-<<<<<<< 16ab1c1f1f405e1f8253887738593a95d3ac3102
 
-=======
-      
->>>>>>> add comments to StreamViewer
       // update component img tag with src
       this.setState({
         src: src,
