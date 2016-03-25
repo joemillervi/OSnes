@@ -4,7 +4,8 @@ class DPad extends Component {
 
   // sendButtonClick(button: string): void
   sendButtonClick(button) {
-    this.props.socket.emit('submitMove', button);
+    var timestamp = new Date();
+    this.props.socket.emit('submitMove', button, timestamp);
   }
 
   render() {

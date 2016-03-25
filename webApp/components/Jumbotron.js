@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Video from './Video'
 
 class Jumbotron extends Component {
   constructor(props) {
@@ -11,17 +12,12 @@ class Jumbotron extends Component {
 
   toggleVideo() {
     this.setState({showVideo: !this.state.showVideo})
-    if (!this.state.showVideo) {
-      console.log(this.state.showVideo)
-      // wait for DOM render
-      setTimeout(this.connectVideoToStream.bind(this), 1000)
-    };
   }
 
   connectVideoToStream() {
     var video = document.getElementById('video-player')
     console.log(this.state.outsideStream)
-    video.src = window.URL.createObjectURL(this.state.outsideStream)
+    if (this.state.outsideStream) video.src = window.URL.createObjectURL(this.state.outsideStream)
     video.play()
   }
 
@@ -85,7 +81,6 @@ class Jumbotron extends Component {
     this.props.socket.on('signal-peer2', (data) => {
       console.log('signal peer 2', data.id)
       console.log(peers[data.id].peer)
-      // peers[data.id] = {};
       peers[data.id].peer.signal(data.SDP);
     })
 
@@ -126,7 +121,7 @@ class Jumbotron extends Component {
     return (
       <div>
         <div onClick={this.toggleVideo.bind(this)}>Toggle Jumbotron</div>
-        {this.state.showVideo ? <video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video> : ''}
+        {this.state.showVideo ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)}/>: ''}
       </div>
     )
   }
