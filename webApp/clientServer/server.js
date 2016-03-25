@@ -34,8 +34,15 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(webpackHotMiddleWare(compiler));
 }
 
+<<<<<<< HEAD
 app.use(bodyParser.json());
 app.use(express.static('./../dist'));
+=======
+app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+app.use(webpackHotMiddleWare(compiler));
+app.use(bodyParser.json());
+app.use(express.static('../dist'));
+>>>>>>> Configuration
 
 
 var url = process.env.CROWDMU_IO_URL || 'http://localhost:3001';
