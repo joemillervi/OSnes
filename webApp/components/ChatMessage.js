@@ -8,43 +8,72 @@ class ChatMessage extends Component {
   componentDidMount () {
     // Set markdown preferences
     marked.setOptions({
+      sanitize: true,
       renderer: new marked.Renderer(),
       gfm: true,
       tables: false,
       breaks: false,
       pedantic: false,
-      sanitize: true,
       smartLists: false,
       smartypants: false
     });
 
-    // Scroll new chats into view
+    // Scroll to the bottom on each new message
     var node = ReactDom.findDOMNode(this);
-    node.scrollIntoView();
+    node.scrollIntoView(false);
   }
 
-  // parse chats for markdown syntax
+
   rawMarkdown () {
-      return { __html: marked(this.props.message.msg, {sanitize: true}) };
+    // parse chats for markdown syntax
+    return { __html: marked(this.props.message.msg, {sanitize: true}) };
   }
 
-  render() {
-
-    // If there is no socket connection, don't render chats
-    if (!this.props.message.date) {
-      return (<div></div>)
-    }
-
-    // Render chats
+  renderChat() {
     return (
       <div>
         <div className="row no-bottom-margin">
-          <b className="left-align black-text no-bottom-margin">{this.props.message.by}  </b>
-          <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 chat-date"/>
+          <b className="left-align black-text">{this.props.message.by}  </b>
+          <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 message-timestamp"/>
         </div>
-        <div className="left-algin black-text chat" dangerouslySetInnerHTML={this.rawMarkdown()}/>
+        <div className="left-algin black-text" dangerouslySetInnerHTML={this.rawMarkdown()}/>
       </div>
     );
+  }
+
+  renderMove() {
+    console.log('renderMove', this.props.message.msg)
+    return (
+      <div>
+        <div className="row no-bottom-margin">
+          <b className="left-align black-text">{this.props.message.by}  </b>
+          <b className="left-algin move">{this.props.message.msg}  </b>
+          <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 message-timestamp"/>
+        </div>
+      </div>
+    );
+  }
+
+
+  render() {
+    // If there is no socket connection, don't try to render messages
+    if (!this.props.message.date) {
+      return (<div></div>);
+    }
+
+    // If message is a chat, render as a chat
+    if(this.props.message.isChat) {
+      return this.renderChat();
+    }
+
+    // If message is a move and moves are toggled to display, render move
+    if(!this.props.message.isChat && this.props.renderMoves) {
+      return this.renderMove();
+
+    // Don't render move because they're toggled to not display
+    } else {
+      return (<div></div>);
+    }
   }
 }
 
