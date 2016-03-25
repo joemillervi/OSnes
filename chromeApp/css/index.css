@@ -29,7 +29,8 @@ html, body, canvas {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color: transparent;
+  /*-webkit-filter: blur(5px);*/
 
 }
 #mobileTitle {
@@ -37,15 +38,16 @@ html, body, canvas {
   margin-top: 2.5%;
   margin-left: 15%;
   font-family: dockerOne;
-  color: black;
+  color: #353632;
   font-size: 2em;
 }
+
 #mobileDescription {
   text-align: center;
   margin-top: 2.5%;
   margin-left: 15%;
   font-family: dockerOne;
-  color: black;
+  color: #353632;
   font-size: 1.5em;
 }
 /*#qrInstructions {
@@ -69,14 +71,14 @@ html, body, canvas {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: black;
+  background-color: transparent;
 }
 #keyboardTitle {
   text-align: center;
   margin-top: 2.5%;
   margin-right: 15%;
   font-family: dockerOne;
-  color: white;
+  color: #353632;
   font-size: 2em;
 }
 #keyboardDescription {
@@ -84,7 +86,7 @@ html, body, canvas {
   margin-top: 2.5%;
   margin-right: 15%;
   font-family: dockerOne;
-  color: white;
+  color: #353632;
   font-size: 1.5em;
 }
 /*#keyboardInstructions {
@@ -96,38 +98,42 @@ html, body, canvas {
 }*/
 #keyboardIcon {
   /*margin-top:10%;*/
+  margin-top: -100px;
   margin-right: 15%;
-  width: 255px;
-  height:255px;
+  width: 150px;
+  height:150px;
   background-color: transparent;
-  background-size: 255px 255px;
+  background-size: 150px 150px;
   background-repeat: no-repeat;
   background-position: center; 
-  background-image: url('../img/desktopicon.png'); 
+  background-image: url('../img/desktopicondark.png'); 
 }
 
 #mobileIcon {
-  /*margin-top:10%;*/
+  margin-top: -100px;
   margin-left: 15%;
-  width: 255px;
-  height:255px;
+  width: 150px;
+  height:150px;
   background-color: transparent; 
-  background-size: 255px 255px;
+  background-size: 150px 150px;
   background-repeat: no-repeat;
   background-position: center; 
-  background-image: url('../img/desktopwithmobileicon.png'); 
+  background-image: url('../img/desktopwithmobileicondark.png'); 
 }
 
 #inputSelectionScreen {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: green;
   background-size: cover;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-image: url('../img/snescontrollerwallpapercord.png');
+  /*-webkit-backdrop-filter: blur(10px);*/
+  /*-webkit-backdrop-filter: blur(2px);*/
+  /*filter: blur(20px);*/
 }
 #loading {
   font-family: dockerOne;
