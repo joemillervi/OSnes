@@ -143,10 +143,21 @@ class ChatBox extends Component {
           <ChatMessage message={message} key={index} renderMoves={this.state.renderMoves} />
           )}
         </div>
-        <div className="input-field row no-bottom-margin">
-          <input className="col s8 m9 l10 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} value={this.state.input} 
+        <div className="input-field grey lighten-4 row no-bottom-margin card">
+          <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} value={this.state.input} 
           onChange={this.handleInput} onKeyPress={this.handleInput} />
-          <Toggle className="col s4 m3 l2 valign-wrapper" defaultChecked={this.state.renderMoves} onChange={this.handleToggle}/>
+          <Toggle className="right col s4 m3 l2 valign-wrapper" defaultChecked={this.state.renderMoves} onChange={this.handleToggle}/>
+          <div className="right col s1 m1 l1 card-title activator" style={{paddingLeft: '0px', transform: 'translateY(20%)'}}>
+            <i className="material-icons">more_vert</i>
+          </div>
+          <div className="card-reveal grey lighten-4">
+            <span className="card-title"><i className="material-icons right">close</i></span>
+            <p>*italic*, **bold**, **_combined_**, ~~strikethrough~~</p>
+            <p>[link](https://www.google.com)</p>
+            <p>![image](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)</p>
+            <p>[![video](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)</p>
+            <p>[![video](http://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](http://www.youtube.com/watch?v=dQw4w9WgXcQ)</p>
+          </div>
         </div>
       </div>
     );
