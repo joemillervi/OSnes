@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import ChatMessage from './ChatMessage';
+import Toggle from 'react-toggle';
 
 class ChatBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [ {}],
+      messages: [{}],
       joined: false,
       input: '',
       placeholder: 'what\'s your name?',
-      nickname: null
+      nickname: null,
+      renderMoves: true
     };
 
     this.join = this.join.bind(this)
     this.renderMessage = this.renderMessage.bind(this)
     this.handleInput = this.handleInput.bind(this)
     this.handleSumbit = this.handleSumbit.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
   componentDidMount() {
@@ -26,7 +29,7 @@ class ChatBox extends Component {
 
       // Render a message telling the user they're connected
       var timestamp = new Date();
-      this.renderMessage('Connected!', 'crowdMU', timestamp);
+      this.renderMessage('Connected!', 'crowdMU', timestamp, true);
 
       // Check if this is a returning user, if so, join them to the game
       if (window.localStorage && localStorage.nickname) {
@@ -34,30 +37,37 @@ class ChatBox extends Component {
       }
     });
 
-    // Start listening for messages
+    // Start listening for chats
     socket.on('message',(msg, by, timestamp) => {
-      console.log('message heard in ChatBox', msg, by)
-      this.renderMessage(msg, by, timestamp);
+
+      // Render all incoming chats as messages
+      this.renderMessage(msg, by, timestamp, true);
     });
 
     // Start listening for moves
     socket.on('submitMove', (move, by, timestamp) => {
       move = 'Pushed ' + move.charAt(0).toUpperCase() + move.slice(1);
-      this.renderMessage(move, by, timestamp);
+
+      // render moves as messages
+      this.renderMessage(move, by, timestamp, false);
     })
+
   }
 
-  // Pass message down to ChatMessage children
-  renderMessage(msg, by, timestamp) {
+  // Pass message down to ChatMessage component. Message is either a chat or move
+  renderMessage(msg, by, timestamp, isTrue) {
     var message = {
       msg: msg,
       by: by,
-      date: timestamp
+      date: timestamp,
+      isChat: isTrue
     };
 
     var messages = this.state.messages
     messages.push(message)
-    messages = messages.slice(-50);
+
+    // Only keep most recent 200 messages (chats and moves)
+    messages = messages.slice(-200);
     this.setState({ 
       messages: messages
     });
@@ -84,11 +94,11 @@ class ChatBox extends Component {
 
   handleInput(e) {
     
-    //If it is called by someone pressing enter, then run the submit handler
+    // If someone presses 'enter' on input box, run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {  
       this.handleSumbit(e.target.value.substr(0, 280), this.state.nickname);
     
-    //Update component state
+    // Else update input state
     } else {
       this.setState({ input: e.target.value.substr(0, 280) });
     }
@@ -102,33 +112,41 @@ class ChatBox extends Component {
     if (msg === '' ) return;
     
 
-    // If joined already, render and emit message, else join the chat
+    // If joined already, render and emit message
     if (this.state.joined) {
       var timestamp = new Date();
-      this.renderMessage(msg, by, timestamp)
+      this.renderMessage(msg, by, timestamp, true)
       socket.emit('message', msg, timestamp);
+
+    // else join the chat
     } else {
       this.join(msg);
     }
 
-    // Set input to null
+    // After emitting message, reset input to null
     this.setState({ input: '' }, ()=>{
     })
 
   }
 
+  handleToggle (e) {
+    this.setState({
+      renderMoves: !this.state.renderMoves
+    })
+  }
+
   render() {
     return (
       <div className="height-60 grey lighten-4">
-        <div>{this.state.joined}</div>
-        <div className="chats">
+        <div className="messages">
           {this.state.messages.map ((message, index) =>
-          <ChatMessage message={message} key={index} />
+          <ChatMessage message={message} key={index} renderMoves={this.state.renderMoves} />
           )}
         </div>
-        <div className="input-field">
-          <input className="black-text .rounded-10" type="text" placeholder={this.state.placeholder} value={this.state.input} 
+        <div className="input-field row no-bottom-margin">
+          <input className="col s8 m9 l10 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} value={this.state.input} 
           onChange={this.handleInput} onKeyPress={this.handleInput} />
+          <Toggle className="col s4 m3 l2 valign-wrapper" defaultChecked={this.state.renderMoves} onChange={this.handleToggle}/>
         </div>
       </div>
     );
