@@ -90,7 +90,7 @@ var gamesList = [
   }, {
     title: 'Snakeblaster', 
     description: 'A Space Invaders style game in which you try to shoot down snakes that are bouncing around the screen. There are a few annoying sound bytes, but it is mostly devoid of sound. This is a beta version and you can skip to higher levels by using the Select button.',
-    link: 'http://gateway.ipfs.io/ipfs/QmTuSzxDwpPBFkgiFm1pUsv1hFCQZHGofsdTp712Z4nC91/Snakeblaster.smc',
+    link: 'http://gateway.ipfs.io/ipfs/QmTuSzxDwpPBFkgiFm1pUsv1hFCQZHGofsdTp712Z4nC91/SnakeBlaster.smc',
     console: {
       id: 2,
       name: 'SNES'

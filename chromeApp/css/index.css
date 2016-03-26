@@ -135,6 +135,40 @@ html, body, canvas {
   /*-webkit-backdrop-filter: blur(2px);*/
   /*filter: blur(20px);*/
 }
+
+#chooseYourControllerText1 {
+  background-color: transparent;
+  text-align: center;
+  white-space: pre;
+  color: #5b3980;
+  /*width:100%;*/
+  /*width: 400px;*/
+  height: 100px;
+  line-height: 40px;
+  position:absolute;
+  left: 0;
+  right: 0;
+  margin: 2.5% 5% 5%;
+  padding-right: 115px;
+
+  font-family: dockerOne;
+  /*color: #353632;*/
+  font-size: 3em;
+}
+/*
+#chooseYourControllerText2 {
+  background-color: blue;
+  width:700px;
+  height:100px;
+  position:absolute;
+  left: 0;
+  right: 0;
+  margin: 2.5% auto;
+  font-family: dockerOne;
+  color: #353632;
+  font-size: 3em;
+}*/
+
 #loading {
   font-family: dockerOne;
   color: white;
@@ -267,9 +301,9 @@ body ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-#gameTitle {
+/*#gameTitle {
   font-size: 2em;
-}
+}*/
 
 #gameDescription {
   color: black;
