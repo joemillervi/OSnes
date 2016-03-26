@@ -64,14 +64,6 @@ var gamesList = [
       name: 'SNES'
     }
   }, {
-    title: 'Rockfall', 
-    description: 'Remember Dig Dug? This will bring it all back to you if you\'ve forgotten. Nice graphics and very enjoyable.. worth a look!',
-    link: 'http://gateway.ipfs.io/ipfs/QmWSHrqWHjmbzyPNKqzurC26sjAeUF3kqgQf4UwskCLWpk/ROCKFALL.zip',
-    console: {
-      id: 2,
-      name: 'SNES'
-    }
-  }, {
     title: 'Shoot', 
     description: 'A simple game in which you try to shoot as many enemies as possible in the allotted time. It has basic sound effects as well.',
     link: 'http://gateway.ipfs.io/ipfs/QmWSHrqWHjmbzyPNKqzurC26sjAeUF3kqgQf4UwskCLWpk/Shoot.zip',
