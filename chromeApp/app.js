@@ -28,7 +28,25 @@ app.controller('inputSelection', function($scope) {
     console.log('da event triggurd: ', e);
   });
 
+
+  //Handle Keyboard Icon 
   document.getElementById('keyboardIcon').addEventListener('click', window.toggleInputSelectionScreen);
+  document.getElementById('keyboardIcon').addEventListener('mouseover', function() {
+    $("#keyboardIcon").css('background-image', 'url(' + '../img/desktopiconhighlight.png' + ')');
+  });
+  document.getElementById('keyboardIcon').addEventListener('mouseout', function() {
+    $("#keyboardIcon").css('background-image', 'url(' + '../img/desktopicondark.png' + ')');
+  });
+
+  //Handle Mobile Icon
+  document.getElementById('mobileIcon').addEventListener('click', function () {}); //todo: fill this out
+  document.getElementById('mobileIcon').addEventListener('mouseover', function() {
+    $("#mobileIcon").css('background-image', 'url(' + '../img/desktopwithmobileiconhighlight.png' + ')');
+  });
+  document.getElementById('mobileIcon').addEventListener('mouseout', function() {
+    $("#mobileIcon").css('background-image', 'url(' + '../img/desktopwithmobileicondark.png' + ')');
+  });
+
 
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
@@ -86,16 +104,17 @@ app.controller('gameSelection', function($scope, $http) {
   });
   
   //Fetches ROM data from ipfs, converts to readable method for emulator, loads in the ROM
+  var loadingLong = document.getElementById('loadingLong');
   $scope.getRom = function (game) {
     console.log('game', game);
-    loading.classList.remove('hidden');
+    loadingLong.classList.remove('hidden');
     return $http({
       method: 'GET',
       url: game.link,
       responseType: 'arraybuffer'
     }).then(function successCallback(response) {
         window.loadData(game.link.split("/")[5], new Uint8Array(response.data));
-        loading.classList.add('hidden');
+        loadingLong.classList.add('hidden');
 
       }, function errorCallback(response) {
         console.log('failuuuure', response);

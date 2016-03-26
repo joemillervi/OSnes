@@ -140,7 +140,7 @@ html, body, canvas {
   background-color: transparent;
   text-align: center;
   white-space: pre;
-  color: #5b3980;
+  color: white; /*#5b3980;*/
   /*width:100%;*/
   /*width: 400px;*/
   height: 100px;
@@ -148,7 +148,7 @@ html, body, canvas {
   position:absolute;
   left: 0;
   right: 0;
-  margin: 2.5% 5% 5%;
+  margin: 2.1% 5% 5%;
   padding-right: 115px;
 
   font-family: dockerOne;
@@ -185,9 +185,41 @@ html, body, canvas {
   margin:auto;
 }
 
-
 #loadingText {
-  margin-bottom: 100px;
+  margin-bottom: 2%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#loadingLong {
+  font-family: dockerOne;
+  color: white;
+  background-color: #e0a04c;
+  position: relative;
+}
+
+#loadingGifLong {
+/*  height:auto;
+  width:auto;
+  position:absolute;
+  top:-100%; bottom:-100%;
+  left:-100%; right:-100%;
+  margin:auto;*/
+
+  min-height:100%;
+  min-width:100%;
+  height:auto;
+  width:auto;
+  position:absolute;
+  top:-100%; bottom:-100%;
+  left:-100%; right:-100%;
+  margin:auto;
+}
+
+#loadingTextLong {
+  margin-bottom: 1%;
   position: absolute;
   bottom: 0;
   left: 0;
