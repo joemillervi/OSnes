@@ -16,7 +16,8 @@ var {
   TouchableOpacity,
   StatusBarIOS,
   VibrationIOS,
-  PanResponder
+  PanResponder,
+  Platform
 } = React;
 
 class ControllerView extends React.Component {
@@ -38,7 +39,7 @@ class ControllerView extends React.Component {
 
   componentWillMount() {
     //The following code is used to make the D-Pad into a joystick so the user can roll their thumb between buttons and trigger a response
-    //instead of having to lift a finger and tap 
+    //instead of having to lift a finger and tap
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -64,19 +65,19 @@ class ControllerView extends React.Component {
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
         if(closest===distanceToUp && this.state.dPadButton!=='up') {
-          this._upArrowPressIn(); 
+          this._upArrowPressIn();
         } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
-          this._rightArrowPressIn(); 
+          this._rightArrowPressIn();
         } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
-          this._downArrowPressIn(); 
+          this._downArrowPressIn();
         } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
-          this._leftArrowPressIn(); 
+          this._leftArrowPressIn();
         }
 
       },
       onPanResponderMove: (evt, gestureState) => {
         // The player has moved their finger after touching the D-Pad area
- 
+
         // Find the identifier of the touch that corresponds to the D-Pad: this is done because if another button is clicked (ex. A/B/X/Y with the right thumb)
         // and the user moves their right finger, it will throw off the D-Pad
         var initialX = this.state.dPadStartX;
@@ -89,7 +90,7 @@ class ControllerView extends React.Component {
         var identifier = closest[0]['identifier'];
         this.setState({dPadTouchesIdentifier:identifier});
 
-        // Register dpad controls based on filtered evt.nativeEvent.touches where identifier is the state. 
+        // Register dpad controls based on filtered evt.nativeEvent.touches where identifier is the state.
         var dPadTouch = evt.nativeEvent.touches.filter(function(touch){
           return touch.identifier = identifier;
         })
@@ -105,13 +106,13 @@ class ControllerView extends React.Component {
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
         if(closest===distanceToUp && this.state.dPadButton!=='up') {
-          this._upArrowPressIn(); 
+          this._upArrowPressIn();
         } else if (closest===distanceToRight && this.state.dPadButton!=='right') {
-          this._rightArrowPressIn(); 
+          this._rightArrowPressIn();
         } else if (closest===distanceToDown && this.state.dPadButton!=='down') {
-          this._downArrowPressIn(); 
+          this._downArrowPressIn();
         } else if (closest===distanceToLeft && this.state.dPadButton!=='left') {
-          this._leftArrowPressIn(); 
+          this._leftArrowPressIn();
         }
       },
       onPanResponderTerminationRequest: (evt, gestureState) => false,
@@ -141,10 +142,10 @@ class ControllerView extends React.Component {
 
         var closest = Math.min(distanceToUp, distanceToRight, distanceToDown, distanceToLeft);
 
-        this._upArrowPressOut(); 
-        this._rightArrowPressOut(); 
-        this._downArrowPressOut(); 
-        this._leftArrowPressOut(); 
+        this._upArrowPressOut();
+        this._rightArrowPressOut();
+        this._downArrowPressOut();
+        this._leftArrowPressOut();
 
       },
       onPanResponderTerminate: (evt, gestureState) => {
@@ -160,9 +161,13 @@ class ControllerView extends React.Component {
   }
 
   componentDidMount() {
-    Orientation.lockToLandscapeRight(); //this will lock the view to Landscape
+    if (Platform.OS === 'ios') {
+      Orientation.lockToLandscapeRight(); //this will lock the view to Landscape
+    } else {
+      Orientation.lockToLandscape();
+    }
 
-    //buttons must scale with size of the phone   
+    //buttons must scale with size of the phone
     if(Dimensions.get('window').width===375) { //iPhone 6/6s
       this.setState({
         circleButtonSize: 105,
@@ -294,7 +299,7 @@ class ControllerView extends React.Component {
   }
 
   /////////////////////////////////////////////////////////////////////
-  //Shoulder buttons: Left and Right Index Finger Triggers. 
+  //Shoulder buttons: Left and Right Index Finger Triggers.
   //TODO: implement shoulder buttons on screen, or ideally with volume rocker
   /////////////////////////////////////////////////////////////////////
   _rightShoulderPressIn() {
@@ -318,7 +323,7 @@ class ControllerView extends React.Component {
     api.Press(this.props.route.ipAddress, 'start');
   }
   _startPressOut() {
-    api.Release(this.props.route.ipAddress, 'start'); 
+    api.Release(this.props.route.ipAddress, 'start');
   }
 
   _selectPressIn() {
@@ -329,42 +334,46 @@ class ControllerView extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden('true');
+    if (Platform.OS === 'ios') {
+      StatusBarIOS.setHidden('true');
+    } else {
+      StatusBarAndroid.hideStatusBar();
+    }
     return (
       <View style={styles.imageContainer}>
-        <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}> 
+        <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}>
 
-          <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+          <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
-          <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+          <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
-          <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+          <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
-          <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}> 
-            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
+          <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}>
+            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
-            <View style={styles.dPad} > 
-              <IconIon name="record" size={this.state.dPadSize} color="transparent"/>
+            <View style={styles.dPad} >
+              <IconIon name="record" size={this.state.dPadSize} color="red"/>
             </View>
           </View>
 
-          <View style={styles.leftShoulderButton} onTouchStart={this._leftShoulderPressIn.bind(this)} onTouchEnd={this._leftShoulderPressOut.bind(this)}> 
+          <View style={styles.leftShoulderButton} onTouchStart={this._leftShoulderPressIn.bind(this)} onTouchEnd={this._leftShoulderPressOut.bind(this)}>
             <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
           </View>
-          <View style={styles.rightShoulderButton} onTouchStart={this._rightShoulderPressIn.bind(this)} onTouchEnd={this._rightShoulderPressOut.bind(this)}> 
+          <View style={styles.rightShoulderButton} onTouchStart={this._rightShoulderPressIn.bind(this)} onTouchEnd={this._rightShoulderPressOut.bind(this)}>
             <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
           </View>
 
-          <View style={styles.selectButton} onTouchStart={this._selectPressIn.bind(this)} onTouchEnd={this._selectPressOut.bind(this)}> 
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+          <View style={styles.selectButton} onTouchStart={this._selectPressIn.bind(this)} onTouchEnd={this._selectPressOut.bind(this)}>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
           </View>
-          <View style={styles.startButton} onTouchStart={this._startPressIn.bind(this)} onTouchEnd={this._startPressOut.bind(this)}> 
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
+          <View style={styles.startButton} onTouchStart={this._startPressIn.bind(this)} onTouchEnd={this._startPressOut.bind(this)}>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
           </View>
 
         </Image>
@@ -374,58 +383,69 @@ class ControllerView extends React.Component {
   }
 }
 
+var height;
+var width;
+
+if (Platform.OS === 'ios') {
+  height = 'height';
+  width = 'width';
+} else {
+  height = 'height';
+  width = 'width';
+}
+
 var styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
   },
   image: {
-    width: Dimensions.get('window').height,
-    height: Dimensions.get('window').width,
+    width: Dimensions.get('window')[width],
+    height: Dimensions.get('window')[height],
   },
   AButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.34,
-    left: Dimensions.get('window').height * 0.83,
+    top: Dimensions.get('window')[height] * 0.34,
+    left: Dimensions.get('window')[width] * 0.83,
   },
   BButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.48,
-    left: Dimensions.get('window').height * 0.73,
+    top: Dimensions.get('window')[height] * 0.48,
+    left: Dimensions.get('window')[width] * 0.73,
   },
   XButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.2,
-    left: Dimensions.get('window').height * 0.72,
+    top: Dimensions.get('window')[height] * 0.2,
+    left: Dimensions.get('window')[width] * 0.72,
   },
   YButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.34,
-    left: Dimensions.get('window').height * 0.62,
+    top: Dimensions.get('window')[height] * 0.34,
+    left: Dimensions.get('window')[width] * 0.62,
   },
   dPad: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.2,
-    left: Dimensions.get('window').height * 0.09,
+    top: Dimensions.get('window')[height] * 0.2,
+    left: Dimensions.get('window')[width] * 0.09,
   },
   leftShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * -.37,
-    left: Dimensions.get('window').height * 0.12,
+    top: Dimensions.get('window')[height] * -.37,
+    left: Dimensions.get('window')[width] * 0.12,
   },
   rightShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * -.37,
-    left: Dimensions.get('window').height * 0.67,
+    top: Dimensions.get('window')[height] * -.37,
+    left: Dimensions.get('window')[width] * 0.67,
   },
   selectButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.47,
-    left: Dimensions.get('window').height * 0.38,
+    top: Dimensions.get('window')[height] * 0.47,
+    left: Dimensions.get('window')[width] * 0.38,
   },
   startButton: {
     position: 'absolute',
-    top: Dimensions.get('window').width * 0.47,
-    left: Dimensions.get('window').height * 0.49,
+    top: Dimensions.get('window')[height] * 0.47,
+    left: Dimensions.get('window')[width] * 0.49,
   }
 });
 
