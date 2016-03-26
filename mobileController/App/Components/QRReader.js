@@ -86,11 +86,12 @@ class QRReader extends React.Component {
     this.setState({cameraOn:false})
   }
 
-  componentWillMount() {
-    this._onBarCodeRead({
-      data: '10.6.31.208'
-    });
-  }
+  // For developing, this simulates a successful barcode read:
+  // componentWillMount() {
+  //   this._onBarCodeRead({
+  //     data: '10.6.31.208'
+  //   });
+  // }
 
   render() {
     // check for IOS specific

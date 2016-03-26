@@ -164,32 +164,43 @@ class ControllerView extends React.Component {
     if (Platform.OS === 'ios') {
       Orientation.lockToLandscapeRight(); //this will lock the view to Landscape
     } else {
-      Orientation.lockToLandscape();
+      Orientation.lockToLandscape(); // no support for lockToLandscapeRight in Android yet
     }
 
     //buttons must scale with size of the phone
-    if(Dimensions.get('window').width===375) { //iPhone 6/6s
+    if (Platform.OS === 'ios') {
+      if(Dimensions.get('window').width===375) { //iPhone 6/6s
+        this.setState({
+          circleButtonSize: 105,
+          dPadSize: 200,
+          shoulderButtonSize: 180,
+          selectStartButtonSize: 45
+        })
+      } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
+        this.setState({
+          circleButtonSize: 115,
+          dPadSize: 225,
+          shoulderButtonSize: 0, // TODO: set shoulderButtonSize
+          selectStartButtonSize: 45
+        })
+      } else if (Dimensions.get('window').width===320) { //iPhone 5/5s
+        this.setState({
+          circleButtonSize: 88,
+          dPadSize: 170,
+          shoulderButtonSize: 0, // TODO: set shoulderButtonSize
+          selectStartButtonSize: 40
+        })
+      }
+    } else { // Android sizing of buttons
+      var windowWidth = Dimensions.get('window').width;
       this.setState({
-        circleButtonSize: 105,
-        dPadSize: 200,
-        shoulderButtonSize: 180,
-        selectStartButtonSize: 45
-      })
-    } else if (Dimensions.get('window').width===414) { //iPhone 6+/6s+
-      this.setState({
-        circleButtonSize: 115,
-        dPadSize: 225,
-        shoulderButtonSize: 0,
-        selectStartButtonSize: 45
-      })
-    } else if (Dimensions.get('window').width===320) { //iPhone 5/5s
-      this.setState({
-        circleButtonSize: 88,
-        dPadSize: 170,
-        shoulderButtonSize: 0,
-        selectStartButtonSize: 40
-      })
+        circleButtonSize: windowWidth * 0.16,
+        dPadSize: windowWidth * 0.40,
+        shoulderButtonSize: windowWidth * 0.43,
+        selectStartButtonSize: windowWidth * 0.07
+      });
     }
+
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -344,36 +355,36 @@ class ControllerView extends React.Component {
         <Image source={require('./Assets/snescontrollercropped.jpg')} style={styles.image}>
 
           <View style={styles.AButton} onTouchStart={this._APressIn.bind(this)} onTouchEnd={this._APressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.BButton} onTouchStart={this._BPressIn.bind(this)} onTouchEnd={this._BPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.XButton} onTouchStart={this._XPressIn.bind(this)} onTouchEnd={this._XPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
           <View style={styles.YButton} onTouchStart={this._YPressIn.bind(this)} onTouchEnd={this._YPressOut.bind(this)}>
-            <IconIon name="record" size={this.state.circleButtonSize} color="red"/>
+            <IconIon name="record" size={this.state.circleButtonSize} color="transparent"/>
           </View>
 
           <View {...this._panResponder.panHandlers}>
             <View style={styles.dPad} >
-              <IconIon name="record" size={this.state.dPadSize} color="red"/>
+              <IconIon name="record" size={this.state.dPadSize} color="transparent"/>
             </View>
           </View>
 
           <View style={styles.leftShoulderButton} onTouchStart={this._leftShoulderPressIn.bind(this)} onTouchEnd={this._leftShoulderPressOut.bind(this)}>
-            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
+            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="transparent"/>
           </View>
           <View style={styles.rightShoulderButton} onTouchStart={this._rightShoulderPressIn.bind(this)} onTouchEnd={this._rightShoulderPressOut.bind(this)}>
-            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="red"/>
+            <IconIon name="minus-round" size={this.state.shoulderButtonSize} color="transparent"/>
           </View>
 
           <View style={styles.selectButton} onTouchStart={this._selectPressIn.bind(this)} onTouchEnd={this._selectPressOut.bind(this)}>
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
           </View>
           <View style={styles.startButton} onTouchStart={this._startPressIn.bind(this)} onTouchEnd={this._startPressOut.bind(this)}>
-            <IconIon name="edit" size={this.state.selectStartButtonSize} color="red"/>
+            <IconIon name="edit" size={this.state.selectStartButtonSize} color="transparent"/>
           </View>
 
         </Image>
@@ -390,8 +401,8 @@ if (Platform.OS === 'ios') {
   height = 'height';
   width = 'width';
 } else {
-  height = 'height';
-  width = 'width';
+  height = 'width';
+  width = 'height';
 }
 
 var styles = StyleSheet.create({
@@ -399,53 +410,53 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: Dimensions.get('window')[width],
-    height: Dimensions.get('window')[height],
+    width: Dimensions.get('window')[height],
+    height: Dimensions.get('window')[width],
   },
   AButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.34,
-    left: Dimensions.get('window')[width] * 0.83,
+    top: Dimensions.get('window')[width] * 0.34,
+    left: Dimensions.get('window')[height] * 0.83,
   },
   BButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.48,
-    left: Dimensions.get('window')[width] * 0.73,
+    top: Dimensions.get('window')[width] * 0.48,
+    left: Dimensions.get('window')[height] * 0.73,
   },
   XButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.2,
-    left: Dimensions.get('window')[width] * 0.72,
+    top: Dimensions.get('window')[width] * 0.2,
+    left: Dimensions.get('window')[height] * 0.72,
   },
   YButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.34,
-    left: Dimensions.get('window')[width] * 0.62,
+    top: Dimensions.get('window')[width] * 0.34,
+    left: Dimensions.get('window')[height] * 0.62,
   },
   dPad: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.2,
-    left: Dimensions.get('window')[width] * 0.09,
+    top: Dimensions.get('window')[width] * 0.2,
+    left: Dimensions.get('window')[height] * 0.09,
   },
   leftShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * -.37,
-    left: Dimensions.get('window')[width] * 0.12,
+    top: Dimensions.get('window')[width] * -0.37,
+    left: Dimensions.get('window')[height] * 0.12,
   },
   rightShoulderButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * -.37,
-    left: Dimensions.get('window')[width] * 0.67,
+    top: Dimensions.get('window')[width] * -0.37,
+    left: Dimensions.get('window')[height] * 0.67,
   },
   selectButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.47,
-    left: Dimensions.get('window')[width] * 0.38,
+    top: Dimensions.get('window')[width] * 0.47,
+    left: Dimensions.get('window')[height] * 0.38,
   },
   startButton: {
     position: 'absolute',
-    top: Dimensions.get('window')[height] * 0.47,
-    left: Dimensions.get('window')[width] * 0.49,
+    top: Dimensions.get('window')[width] * 0.47,
+    left: Dimensions.get('window')[height] * 0.49,
   }
 });
 
