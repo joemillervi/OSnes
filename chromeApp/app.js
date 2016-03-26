@@ -66,7 +66,7 @@ app.controller('inputSelection', function($scope) {
 
 });
 
-app.controller('gameSelection', function($scope) {
+app.controller('gameSelection', function($scope, $http) {
   //used to hide and show the game selection screen
   $scope.gameSelection = { hidden: false}
   $scope.toggleGameSelectionScreen = function() {
@@ -86,6 +86,26 @@ app.controller('gameSelection', function($scope) {
     $("#searchBar").css("border-color", "#cccccc");
     $("#filterButton").css("border-color", "#cccccc");
   });
+
+  // $scope.playFromIPFS = function() {
+  //   window.load
+  // }
+
+  // $.get(URL,callback);
+  
+  $scope.getRom = function () {
+    return $http({
+      method: 'GET',
+      url: 'http://gateway.ipfs.io/ipfs/QmebFSwp2NUYPN8rLxGeHQNUqKcxeZ4YkKqSKMLo2aDg2R',
+      responseType: 'arraybuffer'
+    }).then(function successCallback(response) {
+        var newArray = new Uint8Array(response.data);
+        console.log('newarray', newArray);
+        window.loadData('bioworm.zip', new Uint8Array(response.data));
+      }, function errorCallback(response) {
+        console.log('failuuuure')
+      });
+  }
   
 
 

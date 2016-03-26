@@ -60,8 +60,8 @@
           <a id='gameTitle' href="{{game.link}}" target="_blank">
             {{game.title}}
           </a>
-          <div id='gameDescription'>  
-            <!-- {{game.description}} -->
+          <div id='gameDescription' data-ng-click="getRom()">  
+            {{game.description}}
           </div>  
           <div>
             <img src="./img/infoicongray.png" id="infoButton" height="20px" width="20px"/>
@@ -80,6 +80,12 @@
 
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
+    <div id="chooseYourControllerText1">
+      Choose
+      Your
+      Controller
+    </div>
+    <!-- <div id="chooseYourControllerText2">Controller</div> -->
     <div id="keyboardSide">
       <div id="keyboardIcon"></div>
       <div id='keyboardTitle'>Keyboard</div>
