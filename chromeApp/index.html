@@ -84,29 +84,33 @@
 
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
+
+    <div id="qrModal" class="modal hidden">
+        <!-- <div class="modal-header"> -->
+        <!-- </div> -->
+        <div id="qrModalBody" class="modal-body"> 
+            <!-- <button type="button" class="close" data-ng-click="closeQRScreen()" aria-hidden="true">&times;</button> -->
+          <div id="qrCode"></div>
+          <h3 id="qrInstructions">Scan QR to Start</h3>
+        </div>
+    </div>
+
     <div id="chooseYourControllerText1">
       Choose
       Your
       Controller
     </div>
-    <!-- <div id="chooseYourControllerText2">Controller</div> -->
     <div id="keyboardSide">
       <div id="keyboardIcon"></div>
       <div id='keyboardTitle'>Keyboard</div>
       <div id='keyboardDescription'>Desktop Only</div>
-
-      <!-- <img src="./img/desktopicon.png"> -->
-      <!-- <div id="keyboardInstructions"></div> -->
     </div>
     <div id="mobileSide">
-      <div id="mobileIcon"></div>
+      <div id="mobileIcon" data-ng-click="openQRScreen()"></div>
       <div id='mobileTitle'>Mobile Phone</div>
       <div id='mobileDescription'>Desktop + Phone</div>
-
-
-      <!-- <div id="qrCode"></div> -->
-      <!-- <div id="qrInstructions"></div> -->
     </div>
+
   </div>
 
 
@@ -135,7 +139,6 @@
     </div>
   </div>
 
-  <!-- emulator dependencies -->
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>
@@ -145,7 +148,6 @@
   <script src="build.js"></script>
   <script src="bootstrap.js"></script>
 
-  <!-- our dependencies -->
   <script src="lib/underscore-min.js"></script>
   <script src="lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>
