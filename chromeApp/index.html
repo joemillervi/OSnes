@@ -57,12 +57,12 @@
       <ul class='gamesList'>
         <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
           <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> 
-          <a id='gameTitle' href="{{game.link}}" target="_blank">
+          <a id='gameTitle' data-ng-click="getRom(game)">
             {{game.title}}
           </a>
-          <div id='gameDescription' data-ng-click="getRom()">  
-            {{game.description}}
-          </div>  
+          <!-- <div id='gameDescription' data-ng-click="getRom(game)">   -->
+            <!-- {{game.description}} -->
+          <!-- </div>   -->
           <div>
             <img src="./img/infoicongray.png" id="infoButton" height="20px" width="20px"/>
           </div>

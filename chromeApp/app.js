@@ -4,12 +4,10 @@ var app = angular.module('app', ['app.filters']);
 app.config([
   '$compileProvider',
   function ($compileProvider) {
-      //  Default imgSrcSanitizationWhitelist: /^\s*((https?|ftp|file|blob):|data:image\/)/
-      //  chrome-extension: will be added to the end of the expression
-      $compileProvider.imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|blob|chrome-extension):|data:image\/)/);
-
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|blob|chrome-extension):|data:image\/)/);
   }
 ]);
+
 
 app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
@@ -86,24 +84,21 @@ app.controller('gameSelection', function($scope, $http) {
     $("#searchBar").css("border-color", "#cccccc");
     $("#filterButton").css("border-color", "#cccccc");
   });
-
-  // $scope.playFromIPFS = function() {
-  //   window.load
-  // }
-
-  // $.get(URL,callback);
   
-  $scope.getRom = function () {
+  //Fetches ROM data from ipfs, converts to readable method for emulator, loads in the ROM
+  $scope.getRom = function (game) {
+    console.log('game', game);
+    loading.classList.remove('hidden');
     return $http({
       method: 'GET',
-      url: 'http://gateway.ipfs.io/ipfs/QmebFSwp2NUYPN8rLxGeHQNUqKcxeZ4YkKqSKMLo2aDg2R',
+      url: game.link,
       responseType: 'arraybuffer'
     }).then(function successCallback(response) {
-        var newArray = new Uint8Array(response.data);
-        console.log('newarray', newArray);
-        window.loadData('bioworm.zip', new Uint8Array(response.data));
+        window.loadData(game.link.split("/")[5], new Uint8Array(response.data));
+        loading.classList.add('hidden');
+
       }, function errorCallback(response) {
-        console.log('failuuuure')
+        console.log('failuuuure', response);
       });
   }
   
@@ -120,7 +115,6 @@ app.controller('gameSelection', function($scope, $http) {
   }, {
     id: 3,
     name: 'GB',
-
   }, {
     id: 4,
     name: 'GBA',
