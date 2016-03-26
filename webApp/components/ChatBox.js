@@ -184,7 +184,7 @@ class ChatBox extends Component {
           <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} 
             value={this.state.chatInput} onChange={this.handleChatInput} onKeyPress={this.handleChatInput} />
           <Toggle className="right col s4 m3 l2 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
-          <div className="right col s1 m1 l1 card-title activator" style={{paddingLeft: '0px', transform: 'translateY(20%)'}}>
+          <div className="right col s1 m1 l1 card-title activator">
             <i className="material-icons">more_vert</i>
           </div>
           <div className="card-reveal grey lighten-4">

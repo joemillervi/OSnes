@@ -261,6 +261,11 @@ nav {
   top: -10px;
 }
 
+.card .card-title.activator {
+  padding-left: 0px;
+  transform: translateY(20%);
+}
+
 span.card-title {
   position: relative;
   height: 0.2em;
