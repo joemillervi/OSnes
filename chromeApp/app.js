@@ -20,8 +20,17 @@ app.controller('inputSelection', function($scope) {
     inputSelectionScreen.classList.add('hidden');
     $scope.$apply();
   }
+  $scope.openQRScreen = function() {
+    var qrModal = document.getElementById('qrModal');
+    qrModal.classList.remove('hidden');
+  };
+  $scope.closeQRScreen = function() {
+    qrModal.classList.add('hidden');
+  };
 
   window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
+  window.openQRScreen = $scope.openQRScreen;
+
 
   //show keydown events for debugging purposes
   document.querySelector('body').addEventListener('keydown', function (e) {
@@ -39,7 +48,7 @@ app.controller('inputSelection', function($scope) {
   });
 
   //Handle Mobile Icon
-  document.getElementById('mobileIcon').addEventListener('click', function () {}); //todo: fill this out
+  document.getElementById('mobileIcon').addEventListener('click', window.openQRScreen); //todo: fill this out
   document.getElementById('mobileIcon').addEventListener('mouseover', function() {
     $("#mobileIcon").css('background-image', 'url(' + '../img/desktopwithmobileiconhighlight.png' + ')');
   });
