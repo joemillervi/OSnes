@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import Timeago from '../node_modules/react-timeago/timeago'
-import marked from '../node_modules/marked-for-chat/marked-for-chat.min.js'
+import Timeago from 'react-timeago'
+import marked from 'marked-for-chat'
 
 class ChatMessage extends Component {
 
@@ -67,7 +67,7 @@ class ChatMessage extends Component {
     }
 
     // If message is a move and moves are toggled to display, render move
-    if(!this.props.message.isChat && this.props.renderMoves) {
+    if(!this.props.message.isChat && this.props.displayMoves) {
       return this.renderMove();
 
     // Don't render move because they're toggled to not display
