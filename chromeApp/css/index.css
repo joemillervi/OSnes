@@ -50,18 +50,33 @@ html, body, canvas {
   color: #353632;
   font-size: 1.5em;
 }
-/*#qrInstructions {
+
+#qrScreen {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-color: rgba(0,0,0,.6);
+}
+#qrInstructions {
   text-align: center;
-  margin-top: 12.5%;
+  margin-top: 2%;
   font-family: dockerOne;
-  color: white;
-  font-size: 2.2em;
+  color: black;
+  font-size: 1.5em;
+}
+#qrModal {
+  width: 300px;
+  margin: -25% 0 0 -150px;
+}
+#qrModalBody {
+  padding: 15px 15px 5px 15px;
 }
 #qrCode {
   border: thick solid transparent;
-  margin-top:10%;
+
   width: 255px;
-}*/
+}
 
 #keyboardSide {
   height: 100%;

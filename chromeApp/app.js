@@ -20,12 +20,14 @@ app.controller('inputSelection', function($scope) {
     inputSelectionScreen.classList.add('hidden');
     $scope.$apply();
   }
+
+  var qrScreen = document.getElementById('qrScreen');
   $scope.openQRScreen = function() {
-    var qrModal = document.getElementById('qrModal');
-    qrModal.classList.remove('hidden');
+    qrScreen.classList.remove('hidden');
   };
   $scope.closeQRScreen = function() {
-    qrModal.classList.add('hidden');
+    console.log('close click');
+    qrScreen.classList.add('hidden');
   };
 
   window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
