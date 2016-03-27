@@ -85,17 +85,16 @@
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
 
-    <div id="qrModal" class="modal hidden">
-        <!-- <div class="modal-header"> -->
-        <!-- </div> -->
-        <div id="qrModalBody" class="modal-body"> 
-            <!-- <button type="button" class="close" data-ng-click="closeQRScreen()" aria-hidden="true">&times;</button> -->
-          <div id="qrCode"></div>
-          <h3 id="qrInstructions">Scan QR to Start</h3>
-        </div>
+    <div id="qrScreen" class="hidden" data-ng-click="closeQRScreen()">
+      <div id="qrModal" class="modal" data-ng-click="$event.stopPropagation()">
+          <div id="qrModalBody" class="modal-body"> 
+            <div id="qrCode"></div>
+            <h3 id="qrInstructions">Scan QR to Start</h3>
+          </div>
+      </div>
     </div>
 
-    <div id="chooseYourControllerText1">
+    <div id="chooseYourControllerText1" data-ng-click="closeQRScreen()">
       Choose
       Your
       Controller
