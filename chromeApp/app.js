@@ -208,5 +208,3 @@ angular.module('app.filters', []).filter('consoleFilter', [function () {
   };
 }]);
 
-
-

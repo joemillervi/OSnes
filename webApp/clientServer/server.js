@@ -1,3 +1,4 @@
+require('./../env.js');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -7,22 +8,47 @@ var config = require('../webpack.config.js');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleWare = require('webpack-hot-middleware');
-
+var https = require('https');
+console.log(process.env.NODE_ENV)
 process.title = 'crowdmu-web';
 
-var compiler = webpack(config);
+if (process.env.NODE_ENV === 'production') {
+  // for ssl server
+  var fs = require('fs');
+  var https = require('https');
+  var privateKey  = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/mydomain.key'), 'utf8');
+  var certificate = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/2_www.osnes.website.crt'), 'utf8');
+  var ca = [
+              fs.readFileSync(path.resolve(__dirname+'/../sslcerts/1_Intermediate.crt'), 'utf8'),
+              fs.readFileSync(path.resolve(__dirname+'/../sslcerts/root.crt'), 'utf8')
+          ]
+  var credentials = {key: privateKey, cert: certificate, ca: ca};
+}
 
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
-app.use(webpackHotMiddleWare(compiler));
+var port = process.env.NODE_ENV === 'production' ? 80 : 3000;
+var httpsPort = process.env.HTTPS_PORT || 443;
 
-app.use(express.static('./dist'));
+if (process.env.NODE_ENV !== 'production') {
+  var compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+  app.use(webpackHotMiddleWare(compiler));
+}
 
 app.use(bodyParser.json());
+app.use(express.static('./../dist'));
 
-app.use('/', function (req, res) {
-  res.sendFile(path.resolve('client/index.html'));
+
+var url = process.env.CROWDMU_IO_URL || 'http://localhost:3001';
+
+// Serves index.ejs with socket.io URL included as a variable
+app.set('view engine', 'ejs');
+app.get('/', function(req, res, next){
+  res.render(path.resolve(__dirname + './../client/index'), {
+    ioURL: url
+  });
 });
 
+// Serves a still screenshot of the emulator. Useful for testing connection
 app.get('/screenshot.png', function(req, res, next) {
   redis.get('crowdmu:frame', function(err, image){
     if (err) return next(err);
@@ -33,38 +59,22 @@ app.get('/screenshot.png', function(req, res, next) {
   });
 });
 
-// ### Code below servers index.html with image, ioURL, 
-// and connections sent up as variables (work in progress) ###
-
-// var ejs = require('ejs').renderFile
-// app.engine('html', );
-// app.set('view engine', 'html');
-// app.set('views', path.resolve(__dirname + './../client'));
-
-// var url = process.env.CROWDMU_IO_URL || 'http://localhost:3001';
-// app.get('/', function(req, res, next){
-//   redis.get('crowdmu:frame', function(err, image){
-//     if (err) return next(err);
-//     redis.get('crowdmu:connections-total', function(err, count){
-//       if (err) return next(err);
-//       res.render('index', {
-//         img: image.toString('base64'),
-//         io: url,
-//         connections: count
-//       });
-//     });
-//   });
-// });
-
-var port = process.env.CROWDMU_PORT || 3000;
-
-// start listening to requests on port 3000
-app.listen(port, function (err) {
+// start listening to requests
+var server = app.listen(port, function (err) {
   if (err) {
     throw err;
   }
   console.log('Server listening on port ', port);
 });
 
+if (process.env.NODE_ENV === 'production') {
+  // start https server
+  var httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(httpsPort);
+  console.info('https running on port %s.', httpsPort);
+}
+
+// require the socket.io server and start it passing our https server
+require(__dirname + '/../ioNode/index.js')(process.env.NODE_ENV === 'production' ? httpsServer : server)
 // export our app for testing
 module.exports = app;

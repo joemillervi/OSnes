@@ -1,7 +1,7 @@
 
 ## How to install
 
-Make sure [Cairo](https://github.com/Automattic/node-canvas/wiki) is installed, then run:
+Make sure [Cairo](https://github.com/Automattic/node-canvas/wiki,  https://github.com/Automattic/node-canvas ) is installed, then run:
 
 ```bash
 $ npm install
@@ -16,3 +16,7 @@ Then run it with the following ENV vars:
 ```
 $ CROWDMU_ROM=path/to/rom.gb node index
 ```
+
+
+
+OR, you can run the whole thing the executable "start-server"... just do the thing: ./start-server

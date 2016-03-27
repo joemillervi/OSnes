@@ -19,11 +19,9 @@ function router(req, res) {
       'Content-Type': 'application/json'
     });
     if (numberOfPlayersJoined === 0) {
-      console.log('player has joined');
       numberOfPlayersJoined++;
       res.end(JSON.stringify({ipAddress: ip4, port: port}));
     } else {
-      console.log('no more players allowed');
       res.end(JSON.stringify({message: 'no more players allowed'}));
     }
   } else if ( // app.post('/player/:action/:button', cb)   like: /player/press/a
@@ -41,7 +39,6 @@ function router(req, res) {
     var asciiNum = getAsciiKey(button);
     var keyBoardEvent = makeEvent(action, asciiNum);
     document.querySelector('body').dispatchEvent(keyBoardEvent);
-    console.log('player just ' + action + 'd "' + button + '"');
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end(JSON.stringify({message: 'player just ' + action + 'ed ' + button}));
   } else {

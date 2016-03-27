@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 
 
@@ -9,26 +9,21 @@ class StreamViewer extends Component {
       src: null,
       lastImage: null
     };
-
-    this.blobToImage = this.blobToImage.bind(this);
   }
 
-  // getInitialState() {
-  //   var initialFrame = getInitalFrame...  
-  //   src: "data:image/png;base64," + initialFrame
-  // }
-
   componentDidMount() {
-    var config = {};
-    config.ioURL = "http://localhost:3001";
-    var socket = io(config.ioURL)
-
+    // start listening for emulator frames
+    const { socket } = this.props;
     socket.on('frame',(data) => {
       if (this.state.lastImage && 'undefined' != typeof URL) {
         URL.revokeObjectURL(this.state.lastImage);
       }
+
+      // convert frame into image
       var src = this.blobToImage(data);
-      this.setState({ 
+
+      // update component img tag with src
+      this.setState({
         src: src,
         lastImage: src
       });
@@ -37,6 +32,7 @@ class StreamViewer extends Component {
 
   }
 
+  // convert emulator frames to images
   blobToImage(imageData) {
     if (Blob && 'undefined' != typeof URL) {
       var blob = new Blob([imageData], {type: 'image/png'});
@@ -50,11 +46,19 @@ class StreamViewer extends Component {
 
 
   render() {
-    return (
-      <div id="game" className="height-100">
-      <img alt="game" src={this.state.src} />
-      </div>
-    );
+    //if there's no image, show loading gif
+    if(!this.state.src) {
+      return(
+        <img src='https://www.bcw.edu/cs/groups/images/documents/images/zglu/z19p/~edisp/loading_icon.gif'
+        className="loading"/>
+      );
+
+    // Render emulator
+    } else {
+      return (
+        <img alt="game" className="z-depth-3 responsive-img" style={{width: 100 + '%', height: 100 + '%'}} src={this.state.src} />
+      );
+    }
   }
 }
 
