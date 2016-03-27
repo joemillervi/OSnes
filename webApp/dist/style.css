@@ -254,12 +254,25 @@ nav {
   background-color: #e0e0e0;
 }
 
-/*Chats are rendered in p tags without className. This removes default margin on chats*/
-p {
-  margin-bottom: 0px;
-  margin-top: 0px;
+/*Styling for video and image input boxes in chat*/
+.card .card-title span {
+  position: relative;
+  font-size: 0.7em;
+  top: -10px;
 }
 
+.card .card-title.activator {
+  padding-left: 0px;
+  transform: translateY(20%);
+}
+
+span.card-title {
+  position: relative;
+  height: 0.2em;
+  top: -10px;
+}
+
+/*Messages (includes chats and moves)*/
 .message-timestamp {
   font-size: 80%;
 }
@@ -273,6 +286,12 @@ p {
   color: #311b92;
 }
 
+/*Chats are rendered in p tags without className. This removes default margin on chats*/
+p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
 .loading {
   display: block;
   margin: auto;
@@ -281,6 +300,7 @@ p {
   transform: translateY(-50%);
 }
 
+/*Chat toggle button*/
 .react-toggle {
   display: inline-block;
   position: relative;
