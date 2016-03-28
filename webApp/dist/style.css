@@ -287,7 +287,7 @@ span.card-title {
 }
 
 div.message-chat img {
-  width: 95%;
+  max-width: 95%;
 }
 
 /*Chats are rendered in p tags without className. This removes default margin on chats*/
