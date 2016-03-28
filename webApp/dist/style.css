@@ -286,6 +286,10 @@ span.card-title {
   color: #311b92;
 }
 
+div.message-chat img {
+  width: 95%;
+}
+
 /*Chats are rendered in p tags without className. This removes default margin on chats*/
 p {
   margin-bottom: 0px;
