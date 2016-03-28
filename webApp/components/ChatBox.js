@@ -99,6 +99,8 @@ class ChatBox extends Component {
 
   handleChatInput(e) {
     
+    /*Old chat input logic
+
     // If someone presses 'enter' on input box, run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {  
       this.handleSumbit(this.state.chatInput, this.state.nickname);
@@ -108,10 +110,49 @@ class ChatBox extends Component {
       this.setState({ chatInput: e.target.value.substr(0, 280) });
     }
 
+    */
+
+    /* New chat input logic */
+    // If someone presses 'enter' on input box, run a submit handler
+    if (e.charCode === 13 || e.keyCode === 13) {
+      var input = this.state.chatInput
+
+      //Check if input is a url
+      var isURL = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/i;
+      if (isURL.test(input)) {
+
+        var isYoutubeURL = /(^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$)/i;
+        // Check if input is a youtube video
+        if (isYoutubeURL.test(input)) {
+
+          // convert to video markdown syntax and then submit
+          var video = '[![video]()](' + input + ')';
+          return this.handleSumbit(video, this.state.nickname);
+        }
+
+        var isImageURL = /(?:jpe?g|gif[^v]|a?png|svg|bmp)/i;
+        // Check if input is an image
+        if (isImageURL.test(input)) {
+          console.log('isImageURL true')
+          // convert to image markdown syntax and then submit
+          var image = '![image](' + input + ')'
+          return  this.handleSumbit(image, this.state.nickname);
+        }
+        // Else call normal handleSubmit (assumed input is a generic link)
+        return this.handleSumbit(input, this.state.nickname);
+      } else {
+
+        // Else call normal handleSubmit (assumed input is plain text)
+        return this.handleSumbit(input, this.state.nickname);
+      }
+
+    } else {
+      return this.setState({ chatInput: e.target.value.substr(0, 280) });
+    }
+
   }
 
   handleImageInput(e) {
-
     // If someone presses 'enter' on input box, run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {
 
