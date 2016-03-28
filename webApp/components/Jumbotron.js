@@ -99,7 +99,14 @@ class Jumbotron extends Component {
   }
 
   render() {
-    return (<video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video>)
+    return (
+      <video
+        className="height-30 margin-4 z-depth-1 full-width"
+        id="video-player"
+        autoPlay
+      >
+      </video>
+    );
   }}
 
 export default Jumbotron;

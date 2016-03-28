@@ -84,13 +84,14 @@ const Chart = React.createClass({
 
     const colorScaleBar = d3.scale.linear()
                          .domain(data)
-                         .range(["#084594","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef","#deebf7", "#f7fbff"])
+                         .range(["#311b92","#311b92","#311b92","#311b92","#311b92","#311b92","#311b92", "#311b92"])
 
     return (
       <svg
         className="chart csstrans"
         width={width}
-        height={barHeight * data.length}>
+        height={barHeight * data.length}
+      >
         <ReactCSSTransitionGroup
           transitionName="addBar"
           component="g"
@@ -104,7 +105,7 @@ const Chart = React.createClass({
                 transform={`translate(${margin},${barHeight*i})`}>
                 <rect
                   fill={'#e0e0e0'}
-                  width={labelSpace} 
+                  width={labelSpace}
                   height={barHeight-1}
                  />
                 <text

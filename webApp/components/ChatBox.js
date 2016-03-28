@@ -91,18 +91,18 @@ class ChatBox extends Component {
 
     // Only keep most recent 200 messages (chats and moves)
     messages = messages.slice(-200);
-    this.setState({ 
+    this.setState({
       messages: messages
     });
   }
 
 
   handleChatInput(e) {
-    
+
     // If someone presses 'enter' on input box, run the submit handler
-    if (e.charCode === 13 || e.keyCode === 13) {  
+    if (e.charCode === 13 || e.keyCode === 13) {
       this.handleSumbit(this.state.chatInput, this.state.nickname);
-    
+
     // Else update input state
     } else {
       this.setState({ chatInput: e.target.value.substr(0, 280) });
@@ -144,7 +144,7 @@ class ChatBox extends Component {
 
     // If message is empty, don't emit
     if (msg === '' ) return;
-    
+
 
     // If joined already, render and emit message
     if (this.state.joined) {
@@ -181,7 +181,7 @@ class ChatBox extends Component {
           )}
         </div>
         <div className="input-field grey lighten-4 row no-bottom-margin card">
-          <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} 
+          <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder}
             value={this.state.chatInput} onChange={this.handleChatInput} onKeyPress={this.handleChatInput} />
           <Toggle className="right col s4 m3 l2 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
           <div className="right col s1 m1 l1 card-title activator">
@@ -199,9 +199,6 @@ class ChatBox extends Component {
             </div>
           </div>
         </div>
-        <p className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
-        *italic*,   **bold**,   **_combined_**,   ~~strikethrough~~
-        </p>
       </div>
     );
   }
