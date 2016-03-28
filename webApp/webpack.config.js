@@ -18,7 +18,6 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
->>>>>>> Configuration
     // new webpack.optimize.UglifyJsPlugin({minimize: true})
   ],
   module: {
