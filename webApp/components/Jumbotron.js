@@ -10,22 +10,30 @@ class Jumbotron extends Component {
     }
   }
 
-
-
   toggleVideo() {
-    this.setState({showVideo: !this.state.showVideo})
-    if (!this.state.showVideo) {
-      console.log(this.state.showVideo)
-      // wait for DOM render
-      setTimeout(this.connectVideoToStream.bind(this), 1000)
-    };
-    if (this.state.webCamAllowed && !this.state.jumboShown) {
-      this.props.socket.emit('is-a-streamer');
-      console.log('STREAMEr')
-    }
-    if (!this.state.jumboShown) {
-      this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
-    }
+    this.checkCam((camAllowed) => {
+      if (!camAllowed) {
+        this.state.jumboShown = false;
+        // request camera access
+        navigator.getUserMedia  = navigator.getUserMedia ||
+                                  navigator.webkitGetUserMedia ||
+                                  navigator.mozGetUserMedia ||
+                                  navigator.msGetUserMedia;
+        navigator.getUserMedia({ video: true, audio: false }, () => {}, () => {});
+      }
+      else {
+        // otherwise if camera is allowed toggle jumboShown status
+        this.state.jumboShown = !this.state.jumboShown;
+        if (this.state.jumboShown) this.props.socket.emit('is-a-streamer')
+        if (!this.state.jumboShown) {
+          this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
+          console.log('opt-out-of-jumbo', this.state.outsideStream)
+          this.state.outsideStream.getVideoTracks()[0].stop();
+        }
+      }
+      // trigger a render
+      this.setState({webCamAllowed: camAllowed})
+    })
   }
 
   connectVideoToStream() {
@@ -36,7 +44,7 @@ class Jumbotron extends Component {
   }
 
   // check if access to webcam is granted. returns bool
-  checkCam() {
+  checkCam(cb) {
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
         // Firefox 38+ seems having support of enumerateDevicesx
         navigator.enumerateDevices = function(callback) {
@@ -157,7 +165,8 @@ class Jumbotron extends Component {
     // check for microphone/camera support!
     checkDeviceSupport(() => {
       console.log('GOT CALLED', isWebcamAlreadyCaptured)
-      this.setState({webCamAllowed: isWebcamAlreadyCaptured})
+      if (!cb) this.setState({webCamAllowed: isWebcamAlreadyCaptured});
+      else cb(isWebcamAlreadyCaptured)
     });
   }
 
