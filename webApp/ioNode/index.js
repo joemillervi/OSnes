@@ -66,10 +66,9 @@ io.on('connection', function(socket){
   console.log('a client connected');
 
   // when they enable their camera
-  socket.on('is-a-streamer', function() { 
+  socket.on('is-a-streamer', function() {
     streamerCLIENTS[socket.id] = socket;
     if (Object.keys(streamerCLIENTS).length === 1) {
-      console.log('first streamer')
       socket.emit('become-streamer', {allIDs: Object.keys(streamerCLIENTS), myID: socket.id})
       currentStreamerSocket = socket;
     } else {
@@ -95,6 +94,9 @@ io.on('connection', function(socket){
 
   socket.on('opt-out-of-jumbo', function() {
     console.log('a user disconnected')
+    if (currentStreamerSocket.id === socket.id) {
+      // do something to handle the case where the streamer closes their jumbotron or closes their camera
+    }
     delete streamerCLIENTS[socket.id]
   })
 

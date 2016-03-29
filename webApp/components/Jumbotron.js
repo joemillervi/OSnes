@@ -5,7 +5,7 @@ class Jumbotron extends Component {
     super(props)
     this.state = {
       webCamAllowed: false,
-      jumboShown: true,
+      jumboShown: false,
       outsideStream: null
     }
   }
@@ -13,16 +13,19 @@ class Jumbotron extends Component {
 
 
   toggleVideo() {
-<<<<<<< d889405942592a680ddf28f79efb60e2e57753c4
     this.setState({showVideo: !this.state.showVideo})
     if (!this.state.showVideo) {
       console.log(this.state.showVideo)
       // wait for DOM render
       setTimeout(this.connectVideoToStream.bind(this), 1000)
     };
-=======
-    this.setState({jumboShown: !this.state.jumboShown})
->>>>>>> Retrieve if webcam is allowed
+    if (this.state.webCamAllowed && !this.state.jumboShown) {
+      this.props.socket.emit('is-a-streamer');
+      console.log('STREAMEr')
+    }
+    if (!this.state.jumboShown) {
+      this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
+    }
   }
 
   connectVideoToStream() {
@@ -160,7 +163,7 @@ class Jumbotron extends Component {
 
 
   componentDidMount() {
-    this.checkCam() // update the state
+    this.checkCam() // update the state of camera
 
     navigator.getUserMedia  = navigator.getUserMedia ||
                               navigator.webkitGetUserMedia ||
@@ -258,10 +261,6 @@ class Jumbotron extends Component {
     })
   }
 
-
-  componentWillMount() {
-
-  }
 
   render() {
 
