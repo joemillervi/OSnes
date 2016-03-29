@@ -184,9 +184,9 @@ class ChatBox extends Component {
             <Toggle className="col s5 m4 l3 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
           </div>
         </div>
-        <p className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
+        <div className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
         *italic*,   **bold**,   **_combined_**,   ~~strikethrough~~
-        </p>
+        </div>
       </div>
     );
   }

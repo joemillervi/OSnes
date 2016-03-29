@@ -236,6 +236,7 @@ nav {
 }
 
 .input-field input[type=text] {
+  max-height: 38px;
   border-radius: 5px;
   border: 2px solid #989898;
   bottom: 0px;
@@ -314,8 +315,7 @@ p {
   padding: 0;
 
   /*Added to vertically align toggle and give left margin*/
-  top: 50%;
-  transform: translateY(50%);
+  transform: translateY(30%);
   margin-left: .5em;
 
   -webkit-touch-callout: none;
