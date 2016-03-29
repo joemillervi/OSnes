@@ -180,7 +180,9 @@ class ChatBox extends Component {
         <div className="input-field grey lighten-4 row no-bottom-margin">
           <input className="col s8 m9 l10 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder} 
             value={this.state.chatInput} onChange={this.handleChatInput} onKeyPress={this.handleChatInput} />
-          <Toggle className="right col s5 m4 l3 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
+          <div className="tooltipped" data-position="top" data-delay="500" data-tooltip="Show/hide moves">
+            <Toggle className="right col s5 m4 l3 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
+          </div>
         </div>
         <p className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
         *italic*,   **bold**,   **_combined_**,   ~~strikethrough~~
