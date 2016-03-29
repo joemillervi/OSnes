@@ -13,7 +13,43 @@ div {
 
 #alert-wrapper {
   position: absolute;
-  background-color: #FF5A60;
+  background: rgba(255, 90, 96, 0.9);
+  width:30%;
+  text-align: center;
+  padding: 5px;
+  padding-bottom: 4px;
+  padding-top:8px;
+
+}
+
+.up-arrow {
+  position: relative;
+  float:left;
+  left: 10px;
+}
+
+#id {
+  position: relative;
+  bottom: 10px;
+}
+
+.toggle-jumbo {
+  position:relative;
+  top:5px;
+  font-family: dockerOne;
+  font-size: 1em;
+  text-align: right;
+
+}
+
+
+#jumbo-wrapper {
+
+  position: relative;
+  top: -5px;
+  margin: 7px 18px 7px 0px;
+  text-align:right;
+
 }
 
 nav {

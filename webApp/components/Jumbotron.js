@@ -26,7 +26,7 @@ class Jumbotron extends Component {
         this.state.alertWrapper = true;
         setTimeout(() => {
           this.setState({alertWrapper: false})
-        }, 1000)
+        }, 2000)
       }
       else {
         // otherwise if camera is allowed toggle jumboShown status
@@ -283,10 +283,9 @@ class Jumbotron extends Component {
    console.log('checkstates', this.state.webCamAllowed, this.state.jumboShown)
     return (
       <div>
-        <div onClick={this.toggleVideo.bind(this)}>Toggle Jumbotron</div>
-        <Toggle className="col s4 m3 l2 valign-wrapper" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/>
+        <div id="jumbo-wrapper"><div className="inline toggle-jumbo left-align">Toggle Jumbotron</div><Toggle id="toggle-btn" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/></div>
         {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)}/>: ''}
-        {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline" src="./arrow_up.png"/></div> : ''}
+        {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline up-arrow" src="./webcam_off.png"/></div> : ''}
       </div>
     )
   }
