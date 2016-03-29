@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Video from './Video';
+import Toggle from 'react-toggle';
 
 class Jumbotron extends Component {
   constructor(props) {
@@ -6,7 +8,8 @@ class Jumbotron extends Component {
     this.state = {
       webCamAllowed: false,
       jumboShown: false,
-      outsideStream: null
+      outsideStream: null,
+      alertWrapper: false
     }
   }
 
@@ -20,6 +23,10 @@ class Jumbotron extends Component {
                                   navigator.mozGetUserMedia ||
                                   navigator.msGetUserMedia;
         navigator.getUserMedia({ video: true, audio: false }, () => {}, () => {});
+        this.state.alertWrapper = true;
+        setTimeout(() => {
+          this.setState({alertWrapper: false})
+        }, 1000)
       }
       else {
         // otherwise if camera is allowed toggle jumboShown status
@@ -277,7 +284,9 @@ class Jumbotron extends Component {
     return (
       <div>
         <div onClick={this.toggleVideo.bind(this)}>Toggle Jumbotron</div>
+        <Toggle className="col s4 m3 l2 valign-wrapper" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/>
         {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)}/>: ''}
+        {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline" src="./arrow_up.png"/></div> : ''}
       </div>
     )
   }
