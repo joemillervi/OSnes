@@ -50,29 +50,29 @@ function router(req, res) {
 function getAsciiKey(button) {
   switch (button) {
     case 'a':
-      return 181;
+      return 61;
     case 'b':
-      return 180;
+      return 59;
     case 'x':
-      return 183;
+      return 173;
     case 'y':
-      return 182
+      return 108
     case 'start':
-      return 189;
+      return 226;
     case 'select':
-      return 188;
+      return 183;
     case 'up':
-      return 190;
+      return 230;
     case 'down':
-      return 191;
+      return 233;
     case 'left':
-      return 192;
+      return 234;
     case 'right':
-      return 193;
+      return 255;
     case 'l-shoulder':
-      return 184;
+      return 181;
     case 'r-shoulder':
-      return 185;
+      return 182;
     default:
       break;
   }
