@@ -197,11 +197,12 @@ export default ChatBox;
 var reveal = {
   color: '#9e9e9e',
   fontSize: '0.8em',
-  wordSpacing: '1em'
+  wordSpacing: '1em',
+  display: 'block'
 }
 
 var hide = {
-  display: 'hide',
+  display: 'none',
   color: '#f5f5f5',
   fontSize: '0.8em',
   wordSpacing: '1em'

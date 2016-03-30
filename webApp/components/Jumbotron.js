@@ -33,7 +33,7 @@ class Jumbotron extends Component {
         this.state.jumboShown = !this.state.jumboShown;
         if (this.state.jumboShown) {
           this.props.socket.emit('is-a-streamer')
-          document.getElementById('chat-box').style.height = "30%"
+          document.getElementById('chat-box').style.height = "50%"
         }
         if (!this.state.jumboShown) {
           this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
