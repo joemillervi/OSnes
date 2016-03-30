@@ -171,30 +171,22 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div id="chat-box" className="height-90 grey lighten-4">
+      <div id="chat-box" className="height-60 grey lighten-4">
         <div className="messages">
           {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} displayMoves={this.state.displayMoves} />
           )}
         </div>
-<<<<<<< HEAD
-        <div className="input-field grey lighten-4 row no-bottom-margin card">
-          <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder}
-=======
         <div className="input-field grey lighten-4 row no-bottom-margin">
           <input className="col s8 m9 l10 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder}
->>>>>>> aa5f5308bf61a0459105b93f9a6cd892f1c37067
             value={this.state.chatInput} onChange={this.handleChatInput} onKeyPress={this.handleChatInput} />
           <div className="right tooltipped" data-position="top" data-delay="800" data-tooltip="Show/hide moves">
             <Toggle className="col s5 m4 l3 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
           </div>
         </div>
-<<<<<<< HEAD
-=======
         <div className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
         *italic*,   **bold**,   **_combined_**,   ~~strikethrough~~
         </div>
->>>>>>> aa5f5308bf61a0459105b93f9a6cd892f1c37067
       </div>
     );
   }
