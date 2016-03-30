@@ -131,11 +131,14 @@
       <button id="save" class="save">Save Game</button>
       <button id="load" class="load">Load Save</button>
       <button id="mute" class="mute">Mute</button>
-      <button id="exit" class="exit" data-ng-click="exit()">Choose New Game</button>
+      <button id="chooseNewGame" class="chooseNewGame" data-ng-click="chooseNewGame()">Choose A Different Game</button>
 
     </div>
     <div>
       <h1>Controls:</h1>
+      <form>
+        First Name: <input type="text" ng-model="firstname">
+      </form>
       <div>A button = A key</div>
       <div>B button = B key</div>
       <div>X button = X key</div>
@@ -152,7 +155,6 @@
   <script src="jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
   <script src="jspm_packages/system-csp-production.js"></script>
   <script src="config.js"></script>
-  <script src="build.js"></script>
   <script src="bootstrap.js"></script>
 
   <script src="lib/underscore-min.js"></script>
@@ -162,6 +164,7 @@
 
   <script src="./app.js"></script>
   <script src="./gamesList.js"></script>
+  <script src="build.js"></script>
 
 </body>
 </html>

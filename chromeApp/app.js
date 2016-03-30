@@ -197,12 +197,84 @@ app.controller('gameSelection', function($scope, $http) {
 
 //pause game screen
 app.controller('pauseScreen', function($scope) {
-  //stop emulator
-  //show game selection screen
-  //hide overlay and pause screen
-  $scope.exit = function () {
-    window.stop();
+  $scope.chooseNewGame = function () {
+    window.chooseNewGame();
   }
+
+  window.systemSettings = {
+    "extensions": {
+      "gb": "gambatte",
+      "gbc": "gambatte",
+      "smc": "snes9x-next",
+      "fig": "snes9x-next",
+      "sfc": "snes9x-next",
+      "swc": "snes9x-next",
+      "gba": "vba-next",
+      "nes": "quicknes",
+      "sms": "picodrive",
+      "gen": "picodrive",
+      "smd": "picodrive",
+      "md": "picodrive",
+      "32x": "picodrive",
+      "mgw": "gw",
+      "vec": "vecx"
+    },
+    "overlays": {
+      "gambatte": "./overlays/gamepads/gameboy/",
+      "vba-next": "./overlays/gamepads/gba/",
+      "snes9x-next": "./overlays/gamepads/snes/",
+      "nestopia": "./overlays/gamepads/nes/"
+    },
+    "keys": {
+      //Default Key settings:
+      //IJKL Keys
+      "75": "0",  //B
+      "76": "1",  //A
+      "74": "2",  //Y
+      "73": "3",  //X
+      //E, U
+      "69": "4",  //L
+      "85": "5",  //R
+      //Enter, Shift
+      "16": "8",  //Select
+      "13": "9",  //Start
+      //WASD keys
+      "87": "12",  //Up
+      "83": "13",  //Down
+      "65": "14",  //Left
+      "68": "15", //Right
+      //arrow keys double mapping
+      "38": "12",  //Up
+      "40": "13",  //Down
+      "37": "14",  //Left
+      "39": "15", //Right
+
+      //Keys reserved for mobilecontroller; seldom used keys
+      //IJKL Keys
+      "180": "0",  //B
+      "181": "1",  //A
+      "182": "2",  //Y
+      "183": "3",  //X
+
+      //E, U
+      "184": "4",  //L
+      "185": "5",  //R
+
+      //Enter, Shift
+      "188": "8",  //Select
+      "189": "9",  //Start
+      
+      //WASD keys
+      "190": "12",  //Up
+      "191": "13",  //Down
+      "192": "14",  //Left
+      "193": "15", //Right
+    },
+    "urlPrefix": "https://crossorigin.me/"
+  }; 
+
+  $scope.keys = {};
+  systemSettings.keys['70'] = '0';
 });
 
 
