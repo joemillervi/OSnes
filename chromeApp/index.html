@@ -135,20 +135,46 @@
     </div>
     <div>
       <h1>Controls:</h1>
-      <form>
-        A button: <input type="text" data-ng-model="keys.a">
-        B button: <input type="text" data-ng-model="keys.a">
-        X button: <input type="text" data-ng-model="keys.a">
-        Y button: <input type="text" data-ng-model="keys.a">
-        L shoulder: <input type="text" data-ng-model="keys.a">
-        R shoulder: <input type="text" data-ng-model="keys.a">
-        Start button: <input type="text" data-ng-model="keys.a">
-        Select button: <input type="text" data-ng-model="keys.a">
-        Up arrow: <input type="text" data-ng-model="keys.a">
-        Down arrow: <input type="text" data-ng-model="keys.a">
-        Left arrow: <input type="text" data-ng-model="keys.a">
-        Right arrow: <input type="text" data-ng-model="keys.a">
-      </form>
+      <form id='keyMappingsForm'>
+        A button: <input type="text" maxlength=0 id="aButton" placeholder="l">
+        <br>
+        B button: <input type="text" maxlength=0 id="bButton" placeholder="k">
+        <br>
+        X button: <input type="text" maxlength=0 id="xButton" placeholder="i">
+        <br>
+        Y button: <input type="text" maxlength=0 id="yButton" placeholder="j">
+        <br>
+        L shoulder: <input type="text" maxlength=0 id="lShoulder"placeholder="e">
+        <br>
+        R shoulder: <input type="text" maxlength=0 id="rShoulder"placeholder="u">
+        <br>
+        Start button: <input type="text" maxlength=0 id=" startButton" placeholder="enter">
+        <br>
+        Select button: <input type="text" maxlength=0 id="selectButton" placeholder="shift">
+        <br>
+        Up arrow: <input type="text" maxlength=0 id="upArrow" placeholder="w">
+        <br>
+        Down arrow: <input type="text" maxlength=0 id="downArrow"placeholder="s">
+        <br>
+        Left arrow: <input type="text" maxlength=0 id="leftArrow"placeholder="a">
+        <br>
+        Right arrow: <input type="text" maxlength=0 id="rightArrow" placeholder="d">
+      </form> 
+<!--       <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
+        <button class="btn dropdown-toggle" data-ng-click="open=!open">
+          <span class='filterText' >Filter</span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li data-ng-repeat="keyCode in keyCodes"> 
+            <a data-ng-click="null">
+              {{keyCode}}
+              <span data-ng-class="isChecked(console.id)"></span>
+            </a>
+          </li>
+        </ul>
+      </div> -->
+
 
     </div>
   </div>

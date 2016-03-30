@@ -319,7 +319,7 @@ html, body, canvas {
 .menu {
   overflow: scroll;
   height: 100%;
-  width: 256pt;
+  width: 350pt;
   margin: 0 auto;
 }
 

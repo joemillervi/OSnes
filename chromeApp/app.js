@@ -269,7 +269,7 @@ app.controller('pauseScreen', function($scope) {
     "urlPrefix": "https://crossorigin.me/"
   }; 
 
-  var keyCodes = {
+  $scope.keyCodes = {
     3 : "break",
     8 : "backspace / delete",
     9 : "tab",
@@ -413,17 +413,68 @@ app.controller('pauseScreen', function($scope) {
     // 234: "XF86Back", 
     // 255 : "toggle touchpad" 
   };
-
-
+  
   document.querySelector('body').addEventListener('keydown', function (e) {
+    e.preventDefault();
     console.log('keycode: ', e.keyCode);
-    console.log('code: ', e.code);
-
+    // console.log('code: ', e.code);
+    if(retro.classList.contains('hidden')) {
+      try {
+        document.getElementById(document.activeElement.id).value = $scope.keyCodes[e.keyCode];
+        console.log('activeelemtn',document.activeElement.id);
+        switch (document.activeElement.id) {
+          case 'aButton':
+            systemSettings.keys[e.keyCode] = '1';
+            break;
+          case 'bButton':
+            systemSettings.keys[e.keyCode] = '0';
+            break;
+          case 'xButton':
+            systemSettings.keys[e.keyCode] = '3';
+            break;
+          case 'yButton':
+            systemSettings.keys[e.keyCode] = '2';
+            break;
+          case 'startButton':
+            systemSettings.keys[e.keyCode] = '9';
+            break;
+          case 'selectButton':
+            systemSettings.keys[e.keyCode] = '8';
+            break;
+          case 'upArrow':
+            systemSettings.keys[e.keyCode] = '12';
+            break;
+          case 'downArrow':
+            systemSettings.keys[e.keyCode] = '13';
+            break;
+          case 'leftArrow':
+            systemSettings.keys[e.keyCode] = '14';
+            break;
+          case 'rightArrow':
+            systemSettings.keys[e.keyCode] = '15';
+            break;
+          case 'lShoulder':
+            systemSettings.keys[e.keyCode] = '4';
+            break;
+          case 'rShoulder':
+            systemSettings.keys[e.keyCode] = '5';
+            break;
+          default:
+            break;
+        }
+      }
+      catch(err) {
+        console.log('error', err); //not focused on an form input tag
+      }
+    }
   });
 
-  $scope.keys = {
-    "a" : "undefined"
-  };
+
+
+
+  // $scope.keys = {
+  //   "a" : "undefined"
+  // };
   systemSettings.keys['70'] = '0';
 });
 
