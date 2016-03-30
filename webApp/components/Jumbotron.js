@@ -284,7 +284,7 @@ class Jumbotron extends Component {
     return (
       <div>
         <div id="jumbo-wrapper"><div className="inline toggle-jumbo left-align">Toggle Jumbotron</div><Toggle id="toggle-btn" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/></div>
-        {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)}/>: ''}
+        {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)} /> : ''}
         {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline up-arrow" src="./webcam_off.png"/></div> : ''}
       </div>
     )
