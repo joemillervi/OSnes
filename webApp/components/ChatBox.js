@@ -11,16 +11,12 @@ class ChatBox extends Component {
       joined: false,
       messages: [{}],
       displayMoves: true,
-      chatInput: '',
-      imageInput: '',
-      videoInput: ''
+      chatInput: ''
     };
 
     this.join = this.join.bind(this)
     this.renderMessage = this.renderMessage.bind(this)
     this.handleChatInput = this.handleChatInput.bind(this)
-    this.handleImageInput = this.handleImageInput.bind(this)
-    this.handleVideoInput = this.handleVideoInput.bind(this)
     this.handleSumbit = this.handleSumbit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
@@ -58,7 +54,7 @@ class ChatBox extends Component {
 
   }
 
-  // join user to the game. Fires automatically for returning users, otherwise fires when first message is entered
+  // join user to the game. Fires automatically for returning users, otherwise fires when first message is submitted
   join(data) {
     const { socket } = this.props;
     var nickname = data;
@@ -98,45 +94,48 @@ class ChatBox extends Component {
 
 
   handleChatInput(e) {
-
-    // If someone presses 'enter' on input box, run the submit handler
+    // If someone presses 'enter' on input box, check the content type (img,vid or plain text)
+    // and then run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {
-      this.handleSumbit(this.state.chatInput, this.state.nickname);
+      var input = this.state.chatInput
 
-    // Else update input state
+      //Check if input is a url
+      var isURL = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/i;
+      if (isURL.test(input)) {
+
+        // Then check if url is a youtube url
+        var isYoutubeURL = /(^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$)/i;
+        if (isYoutubeURL.test(input)) {
+
+          // convert to video markdown syntax and then submit
+          var video = '[![video]()](' + input + ')';
+          return this.handleSumbit(video, this.state.nickname);
+        }
+
+        // Then check if url refers to an image (jpg, jpeg, gif, png, svg, bmp)
+        var isImageURL = /(?:jpe?g|gif[^v]|png|svg|bmp)/i;
+        if (isImageURL.test(input)) {
+
+          // convert to image markdown syntax and then submit
+          var image = '![image](' + input + ')'
+          return  this.handleSumbit(image, this.state.nickname);
+        }
+
+        // URL is neither an image or youtube link, so call handleSubmit with plain input
+        return this.handleSumbit(input, this.state.nickname);
+
+
+      //Input is not a URL. Call handleSubmit with plain input
+      } else {
+        return this.handleSumbit(input, this.state.nickname);
+      }
+
+
+    // User did NOT press 'enter'. Update component state
     } else {
-      this.setState({ chatInput: e.target.value.substr(0, 280) });
+      return this.setState({ chatInput: e.target.value.substr(0, 280) });
     }
 
-  }
-
-  handleImageInput(e) {
-
-    // If someone presses 'enter' on input box, run the submit handler
-    if (e.charCode === 13 || e.keyCode === 13) {
-
-      // convert to image markdown syntax and then submit
-      var image = '![image](' + this.state.imageInput + ')'
-      this.handleSumbit(image, this.state.nickname);
-
-    // Else update input state
-    } else {
-      this.setState({ imageInput: e.target.value.substr(0, 280) });
-    }
-  }
-
-  handleVideoInput(e) {
-
-    // If someone presses 'enter' on input box, run the submit handler
-    if (e.charCode === 13 || e.keyCode === 13) {
-      // convert to video markdown syntax and then submit
-      var video = '[![video]()](' + this.state.videoInput + ')';
-      this.handleSumbit(video, this.state.nickname);
-
-    // Else update input state
-    } else {
-      this.setState({ videoInput: e.target.value.substr(0, 280) });
-    }
   }
 
   handleSumbit(msg, by) {
@@ -157,11 +156,9 @@ class ChatBox extends Component {
       this.join(msg);
     }
 
-    // After emitting message, reset input to null
+    // After emitting message, reset input
     this.setState({
-      chatInput: '',
-      imageInput: '',
-      videoInput: ''
+      chatInput: ''
     })
 
   }
@@ -174,31 +171,30 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div className="height-60 grey lighten-4">
+      <div id="chat-box" className="height-90 grey lighten-4">
         <div className="messages">
           {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} displayMoves={this.state.displayMoves} />
           )}
         </div>
+<<<<<<< HEAD
         <div className="input-field grey lighten-4 row no-bottom-margin card">
           <input className="col s7 m8 l9 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder}
+=======
+        <div className="input-field grey lighten-4 row no-bottom-margin">
+          <input className="col s8 m9 l10 black-text .rounded-10 valign-wrapper" type="text" placeholder={this.state.placeholder}
+>>>>>>> aa5f5308bf61a0459105b93f9a6cd892f1c37067
             value={this.state.chatInput} onChange={this.handleChatInput} onKeyPress={this.handleChatInput} />
-          <Toggle className="right col s4 m3 l2 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
-          <div className="right col s1 m1 l1 card-title activator">
-            <i className="material-icons">more_vert</i>
-          </div>
-          <div className="card-reveal grey lighten-4">
-            <span className="card-title">Paste an image or youtube link below<i className="material-icons right">close</i></span>
-            <div className="input-field row no-bottom-margin">
-              <input className="col s7 m8 l9 black-text .rounded-10" type="text" placeholder="Image"
-                value={this.state.imageInput}  onChange={this.handleImageInput} onKeyPress={this.handleImageInput}/>
-            </div>
-            <div className="input-field row no-bottom-margin">
-              <input className="col s7 m8 l9 black-text .rounded-10" type="text" placeholder="Video"
-                value={this.state.videoInput} onChange={this.handleVideoInput} onKeyPress={this.handleVideoInput}/>
-            </div>
+          <div className="right tooltipped" data-position="top" data-delay="800" data-tooltip="Show/hide moves">
+            <Toggle className="col s5 m4 l3 valign-wrapper" defaultChecked={this.state.displayMoves} onChange={this.handleToggle}/>
           </div>
         </div>
+<<<<<<< HEAD
+=======
+        <div className="grey lighten-4" style={ (this.state.chatInput) ? reveal : hide }>
+        *italic*,   **bold**,   **_combined_**,   ~~strikethrough~~
+        </div>
+>>>>>>> aa5f5308bf61a0459105b93f9a6cd892f1c37067
       </div>
     );
   }
