@@ -98,7 +98,7 @@ var gamesList = [
   }, {
     title: 'A Gameboy Game', 
     description: 'zzzzzzz some description',
-    link: 'http://gateway.ipfs.io/ipfs/QmWSHrqWHjmbzyPNKqzurC26sjAeUF3kqgQf4UwskCLWpk/AIRWOLF.zip',
+    // link: 'http://gateway.ipfs.io/ipfs/QmWSHrqWHjmbzyPNKqzurC26sjAeUF3kqgQf4UwskCLWpk/AIRWOLF.zip',
     console: {
       id: 4,
       name: 'GBA'

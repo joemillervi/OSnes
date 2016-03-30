@@ -1,4 +1,20 @@
+//main app module
 var app = angular.module('app', ['app.filters']);
+
+//used as filter in index.html
+angular.module('app.filters', []).filter('consoleFilter', [function () {
+  return function (games, selectedConsole) {
+    var gamestoShow = [];
+    angular.forEach(selectedConsole, function (id) {
+      angular.forEach(games, function (game) {
+        if (angular.equals(game.console.id, id)) {
+          gamestoShow.push(game);
+        }
+      });
+    });
+    return gamestoShow;
+  };
+}]);
 
 //Allows us to use data-ng-src in chrome app
 app.config([
@@ -8,14 +24,14 @@ app.config([
   }
 ]);
 
-
+//inputSelection screen
 app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
   $scope.ipFound = false;
-  $scope.inputSelection = { hidden: false}
+  // $scope.inputSelection = { hidden: false}
   $scope.toggleInputSelectionScreen = function() {
     window.retro.start();
-    $scope.inputSelection.hidden = true;
+    // $scope.inputSelection.hidden = true;
     inputSelectionScreen = document.getElementById('inputSelectionScreen');
     inputSelectionScreen.classList.add('hidden');
     $scope.$apply();
@@ -33,12 +49,10 @@ app.controller('inputSelection', function($scope) {
   window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
   window.openQRScreen = $scope.openQRScreen;
 
-
   //show keydown events for debugging purposes
   document.querySelector('body').addEventListener('keydown', function (e) {
-    console.log('da event triggurd: ', e);
+    console.log('keydown: ', e);
   });
-
 
   //Handle Keyboard Icon 
   document.getElementById('keyboardIcon').addEventListener('click', window.toggleInputSelectionScreen);
@@ -50,7 +64,7 @@ app.controller('inputSelection', function($scope) {
   });
 
   //Handle Mobile Icon
-  document.getElementById('mobileIcon').addEventListener('click', window.openQRScreen); //todo: fill this out
+  document.getElementById('mobileIcon').addEventListener('click', window.openQRScreen);
   document.getElementById('mobileIcon').addEventListener('mouseover', function() {
     $("#mobileIcon").css('background-image', 'url(' + '../img/desktopwithmobileiconhighlight.png' + ')');
   });
@@ -69,16 +83,6 @@ app.controller('inputSelection', function($scope) {
         var toQ = $scope.ipAddress + ':' + port;
 
         if($scope.ipFound === false) {
-          //QR code takes a while to render but we want everything to show up together so we use jQuery to make the rest of the screen show when QR is ready
-          // $("#qrTitle").text("Play on Mobile");
-          // $("#qrCode").css("border-color", "white");
-          // $("#qrInstructions").text("Scan QR");
-
-          // $("#keyboardTitle").text("Play on Desktop");
-          // $("#keyboardIcon").css("border-color", "white");
-          // $("#keyboardInstructions").text("Click keyboard");
-          // $("#keyboardIcon").css("background-color", 'black');
-          // $("#keyboardIcon").css("background-image", 'url(' + '../img/desktopicon.png' + ')');
           new QRCode(document.getElementById('qrCode'), toQ);
         }
 
@@ -93,11 +97,14 @@ app.controller('inputSelection', function($scope) {
 
 });
 
+//gameController Screen
 app.controller('gameSelection', function($scope, $http) {
   //used to hide and show the game selection screen
-  $scope.gameSelection = { hidden: false}
+  // $scope.gameSelection = { hidden: false}
   $scope.toggleGameSelectionScreen = function() {
-    $scope.gameSelection.hidden = true;
+    gameSelectionScreen = document.getElementById('gameSelection');
+    gameSelectionScreen.classList.add('hidden');
+    // $scope.gameSelection.hidden = true;
     $scope.$apply();
   }
   window.toggleGameSelectionScreen = $scope.toggleGameSelectionScreen;
@@ -115,25 +122,20 @@ app.controller('gameSelection', function($scope, $http) {
   });
   
   //Fetches ROM data from ipfs, converts to readable method for emulator, loads in the ROM
-  var loadingLong = document.getElementById('loadingLong');
+  var loading = document.getElementById('loading');
   $scope.getRom = function (game) {
     console.log('game', game);
-    loadingLong.classList.remove('hidden');
+    loading.classList.remove('hidden');
     return $http({
       method: 'GET',
       url: game.link,
       responseType: 'arraybuffer'
     }).then(function successCallback(response) {
         window.loadData(game.link.split("/")[5], new Uint8Array(response.data));
-        loadingLong.classList.add('hidden');
-
       }, function errorCallback(response) {
         console.log('failuuuure', response);
       });
   }
-  
-
-
   
   //list of available consoles: used to filter list of games
   $scope.consoleList = [{
@@ -193,18 +195,14 @@ app.controller('gameSelection', function($scope, $http) {
 
 });
 
-//used as filter in index.html
-angular.module('app.filters', []).filter('consoleFilter', [function () {
-  return function (games, selectedConsole) {
-    var gamestoShow = [];
-    angular.forEach(selectedConsole, function (id) {
-      angular.forEach(games, function (game) {
-        if (angular.equals(game.console.id, id)) {
-          gamestoShow.push(game);
-        }
-      });
-    });
-    return gamestoShow;
-  };
-}]);
+//pause game screen
+app.controller('pauseScreen', function($scope) {
+  //stop emulator
+  //show game selection screen
+  //hide overlay and pause screen
+  $scope.exit = function () {
+    window.stop();
+  }
+});
+
 

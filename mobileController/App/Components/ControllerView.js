@@ -191,31 +191,31 @@ class ControllerView extends React.Component {
   //Right thumb buttons: A, B, X, Y
   /////////////////////////////////////////////////////////////////////
   _APressIn() {
-    api.Press(this.props.route.ipAddress, 'b'); //emulator has a and b switched, so we switch again to make it normal
-  }
-  _APressOut() {
-    api.Release(this.props.route.ipAddress, 'b'); //emulator has a and b switched, so we switch again to make it normal
-  }
-
-  _BPressIn() {
     api.Press(this.props.route.ipAddress, 'a'); //emulator has a and b switched, so we switch again to make it normal
   }
-  _BPressOut() {
+  _APressOut() {
     api.Release(this.props.route.ipAddress, 'a'); //emulator has a and b switched, so we switch again to make it normal
   }
 
+  _BPressIn() {
+    api.Press(this.props.route.ipAddress, 'b'); //emulator has a and b switched, so we switch again to make it normal
+  }
+  _BPressOut() {
+    api.Release(this.props.route.ipAddress, 'b'); //emulator has a and b switched, so we switch again to make it normal
+  }
+
   _XPressIn() {
-    api.Press(this.props.route.ipAddress, 'y'); //emulator has x and y switched, so we switch again to make it normal
+    api.Press(this.props.route.ipAddress, 'x'); //emulator has x and y switched, so we switch again to make it normal
   }
   _XPressOut() {
-    api.Release(this.props.route.ipAddress, 'y'); //emulator has x and y switched, so we switch again to make it normal
+    api.Release(this.props.route.ipAddress, 'x'); //emulator has x and y switched, so we switch again to make it normal
   }
 
   _YPressIn() {
-    api.Press(this.props.route.ipAddress, 'x'); //emulator has x and y switched, so we switch again to make it normal
+    api.Press(this.props.route.ipAddress, 'y'); //emulator has x and y switched, so we switch again to make it normal
   }
   _YPressOut() {
-    api.Release(this.props.route.ipAddress, 'x'); //emulator has x and y switched, so we switch again to make it normal
+    api.Release(this.props.route.ipAddress, 'y'); //emulator has x and y switched, so we switch again to make it normal
   }
 
   /////////////////////////////////////////////////////////////////////
