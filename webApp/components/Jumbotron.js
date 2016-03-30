@@ -1,7 +1,186 @@
 import React, { Component } from 'react';
+import Video from './Video';
+import Toggle from 'react-toggle';
 
 class Jumbotron extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      webCamAllowed: false,
+      jumboShown: false,
+      outsideStream: null,
+      alertWrapper: false
+    }
+  }
+
+  toggleVideo() {
+    this.checkCam((camAllowed) => {
+      if (!camAllowed) {
+        this.state.jumboShown = false;
+        // request camera access
+        navigator.getUserMedia  = navigator.getUserMedia ||
+                                  navigator.webkitGetUserMedia ||
+                                  navigator.mozGetUserMedia ||
+                                  navigator.msGetUserMedia;
+        navigator.getUserMedia({ video: true, audio: false }, () => {}, () => {});
+        this.state.alertWrapper = true;
+        setTimeout(() => {
+          this.setState({alertWrapper: false})
+        }, 2000)
+      }
+      else {
+        // otherwise if camera is allowed toggle jumboShown status
+        this.state.jumboShown = !this.state.jumboShown;
+        if (this.state.jumboShown) this.props.socket.emit('is-a-streamer')
+        if (!this.state.jumboShown) {
+          this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
+          console.log('opt-out-of-jumbo', this.state.outsideStream)
+          this.state.outsideStream.getVideoTracks()[0].stop();
+        }
+      }
+      // trigger a render
+      this.setState({webCamAllowed: camAllowed})
+    })
+  }
+
+  connectVideoToStream() {
+    var video = document.getElementById('video-player')
+    console.log(this.state.outsideStream)
+    video.src = window.URL.createObjectURL(this.state.outsideStream)
+    video.play()
+  }
+
+  // check if access to webcam is granted. returns bool
+  checkCam(cb) {
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        // Firefox 38+ seems having support of enumerateDevicesx
+        navigator.enumerateDevices = function(callback) {
+            navigator.mediaDevices.enumerateDevices().then(callback);
+        };
+    }
+
+    var MediaDevices = [];
+    var isHTTPs = location.protocol === 'https:';
+    var canEnumerate = false;
+
+    if (typeof MediaStreamTrack !== 'undefined' && 'getSources' in MediaStreamTrack) {
+        canEnumerate = true;
+    } else if (navigator.mediaDevices && !!navigator.mediaDevices.enumerateDevices) {
+        canEnumerate = true;
+    }
+
+    var hasMicrophone = false;
+    var hasSpeakers = false;
+    var hasWebcam = false;
+
+    var isMicrophoneAlreadyCaptured = false;
+    var isWebcamAlreadyCaptured = false;
+
+    function checkDeviceSupport(callback) {
+        if (!canEnumerate) {
+            return;
+        }
+
+        if (!navigator.enumerateDevices && window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
+            navigator.enumerateDevices = window.MediaStreamTrack.getSources.bind(window.MediaStreamTrack);
+        }
+
+        if (!navigator.enumerateDevices && navigator.enumerateDevices) {
+            navigator.enumerateDevices = navigator.enumerateDevices.bind(navigator);
+        }
+
+        if (!navigator.enumerateDevices) {
+            if (callback) {
+                callback();
+            }
+            return;
+        }
+
+        MediaDevices = [];
+        navigator.enumerateDevices((devices) => {
+            devices.forEach((_device) => {
+                var device = {};
+                for (var d in _device) {
+                    device[d] = _device[d];
+                }
+
+                if (device.kind === 'audio') {
+                    device.kind = 'audioinput';
+                }
+
+                if (device.kind === 'video') {
+                    device.kind = 'videoinput';
+                }
+
+                var skip;
+                MediaDevices.forEach(function(d) {
+                    if (d.id === device.id && d.kind === device.kind) {
+                        skip = true;
+                    }
+                });
+
+                if (skip) {
+                    return;
+                }
+
+                if (!device.deviceId) {
+                    device.deviceId = device.id;
+                }
+
+                if (!device.id) {
+                    device.id = device.deviceId;
+                }
+
+                if (!device.label) {
+                    device.label = 'Please invoke getUserMedia once.';
+                    if (!isHTTPs) {
+                        device.label = 'HTTPs is required to get label of this ' + device.kind + ' device.';
+                    }
+                } else {
+                    if (device.kind === 'videoinput' && !isWebcamAlreadyCaptured) {
+                        isWebcamAlreadyCaptured = true;
+                    }
+
+                    if (device.kind === 'audioinput' && !isMicrophoneAlreadyCaptured) {
+                        isMicrophoneAlreadyCaptured = true;
+                    }
+                }
+
+                if (device.kind === 'audioinput') {
+                    hasMicrophone = true;
+                }
+
+                if (device.kind === 'audiooutput') {
+                    hasSpeakers = true;
+                }
+
+                if (device.kind === 'videoinput') {
+                    hasWebcam = true;
+                }
+
+                // there is no 'videoouput' in the spec.
+
+                MediaDevices.push(device);
+            });
+
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    // check for microphone/camera support!
+    checkDeviceSupport(() => {
+      console.log('GOT CALLED', isWebcamAlreadyCaptured)
+      if (!cb) this.setState({webCamAllowed: isWebcamAlreadyCaptured});
+      else cb(isWebcamAlreadyCaptured)
+    });
+  }
+
+
   componentDidMount() {
+    this.checkCam() // update the state of camera
+
     navigator.getUserMedia  = navigator.getUserMedia ||
                               navigator.webkitGetUserMedia ||
                               navigator.mozGetUserMedia ||
@@ -22,6 +201,7 @@ class Jumbotron extends Component {
       navigator.getUserMedia({ video: true, audio: false }, (stream) => {
         // make stream global for peers who connect later
         outsideStream = stream;
+        this.setState({outsideStream: stream})
         var video = document.getElementById('video-player')
         video.src = window.URL.createObjectURL(outsideStream)
         // create peer connections wil all sockets and stream to them
@@ -83,13 +263,12 @@ class Jumbotron extends Component {
         })
         peers[data.id].peer.on('stream',  (stream) => {
           // got remote video stream, now let's show it in a video tag
+          this.setState({outsideStream: stream});
           var video = document.getElementById('video-player')
-          console.log('video! stream', stream)
           video.src = window.URL.createObjectURL(stream)
           video.play()
         })
     })
-
     // turn off webcam if not streaming
     this.props.socket.on('stop-streaming', () => {
       console.log('stop-streaming')
@@ -98,8 +277,17 @@ class Jumbotron extends Component {
     })
   }
 
-  render() {
-    return (<video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video>)
-  }}
 
+  render() {
+
+   console.log('checkstates', this.state.webCamAllowed, this.state.jumboShown)
+    return (
+      <div>
+        <div id="jumbo-wrapper"><div className="inline toggle-jumbo left-align">Toggle Jumbotron</div><Toggle id="toggle-btn" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/></div>
+        {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)} /> : ''}
+        {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline up-arrow" src="./webcam_off.png"/></div> : ''}
+      </div>
+    )
+  }
+}
 export default Jumbotron;

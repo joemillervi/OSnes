@@ -37,7 +37,7 @@ debug('server uid %s', uid);
 // initialize array of user-selected moves and vote count object:
 var moves = [];
 var voteCount = {};
-var CLIENTS = {};
+var streamerCLIENTS = {};
 // helper function to find the winning vote:
 var mode = function (arr) {
   var counts = {};
@@ -64,21 +64,23 @@ io.on('connection', function(socket){
     else socket.emit('frame', image)
   });
   console.log('a client connected');
-  // Do we need to do this or can we rely on io.sockets to be an array of all sockets?
-  CLIENTS[socket.id] = socket;
 
-  if (Object.keys(CLIENTS).length === 1) {
-    console.log('first streamer')
-    socket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: socket.id})
-    currentStreamerSocket = socket;
-  } else {
-    console.log('server: new peer')
-    currentStreamerSocket.emit('new-peer', socket.id)
-  }
+  // when they enable their camera
+  socket.on('is-a-streamer', function() {
+    streamerCLIENTS[socket.id] = socket;
+    if (Object.keys(streamerCLIENTS).length === 1) {
+      socket.emit('become-streamer', {allIDs: Object.keys(streamerCLIENTS), myID: socket.id})
+      currentStreamerSocket = socket;
+    } else {
+      console.log('server: new peer')
+      currentStreamerSocket.emit('new-peer', socket.id)
+    }
+  });
+
   // route new peer connection to peer that requested it
   socket.on('connect-to-peer', function(data) {
     console.log('connect-to-peer')
-    CLIENTS[data.id].emit('connect-to-streamers-peer', data)
+    streamerCLIENTS[data.id].emit('connect-to-streamers-peer', data)
   });
 
   socket.on('signal-peer1', function(data) {
@@ -87,7 +89,15 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function() {
     console.log('a user disconnected')
-    delete CLIENTS[socket.id]
+    delete streamerCLIENTS[socket.id]
+  })
+
+  socket.on('opt-out-of-jumbo', function() {
+    console.log('a user disconnected')
+    if (currentStreamerSocket.id === socket.id) {
+      // do something to handle the case where the streamer closes their jumbotron or closes their camera
+    }
+    delete streamerCLIENTS[socket.id]
   })
 
   var req = socket.request;
@@ -149,8 +159,8 @@ setInterval(function () {
       redis.publish('crowdmu:move', keys[winningMove]);
       // socket.emit('move', winningMove, socket.nick); // do we need these?
       // broadcast(socket, 'move', winningMove, socket.nick); // do we need these?
-      for (id in CLIENTS) {
-        CLIENTS[id].hasVoted = false
+      for (id in streamerCLIENTS) {
+        streamerCLIENTS[id].hasVoted = false
       }
       io.sockets.emit('sendVoteCount', {});
       moves = [];
@@ -160,17 +170,17 @@ setInterval(function () {
 }, 3000);
 // jumbotron show a new person every x seconds
 setInterval(function() {
-  if (currentStreamerSocket && Object.keys(CLIENTS).length > 0) {
-    console.log(Object.keys(CLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
-    var randomSocket = CLIENTS[Object.keys(CLIENTS)[Math.floor(Math.random() * Object.keys(CLIENTS).length)]];
+  if (currentStreamerSocket && Object.keys(streamerCLIENTS).length > 0) {
+    console.log(Object.keys(streamerCLIENTS), 'currentSTREAMER:', currentStreamerSocket.id)
+    var randomSocket = streamerCLIENTS[Object.keys(streamerCLIENTS)[Math.floor(Math.random() * Object.keys(streamerCLIENTS).length)]];
     if (randomSocket.id !== currentStreamerSocket.id) {
       currentStreamerSocket.emit('stop-streaming')
       // set new streamer
       currentStreamerSocket = randomSocket;
-      currentStreamerSocket.emit('become-streamer', {allIDs: Object.keys(CLIENTS), myID: currentStreamerSocket.id})
+      currentStreamerSocket.emit('become-streamer', {allIDs: Object.keys(streamerCLIENTS), myID: currentStreamerSocket.id})
     }
-    // for (id in CLIENTS) {
-    //   CLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
+    // for (id in streamerCLIENTS) {
+    //   streamerCLIENTS[id].emit('listen-from-streamer', currentStreamerSocket.SDP)
     // }
   }
 }, 6000)

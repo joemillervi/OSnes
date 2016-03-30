@@ -7,6 +7,51 @@ div {
   border: 1px solid red;
 }*/
 
+.inline {
+  display: inline-block;
+}
+
+#alert-wrapper {
+  position: absolute;
+  background: rgba(255, 90, 96, 0.9);
+  width:30%;
+  text-align: center;
+  padding: 5px;
+  padding-bottom: 4px;
+  padding-top:8px;
+
+}
+
+.up-arrow {
+  position: relative;
+  float:left;
+  left: 10px;
+}
+
+#id {
+  position: relative;
+  bottom: 10px;
+}
+
+.toggle-jumbo {
+  position:relative;
+  top:5px;
+  font-family: dockerOne;
+  font-size: 1em;
+  text-align: right;
+
+}
+
+
+#jumbo-wrapper {
+
+  position: relative;
+  top: -5px;
+  margin: 7px 18px 7px 0px;
+  text-align:right;
+
+}
+
 nav {
   padding-left: 10px;
   padding-right: 10px;
