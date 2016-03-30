@@ -36,7 +36,7 @@ class ChatMessage extends Component {
           <b className="left-align black-text">{this.props.message.by}  </b>
           <Timeago date={this.props.message.date} live={false} minPeriod={60} className="grey-text lighten-4 message-timestamp"/>
         </div>
-        <div className="left-algin black-text" dangerouslySetInnerHTML={this.rawMarkdown()}/>
+        <div className="message-chat" dangerouslySetInnerHTML={this.rawMarkdown()}/>
       </div>
     );
   }
