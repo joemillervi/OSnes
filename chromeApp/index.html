@@ -3,36 +3,128 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="index.css">
-  <title>OSnes</title>
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
-<body>
-  <div id="menu-screen" ng-app="main" ng-hide="emulator.playing" ng-controller="mainCtrl">
-    <div id="qrcode"></div>
-    <div id="title">Scan QR to Start</div>
+<body ng-app="app" >
+  <!-- these are the error and loading screens -->
+  <div id="loading" class="message screen">
+    <img id="loadingGif" src="./img/snesloadingfastcropped.gif" height="330px" width="158px"/>
+    <h1 id="loadingText">loading ...</h1>
   </div>
-  <!-- this is the emulator -->
-  <div class="draghint hidden screen" id="draghint">
-    <input type="file" id="chooser" class="chooser"/>
-    <div class="dragtext">
-      <h1>drag a game here to play</h1>
-    </div>
+  <div id="loadingLong" class="message screen hidden">
+    <img id="loadingGifLong" src="./img/loading.gif" height="330px" width="158px"/>
+    <h1 id="loadingText">loading ...</h1>
   </div>
-  <div id="loading" class="message screen"><h1>loading ...</h1></div>
   <div id="error" class="message hidden screen">
     <h1>error!</h1>
     <p>quit and reopen to try again</p>
   </div>
+
+  <!-- this is the game selection screen -->
+  <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
+    <div class="availableGames" id="availableGames">
+    <nav>
+      <h1 class='needAGame'>Need a Game?</h1>
+    </nav>
+
+    <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
+      <button class="btn dropdown-toggle" data-ng-click="open=!open" id='filterButton'>
+        <span class='filterText' >Filter</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+        <li>
+          <a data-ng-click="checkAll()">
+            <i class="icon-ok-sign"></i>
+            Check All
+          </a>
+        </li>
+        <li>
+          <a data-ng-click="selectedConsole=[];">
+            <i class="icon-remove-sign"></i>
+            Uncheck All
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li data-ng-repeat="console in consoleList"> 
+          <a data-ng-click="setSelectedConsole()">
+            {{console.name}}
+            <span data-ng-class="isChecked(console.id)"></span>
+          </a>
+        </li>
+      </ul>
+      <input class='searchBar' type='text' ng-model='search' placeholder='Find what you need here!' id='searchBar'/>
+    </div>
+
+    <div class='games' ng-cloak>
+      <ul class='gamesList'>
+        <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
+          <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> 
+          <a id='gameTitle' data-ng-click="getRom(game)">
+            {{game.title}}
+          </a>
+          <!-- <div id='gameDescription' data-ng-click="getRom(game)">   -->
+            <!-- {{game.description}} -->
+          <!-- </div>   -->
+          <div>
+            <img src="./img/infoicongray.png" id="infoButton" height="20px" width="20px"/>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    </div>
+    <div class='dragGameHere' id='dragGameHere'>
+      <input type="file" id="chooser" class="chooser"/>
+        <h1 id="dragHint1">Have a game?</h1>
+        <h1 id="dragHint2">Drag it in here!</h1>
+    </div>
+  </div>
+
+  <!-- this is the Keyboard vs Mobile choice selection screen -->
+  <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
+
+    <div id="qrScreen" class="hidden" data-ng-click="closeQRScreen()">
+      <div id="qrModal" class="modal" data-ng-click="$event.stopPropagation()">
+          <div id="qrModalBody" class="modal-body"> 
+            <div id="qrCode"></div>
+            <h3 id="qrInstructions">Scan QR to Start</h3>
+          </div>
+      </div>
+    </div>
+
+    <div id="chooseYourControllerText1" data-ng-click="closeQRScreen()">
+      Choose
+      Your
+      Controller
+    </div>
+    <div id="keyboardSide">
+      <div id="keyboardIcon"></div>
+      <div id='keyboardTitle'>Keyboard</div>
+      <div id='keyboardDescription'>Desktop Only</div>
+    </div>
+    <div id="mobileSide">
+      <div id="mobileIcon" data-ng-click="openQRScreen()"></div>
+      <div id='mobileTitle'>Mobile Phone</div>
+      <div id='mobileDescription'>Desktop + Phone</div>
+    </div>
+
+  </div>
+
+
+
+  <!-- this is the overlay screen that appears on right click: pauses game and shows options -->
   <div id="overlay" class="overlay"></div>
   <div class="menu hidden screen" id="menu">
     <input type="file" id="savechooser" class="chooser"/>
     <div class="options">
       <h1>Your game is paused.</h1>
-      <button id="resume" class="resume">resume</button>
-      <button id="reset" class="reset">reset</button>
-      <button id="save" class="save">save game</button>
-      <button id="load" class="load">load save</button>
-      <button id="mute" class="mute">mute</button>
+      <button id="resume" class="resume">Resume</button>
+      <button id="reset" class="reset">Reset</button>
+      <button id="save" class="save">Save Game</button>
+      <button id="load" class="load">Load Save</button>
+      <button id="mute" class="mute">Mute</button>
     </div>
     <div>
       <h1>Controls:</h1>
@@ -44,13 +136,8 @@
       <div>R button = R key</div>
       <div>D-pad = arrow keys</div>
     </div>
-    <div>
-      <h1>Core Info:</h1>
-      <pre id="core-name"></pre>
-      <pre id="system-info"></pre>
-      <pre id="av-info"></pre>
-    </div>
   </div>
+
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>
@@ -59,11 +146,14 @@
   <script src="config.js"></script>
   <script src="build.js"></script>
   <script src="bootstrap.js"></script>
-  <!-- our dependencies -->
+
+  <script src="lib/underscore-min.js"></script>
   <script src="lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>
   <script src="./lib/qr-code.js"></script>
 
   <script src="./app.js"></script>
+  <script src="./gamesList.js"></script>
+
 </body>
 </html>

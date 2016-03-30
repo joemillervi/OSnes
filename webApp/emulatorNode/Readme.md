@@ -16,3 +16,7 @@ Then run it with the following ENV vars:
 ```
 $ CROWDMU_ROM=path/to/rom.gb node index
 ```
+
+
+
+OR, you can run the whole thing the executable "start-server"... just do the thing: ./start-server

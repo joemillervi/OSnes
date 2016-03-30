@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from './barChart.js'
+import Chart from './Chart.js'
 
 class CrowdChoice extends Component {
   constructor(props) {
@@ -23,8 +23,8 @@ class CrowdChoice extends Component {
     return (
       <div className="col s4 height-100">
         <div className="row no-bottom-margin">
-          <div className="left-algin col s3 push-s9">Votes</div>
-          <div className="left-align col s9 pull-s3">Online: {this.state.connections}</div>
+          <b className="left-algin col s3 push-s9">Votes</b>
+          <b className="left-align col s9 pull-s3">Online: {this.state.connections}</b>
         </div>
         <Chart data={this.props.votes}/>
       </div>

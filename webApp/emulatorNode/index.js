@@ -1,3 +1,4 @@
+require('./../env.js')
 var fs = require('fs');
 var emulator = require('./emulator');
 var join = require('path').join;

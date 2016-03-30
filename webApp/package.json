@@ -5,8 +5,9 @@
   "main": "client/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon clientServer/server.js --ignore components",
     "build": "webpack --config webpack.config.js",
-    "start": "nodemon clientServer/server.js --ignore components"
+    "buildP": "webpack --config webpackProduction.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,12 +17,15 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "lodash": "^4.5.1",
+    "marked-for-chat": "^1.0.6",
     "node": "0.0.0",
     "nodemon": "^1.9.1",
     "react-addons-css-transition-group": "^0.14.7",
     "react-dom": "^0.14.6",
     "react-redux": "^4.4.1",
     "react-router": "^2.0.0",
+    "react-timeago": "^2.2.1",
+    "react-toggle": "^2.0.1",
     "redis": "^2.5.2",
     "redux": "^3.3.1",
     "redux-logger": "^2.6.1"
@@ -39,6 +43,7 @@
     "react-dom": "^0.14.7",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.0",
+    "uglifyjs": "^2.4.10",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.10.0"

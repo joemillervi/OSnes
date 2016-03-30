@@ -4,3 +4,7 @@ node_modules
 Pokemon_Crystal.gbc
 webApp/emulatorNode/npm-debug.log
 dump.rdb
+webApp/dist/bundle.js
+npm-debug.log
+env.js
+sslcerts
