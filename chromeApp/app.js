@@ -226,7 +226,7 @@ app.controller('pauseScreen', function($scope) {
       "nestopia": "./overlays/gamepads/nes/"
     },
     "keys": {
-      //Default keyboard key settings:
+      //Default keyboard key mappings:
       //IJKL Keys
       "75": "0",  //B
       "76": "1",  //A
@@ -306,9 +306,7 @@ app.controller('pauseScreen', function($scope) {
     55 : "7",
     56 : "8",
     57 : "9",
-    // 59 : "semicolon (firefox), equals",
     60 : "<",
-    // 61 : "equals (firefox)",
     63 : "ß",
     65 : "a",
     66 : "b",
@@ -351,7 +349,6 @@ app.controller('pauseScreen', function($scope) {
     105 : "numpad 9 ",
     106 : "multiply ",
     107 : "add",
-    // 108 : "numpad period (firefox)",
     109 : "subtract ",
     110 : "decimal point",
     111 : "divide ",
@@ -380,7 +377,6 @@ app.controller('pauseScreen', function($scope) {
     163 : "#",
     167 : "page forward (Chromebook)",
     171 : "~ + * key",
-    // 173 : "minus (firefox), mute/unmute",
     174 : "decrease volume level",
     175 : "increase volume level",
     176 : "next",
@@ -388,9 +384,6 @@ app.controller('pauseScreen', function($scope) {
     178 : "stop",
     179 : "play/pause",
     180 : "e-mail",  //
-    // 181 : "mute/unmute (firefox)", 
-    // 182 : "decrease volume level (firefox)", 
-    // 183 : "increase volume level (firefox)", 
     186 : "semi-colon / ñ",
     187 : "equal sign ",
     188 : "comma",
@@ -407,75 +400,165 @@ app.controller('pauseScreen', function($scope) {
     223 : "`",
     224 : "left or right ⌘ key (firefox)",
     225 : "altgr", 
-    // 226 : "< /git >", 
-    // 230 : "GNOME Compose Key", 
-    // 233: "XF86Forward", 
-    // 234: "XF86Back", 
-    // 255 : "toggle touchpad" 
+  };
+
+  var newKeyMappings = {
+    //Keys reserved for mobilecontroller; seldom used keys. 
+    //Mapping new keys overwrite all existing mappings but we want to keep these so we include them here
+    "59": "0",  //B
+    "61": "1",  //A
+    "108": "2",  //Y
+    "173": "3",  //X
+
+    "181": "4",  //L
+    "182": "5",  //R
+
+    "183": "8",  //Select
+    "226": "9",  //Start
+    
+    "230": "12",  //Up
+    "233": "13",  //Down
+    "234": "14",  //Left
+    "255": "15", //Right
+
+    //arrow keys double mapping: can be overwritten but otherwise stays to be consistent with default double-mapping
+    "38": "12",  //Up
+    "40": "13",  //Down
+    "37": "14",  //Left
+    "39": "15", //Right
+
   };
   
   document.querySelector('body').addEventListener('keydown', function (e) {
-    e.preventDefault();
     console.log('keycode: ', e.keyCode);
-    // console.log('code: ', e.code);
+    console.log('code: ', e.code);
+
+    //only do the following if the emulator has started
+    if ($('#retro').length < 1){
+      return;
+    }
     if(retro.classList.contains('hidden')) {
+      e.preventDefault();
       try {
-        document.getElementById(document.activeElement.id).value = $scope.keyCodes[e.keyCode];
-        console.log('activeelemtn',document.activeElement.id);
-        switch (document.activeElement.id) {
-          case 'aButton':
-            systemSettings.keys[e.keyCode] = '1';
-            break;
-          case 'bButton':
-            systemSettings.keys[e.keyCode] = '0';
-            break;
-          case 'xButton':
-            systemSettings.keys[e.keyCode] = '3';
-            break;
-          case 'yButton':
-            systemSettings.keys[e.keyCode] = '2';
-            break;
-          case 'startButton':
-            systemSettings.keys[e.keyCode] = '9';
-            break;
-          case 'selectButton':
-            systemSettings.keys[e.keyCode] = '8';
-            break;
-          case 'upArrow':
-            systemSettings.keys[e.keyCode] = '12';
-            break;
-          case 'downArrow':
-            systemSettings.keys[e.keyCode] = '13';
-            break;
-          case 'leftArrow':
-            systemSettings.keys[e.keyCode] = '14';
-            break;
-          case 'rightArrow':
-            systemSettings.keys[e.keyCode] = '15';
-            break;
-          case 'lShoulder':
-            systemSettings.keys[e.keyCode] = '4';
-            break;
-          case 'rShoulder':
-            systemSettings.keys[e.keyCode] = '5';
-            break;
-          default:
-            break;
+        //if the user is not trying to map to a key reserved to the mobilecontroller, then map in new keys
+        if(e.keyCode !== "59" || "61" || "108" || "173" || "181" || "182" || "183" || "226" || "230" || "233" || "234" || "235") {
+          document.getElementById(document.activeElement.id).value = $scope.keyCodes[e.keyCode];
+          switch (document.activeElement.id) {
+            case 'aButton':
+              newKeyMappings[e.keyCode] = '1';
+              break;
+            case 'bButton':
+              newKeyMappings[e.keyCode] = '0';
+              break;
+            case 'xButton':
+              newKeyMappings[e.keyCode] = '3';
+              break;
+            case 'yButton':
+              newKeyMappings[e.keyCode] = '2';
+              break;
+            case 'startButton':
+              newKeyMappings[e.keyCode] = '9';
+              break;
+            case 'selectButton':
+              newKeyMappings[e.keyCode] = '8';
+              break;
+            case 'upArrow':
+              newKeyMappings[e.keyCode] = '12';
+              break;
+            case 'downArrow':
+              newKeyMappings[e.keyCode] = '13';
+              break;
+            case 'leftArrow':
+              newKeyMappings[e.keyCode] = '14';
+              break;
+            case 'rightArrow':
+              newKeyMappings[e.keyCode] = '15';
+              break;
+            case 'lShoulder':
+              newKeyMappings[e.keyCode] = '4';
+              break;
+            case 'rShoulder':
+              newKeyMappings[e.keyCode] = '5';
+              break;
+            default:
+              break;
+          }
         }
       }
       catch(err) {
-        console.log('error', err); //not focused on an form input tag
+        console.log('error', err); //not focused on a form input tag
       }
     }
   });
 
+  $scope.getPlaceholder = function(button) {
+    switch (button) {
+      case 'aButton':
+        return "l";
+        break;
+      case 'bButton':
+        return "k";
+        break;
+      case 'xButton':
+        return "i";
+        break;
+      case 'yButton':
+        return "j";
+        break;
+      case 'startButton':
+        return "enter";
+        break;
+      case 'selectButton':
+        return "shift";
+        break;
+      case 'upArrow':
+        return "w";
+        break;
+      case 'downArrow':
+        return "s";
+        break;
+      case 'leftArrow':
+        return "a";
+        break;
+      case 'rightArrow':
+        return "d";
+        break;
+      case 'lShoulder':
+        return "e";
+        break;
+      case 'rShoulder':
+        return "u";
+        break;
+      default:
+        break;
+    }
+  } 
+
+  $scope.disabled = true;
+
+  $scope.editKeyMappings = function() {
+    $scope.disabled = false;
+    $('#keyMappingsForm').find("input").each(function(ev){
+       $(this).attr("placeholder", "");
+    });
+  };
+
+  $scope.submitNewKeyMappings = function() {
+    systemSettings.keys = {};
+    systemSettings.keys = newKeyMappings;
+    $scope.disabled = true;
+  };
+
+  $scope.cancelSubmitNewKeyMappings = function() {
+    $('#keyMappingsForm').find("input").each(function(ev){
+       $(this).attr("placeholder", $scope.getPlaceholder($(this).attr('id')));
+    });
+    $scope.disabled = true;
+  }
 
 
 
-  // $scope.keys = {
-  //   "a" : "undefined"
-  // };
-  systemSettings.keys['70'] = '0';
+
 });
 
 
