@@ -118,32 +118,35 @@
     </div>
     <div>
       <h1>Controls:</h1>
+
       <div id='keyMappingsForm'>
-        A button: <input type="text" id="aButton" placeholder="{{getPlaceholder('aButton')}}" ng-disabled='disabled'>
+        A button: <input type="text" id="aButton" value="{{getValue('aButton')}}" ng-disabled='disabled'>
         <br>
-        B button: <input type="text" id="bButton" placeholder="{{getPlaceholder('bButton')}}" ng-disabled='disabled'>
+        B button: <input type="text" id="bButton" value="{{getValue('bButton')}}" ng-disabled='disabled'>
         <br>
-        X button: <input type="text" id="xButton" placeholder="{{getPlaceholder('xButton')}}" ng-disabled='disabled'>
+        X button: <input type="text" id="xButton" value="{{getValue('xButton')}}" ng-disabled='disabled'>
         <br>
-        Y button: <input type="text" id="yButton" placeholder="{{getPlaceholder('yButton')}}" ng-disabled='disabled'>
+        Y button: <input type="text" id="yButton" value="{{getValue('yButton')}}" ng-disabled='disabled'>
         <br>
-        L shoulder: <input type="text" id="lShoulder"placeholder="{{getPlaceholder('lShoulder')}}" ng-disabled='disabled'>
+        L shoulder: <input type="text" id="lShoulder"value="{{getValue('lShoulder')}}" ng-disabled='disabled'>
         <br>
-        R shoulder: <input type="text" id="rShoulder"placeholder="{{getPlaceholder('rShoulder')}}" ng-disabled='disabled'>
+        R shoulder: <input type="text" id="rShoulder"value="{{getValue('rShoulder')}}" ng-disabled='disabled'>
         <br>
-        Start button: <input type="text" id=" startButton" placeholder="{{getPlaceholder('startButton')}}" ng-disabled='disabled'>
+        Start button: <input type="text" id="startButton" value="{{getValue('startButton')}}" ng-disabled='disabled'>
         <br>
-        Select button: <input type="text" id="selectButton" placeholder="{{getPlaceholder('selectButton')}}" ng-disabled='disabled'>
+        Select button: <input type="text" id="selectButton" value="{{getValue('selectButton')}}" ng-disabled='disabled'>
         <br>
-        Up arrow: <input type="text" id="upArrow" placeholder="{{getPlaceholder('upArrow')}}" ng-disabled='disabled'>
+        Up arrow: <input type="text" id="upArrow" value="{{getValue('upArrow')}}" ng-disabled='disabled'>
         <br>
-        Down arrow: <input type="text" id="downArrow" placeholder="{{getPlaceholder('downArrow')}}" ng-disabled='disabled'>
+        Down arrow: <input type="text" id="downArrow" value="{{getValue('downArrow')}}" ng-disabled='disabled'>
         <br>
-        Left arrow: <input type="text" id="leftArrow" placeholder="{{getPlaceholder('leftArrow')}}" ng-disabled='disabled'>
+        Left arrow: <input type="text" id="leftArrow" value="{{getValue('leftArrow')}}" ng-disabled='disabled'>
         <br>
-        Right arrow: <input type="text" id="rightArrow" placeholder="{{getPlaceholder('rightArrow')}}" ng-disabled='disabled'>
+        Right arrow: <input type="text" id="rightArrow" value="{{getValue('rightArrow')}}" ng-disabled='disabled'>
         <br>
         <button id="editKeyMappings" data-ng-click="editKeyMappings()" ng-hide="!disabled">Edit Key Mappings</button>
+        <div ng-hide="!disabled">For each button, click the corresponding input box above and press the key you want the button to map to</div>
+
         <button id="submitNewKeyMappings" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
         <button id="cancelSubmitNewKeyMappings" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
 
