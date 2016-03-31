@@ -171,7 +171,7 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div id="chat-box" className="height-90 grey lighten-4">
+      <div id="chat-box" className="height-60 grey lighten-4">
         <div className="messages">
           {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} displayMoves={this.state.displayMoves} />
@@ -197,11 +197,12 @@ export default ChatBox;
 var reveal = {
   color: '#9e9e9e',
   fontSize: '0.8em',
-  wordSpacing: '1em'
+  wordSpacing: '1em',
+  display: 'block'
 }
 
 var hide = {
-  display: 'hide',
+  display: 'none',
   color: '#f5f5f5',
   fontSize: '0.8em',
   wordSpacing: '1em'

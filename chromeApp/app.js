@@ -40,7 +40,7 @@ app.controller('inputSelection', function($scope) {
   });
 
 
-  //Handle Keyboard Icon 
+  //Handle Keyboard Icon
   document.getElementById('keyboardIcon').addEventListener('click', window.toggleInputSelectionScreen);
   document.getElementById('keyboardIcon').addEventListener('mouseover', function() {
     $("#keyboardIcon").css('background-image', 'url(' + '../img/desktopiconhighlight.png' + ')');
@@ -113,7 +113,7 @@ app.controller('gameSelection', function($scope, $http) {
     $("#searchBar").css("border-color", "#cccccc");
     $("#filterButton").css("border-color", "#cccccc");
   });
-  
+
   //Fetches ROM data from ipfs, converts to readable method for emulator, loads in the ROM
   var loadingLong = document.getElementById('loadingLong');
   $scope.getRom = function (game) {
@@ -131,10 +131,10 @@ app.controller('gameSelection', function($scope, $http) {
         console.log('failuuuure', response);
       });
   }
-  
 
 
-  
+
+
   //list of available consoles: used to filter list of games
   $scope.consoleList = [{
     id: 1,
@@ -151,8 +151,8 @@ app.controller('gameSelection', function($scope, $http) {
   }];
 
   //initialize showing all consoles/games
-  $scope.selectedConsole = [1,2,3,4]; 
-  
+  $scope.selectedConsole = [1,2,3,4];
+
   //'import' list of games to render from gamesList.js
   $scope.games = window.gamesList;
 
@@ -207,4 +207,3 @@ angular.module('app.filters', []).filter('consoleFilter', [function () {
     return gamestoShow;
   };
 }]);
-

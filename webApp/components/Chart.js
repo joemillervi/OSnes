@@ -57,7 +57,7 @@ const Chart = React.createClass({
 
   _getBarLabelColor: function(x, n) {
     if(x(n)>7) {
-      return 'white'; //bar chart is long enough for label to be in it; label renders inside of bar and is white
+      return 'black'; //bar chart is long enough for label to be in it; label renders inside of bar and is white
     } else {
       return 'black'; //bar chart is too short for label to be in it; label renders outside of bar and is black
     }
@@ -65,9 +65,9 @@ const Chart = React.createClass({
 
   _getBarLabelPosition: function(x, n) {
     if(x(n)<=7) {
-      return n.toString().length>1 ? +12 : +7; //bar chart too short for label to be in it; move it to the right: by 12 if label is a 2 digit number and by 7 if label is a 1 digit number
+      return (n.toString().length > 1) ? +12 : +7; //bar chart too short for label to be in it; move it to the right: by 12 if label is a 2 digit number and by 7 if label is a 1 digit number
     } else {
-      return -2 //bar chart is long enough for label to be in it; move left by 2
+      return -2; //bar chart is long enough for label to be in it; move left by 2
     }
   },
 
@@ -84,13 +84,14 @@ const Chart = React.createClass({
 
     const colorScaleBar = d3.scale.linear()
                          .domain(data)
-                         .range(["#084594","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef","#deebf7", "#f7fbff"])
+                         .range(["#311b92","#311b92","#311b92","#311b92","#311b92","#311b92","#311b92", "#311b92"])
 
     return (
       <svg
         className="chart csstrans"
         width={width}
-        height={barHeight * data.length}>
+        height={barHeight * data.length}
+      >
         <ReactCSSTransitionGroup
           transitionName="addBar"
           component="g"
@@ -104,7 +105,7 @@ const Chart = React.createClass({
                 transform={`translate(${margin},${barHeight*i})`}>
                 <rect
                   fill={'#e0e0e0'}
-                  width={labelSpace} 
+                  width={labelSpace}
                   height={barHeight-1}
                  />
                 <text

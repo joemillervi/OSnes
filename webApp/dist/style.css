@@ -102,8 +102,22 @@ nav {
   box-sizing: border-box;
 }
 
+.height-12 {
+  height: 12%;
+  box-sizing: border-box;
+}
+
+.height-88 {
+  height: 88%;
+  box-sizing: border-box;
+}
+
 .height-min-110px {
   min-height: 110px;
+}
+
+.height-min-510px {
+  min-height: 510px;
 }
 
 .margin-4 {
@@ -307,6 +321,13 @@ nav {
   top: -10px;
 }
 
+video {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .card .card-title.activator {
   padding-left: 0px;
   transform: translateY(20%);
@@ -325,7 +346,7 @@ span.card-title {
 
 .messages {
    overflow-y: auto;
-   height: 85%;
+   height: 75%;
 }
 
 .move {
@@ -492,4 +513,36 @@ p {
   -webkit-box-shadow: 0px 0px 5px 5px #0099E0;
   -moz-box-shadow: 0px 0px 5px 5px #0099E0;
   box-shadow: 0px 0px 5px 5px #0099E0;
+}
+
+/*.min-height-150 {
+  min-height: 150px;
+}*/
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.clear {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.overflow-scroll {
+  overflow: hidden;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.height-55px {
+  height: 55px !important;
+}
+
+.full-width {
+  width: 100%;
 }

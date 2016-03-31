@@ -21,12 +21,13 @@ class CrowdChoice extends Component {
 
   render() {
     return (
-      <div className="col s4 height-100">
+      <div className="col s4 z-index-minus-20">
         <div className="row no-bottom-margin">
           <b className="left-algin col s3 push-s9">Votes</b>
           <b className="left-align col s9 pull-s3">Online: {this.state.connections}</b>
         </div>
         <Chart data={this.props.votes}/>
+        <div className="clear"></div>
       </div>
     );
   }

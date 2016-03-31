@@ -33,7 +33,7 @@ class Jumbotron extends Component {
         this.state.jumboShown = !this.state.jumboShown;
         if (this.state.jumboShown) {
           this.props.socket.emit('is-a-streamer')
-          document.getElementById('chat-box').style.height = "30%"
+          document.getElementById('chat-box').style.height = "50%"
         }
         if (!this.state.jumboShown) {
           this.props.socket.emit('opt-out-of-jumbo') // if you toggle off the video, let the server know.
@@ -286,9 +286,12 @@ class Jumbotron extends Component {
 
    console.log('checkstates', this.state.webCamAllowed, this.state.jumboShown)
     return (
-      <div>
-        <div id="jumbo-wrapper"><div className="inline toggle-jumbo left-align">Toggle Jumbotron</div><Toggle id="toggle-btn" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/></div>
-        {this.state.jumboShown && this.state.webCamAllowed ? <Video connectVideoToStream={this.connectVideoToStream.bind(this)} /> : ''}
+      <div className="full-width">
+        <div id="jumbo-wrapper">
+          <div className="inline toggle-jumbo left-align">Toggle Jumbotron</div>
+          <Toggle id="toggle-btn" checked={this.state.jumboShown && this.state.webCamAllowed} onChange={this.toggleVideo.bind(this)}/>
+        </div>
+        {this.state.jumboShown && this.state.webCamAllowed ? <Video className="full-width" connectVideoToStream={this.connectVideoToStream.bind(this)} /> : ''}
         {this.state.alertWrapper ? <div id="alert-wrapper"><div className="inline" id="allow-camera">Allow camera access to view jumbotron</div><img className="inline up-arrow" src="./webcam_off.png"/></div> : ''}
       </div>
     )
