@@ -4,6 +4,8 @@ var sio = require('socket.io');
 var forwarded = require('forwarded-for');
 var debug = require('debug');
 var redis = require('./redis')();
+var marked = require('marked-for-chat');
+var xss = require('xss');
 
 process.title = 'crowdmu-io';
 
@@ -56,6 +58,28 @@ var mode = function (arr) {
   }
   return mostCommon;
 };
+
+// Set options for markdown parsing of chats
+marked.setOptions({
+  sanitize: true,
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: false,
+  breaks: false,
+  pedantic: false,
+  smartLists: false,
+  smartypants: false
+});
+
+// Set options for xss filtering. Only tags below are allowed.
+var xssOptions = {
+  a: [ 'target', 'href', 'title' ],
+  p: [],
+  i: [],
+  img: [ 'src', 'alt', 'title', 'width', 'height' ],
+  strong: []
+}
+xss = new xss.FilterXSS(xssOptions);
 
 io.total = 0;
 var currentStreamerSocket;
@@ -138,8 +162,19 @@ io.on('connection', function(socket){
     broadcast(socket, 'submitMove', key, socket.nick, timestamp)
   });
 
-  // send chat mesages
-  socket.on('message', function(msg, timestamp){
+  // send chat messages
+  socket.on('message', function(msg, timestamp) {
+    // Parse msg for markdown syntax
+    msg = marked(msg);
+
+    // If msg is a youtube video, broadcast without xss filtering
+    if (msg.indexOf('src="http://www.youtube.com/embed') === 11 && msg.length < 130) {
+      broadcast(socket, 'message', msg, socket.nick, timestamp);
+      return;
+    }
+
+    // Otherwise filter for xss and then broadcast
+    msg = xss.process(msg);
     broadcast(socket, 'message', msg, socket.nick, timestamp);
   });
 
@@ -195,12 +230,12 @@ function updateCount(total){
   redis.hset('crowdmu:connections', uid, total);
 }
 
-// broadcast events and persist them to redis
-
+// broadcast events to everyone including the socket that starts event
+// also persists events to redis
 function broadcast(socket/*, …*/){
   var args = Array.prototype.slice.call(arguments, 1);
   redis.lpush('crowdmu:log', JSON.stringify(args));
   redis.ltrim('crowdmu:log', 0, 20);
-  socket.broadcast.emit.apply(socket, args);
+  socket.emit.apply(socket, args);
 }
 }

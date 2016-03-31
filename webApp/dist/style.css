@@ -314,6 +314,19 @@ nav {
   background-color: #e0e0e0;
 }
 
+.input-field input[type=text]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #311b92;
+}
+.input-field input[type=text]::-moz-placeholder { /* Firefox 19+ */
+  color: #311b92;
+}
+.input-field input[type=text]:-ms-input-placeholder { /* IE 10+ */
+  color: #311b92;
+}
+.input-field input[type=text]:-moz-placeholder { /* Firefox 18- */
+  color: #311b92;
+}
+
 /*Styling for video and image input boxes in chat*/
 .card .card-title span {
   position: relative;
@@ -357,10 +370,15 @@ div.message-chat img {
   max-width: 95%;
 }
 
+
+
+
 /*Chats are rendered in p tags without className. This removes default margin on chats*/
 p {
   margin-bottom: 0px;
   margin-top: 0px;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .loading {

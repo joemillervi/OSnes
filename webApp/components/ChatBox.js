@@ -94,44 +94,26 @@ class ChatBox extends Component {
 
 
   handleChatInput(e) {
-    // If someone presses 'enter' on input box, check the content type (img,vid or plain text)
+
+    // If someone presses 'enter' on input box, check if input is a url with an image
     // and then run the submit handler
     if (e.charCode === 13 || e.keyCode === 13) {
       var input = this.state.chatInput
 
-      //Check if input is a url
-      var isURL = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/i;
-      if (isURL.test(input)) {
-
-        // Then check if url is a youtube url
-        var isYoutubeURL = /(^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$)/i;
-        if (isYoutubeURL.test(input)) {
-
-          // convert to video markdown syntax and then submit
-          var video = '[![video]()](' + input + ')';
-          return this.handleSumbit(video, this.state.nickname);
-        }
-
-        // Then check if url refers to an image (jpg, jpeg, gif, png, svg, bmp)
-        var isImageURL = /(?:jpe?g|gif[^v]|png|svg|bmp)/i;
-        if (isImageURL.test(input)) {
-
-          // convert to image markdown syntax and then submit
-          var image = '![image](' + input + ')'
-          return  this.handleSumbit(image, this.state.nickname);
-        }
-
-        // URL is neither an image or youtube link, so call handleSubmit with plain input
-        return this.handleSumbit(input, this.state.nickname);
-
-
-      //Input is not a URL. Call handleSubmit with plain input
-      } else {
-        return this.handleSumbit(input, this.state.nickname);
+      //Check if input is a url linking to an image
+      var isURL = /^(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/i;
+      var isImageURL = /[.](?:jpe?g|gif(?:[^v]|$)|png|svg|bmp)/i;
+      if (isURL.test(input) && isImageURL.test(input)) {
+          
+        // convert to image markdown syntax and then submit
+        var image = String.prototype.concat('![image](',input,')');
+        return  this.handleSumbit(image, this.state.nickname);
       }
 
+      // Esle call handleSubmit without modifying input
+      return this.handleSumbit(input, this.state.nickname);
 
-    // User did NOT press 'enter'. Update component state
+    // User did NOT press 'enter'. Update component state instead of running handleSubmit
     } else {
       return this.setState({ chatInput: e.target.value.substr(0, 280) });
     }
@@ -148,7 +130,6 @@ class ChatBox extends Component {
     // If joined already, render and emit message
     if (this.state.joined) {
       var timestamp = new Date();
-      this.renderMessage(msg, by, timestamp, true)
       socket.emit('message', msg, timestamp);
 
     // else join the chat

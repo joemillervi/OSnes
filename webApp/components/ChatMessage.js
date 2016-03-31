@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import Timeago from 'react-timeago'
-import marked from 'marked-for-chat'
 
 class ChatMessage extends Component {
 
   componentDidMount () {
-    // Set markdown preferences
-    marked.setOptions({
-      sanitize: true,
-      renderer: new marked.Renderer(),
-      gfm: true,
-      tables: false,
-      breaks: false,
-      pedantic: false,
-      smartLists: false,
-      smartypants: false
-    });
-
     // Scroll to the bottom on each new message
     var node = ReactDom.findDOMNode(this);
     node.scrollIntoView(false);
   }
 
-
   rawMarkdown () {
-    // parse chats for markdown syntax
-    return { __html: marked(this.props.message.msg, {sanitize: true}) };
+    // render chats as html. html has been parsed and xss filtered server-side
+    return { __html: this.props.message.msg };
   }
 
   renderChat() {
@@ -42,7 +28,6 @@ class ChatMessage extends Component {
   }
 
   renderMove() {
-    console.log('renderMove', this.props.message.msg)
     return (
       <div>
         <div className="row no-bottom-margin">
