@@ -17,7 +17,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "lodash": "^4.5.1",
-    "marked-for-chat": "^1.0.6",
+    "marked-for-chat": "^1.0.7",
     "node": "0.0.0",
     "nodemon": "^1.9.1",
     "react-addons-css-transition-group": "^0.14.7",
