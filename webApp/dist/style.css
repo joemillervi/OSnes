@@ -361,6 +361,8 @@ div.message-chat img {
 p {
   margin-bottom: 0px;
   margin-top: 0px;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .loading {
