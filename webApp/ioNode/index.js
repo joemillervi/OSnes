@@ -168,7 +168,7 @@ io.on('connection', function(socket){
     msg = marked(msg);
 
     // If msg is a youtube video, broadcast without xss filtering
-    if (msg.indexOf('src="http://www.youtube.com') === 11 && msg.length < 70) {
+    if (msg.indexOf('src="http://www.youtube.com/embed') === 11 && msg.length < 130) {
       broadcast(socket, 'message', msg, socket.nick, timestamp);
       return;
     }
