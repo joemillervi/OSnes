@@ -1,0 +1,62 @@
+@font-face {
+  font-family: dockerOne;
+  src: url(DockerOne.ttf);
+}
+
+div {
+  /*border: 1px solid red;*/
+}
+
+#back {
+  text-align: left;
+  color: white;
+  font-family: dockerOne;
+  /*font-family: Calibri, arial, sans-serif;*/
+  text-decoration: none;
+}
+
+body {
+  background-color: #29abe3;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0 0 5px;
+  box-sizing: border-box;
+}
+
+.coming-soon {
+  padding: 10px 0 0 10px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: dockerOne;
+  color: white;
+}
+
+h1.coming-soon {
+  font-size: 220%;
+  margin-bottom: 0;
+  margin-top: 25px;
+}
+
+h3.coming-soon {
+  margin-top: 0;
+}
+
+#pitch {
+  margin-top: 20px;
+  margin-bottom: 0;
+  padding: 10px;
+  width: 35%;
+  min-width: 250px;
+}
+
+#loading-gif {
+  min-width: 200px;
+  min-height: 150px;
+  width: 35%;
+  height: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
