@@ -102,7 +102,7 @@ class ChatBox extends Component {
 
       //Check if input is a url linking to an image
       var isURL = /^(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/i;
-      var isImageURL = /(?:jpe?g|gif[^v]|png|svg|bmp)/i;
+      var isImageURL = /[.](?:jpe?g|gif(?:[^v]|$)|png|svg|bmp)/i;
       if (isURL.test(input) && isImageURL.test(input)) {
           
         // convert to image markdown syntax and then submit
