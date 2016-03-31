@@ -26,3 +26,8 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   else
     newWindow()
 })
+
+chrome.app.window.current().onBoundsChanged.addListener(function() {
+    var height = chrome.app.window.current().innerBounds.height;
+    chrome.app.window.current().innerBounds.width = height * (16/9);
+});
