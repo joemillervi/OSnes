@@ -227,7 +227,7 @@ app.controller('pauseScreen', function($scope) {
     },
     "keys": {
       //Default keyboard key mappings:
-      //IJKL Keys
+      //IKJL Keys
       "75": "0",  //B
       "76": "1",  //A
       "74": "2",  //Y
@@ -243,11 +243,6 @@ app.controller('pauseScreen', function($scope) {
       "83": "13",  //Down
       "65": "14",  //Left
       "68": "15", //Right
-      //arrow keys double mapping
-      "38": "12",  //Up
-      "40": "13",  //Down
-      "37": "14",  //Left
-      "39": "15", //Right
 
       //Keys reserved for mobilecontroller; seldom used keys
       "59": "0",  //B
@@ -421,12 +416,6 @@ app.controller('pauseScreen', function($scope) {
     "234": "14",  //Left
     "255": "15", //Right
 
-    //arrow keys double mapping: can be overwritten but otherwise stays to be consistent with default double-mapping
-    "38": "12",  //Up
-    "40": "13",  //Down
-    "37": "14",  //Left
-    "39": "15", //Right
-
   };
 
   //used as a cache to store the last state of keys; used when user clicks cancel
@@ -498,85 +487,84 @@ app.controller('pauseScreen', function($scope) {
     switch (button) {
       case 'aButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="1" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
-            console.log('a', key)
+          if(systemSettings.keys[key]==="1" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'bButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="0" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="0" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'xButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="3" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="3" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'yButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="2" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="2" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'startButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="9" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="9" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'selectButton':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="8" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="8" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'upArrow':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="12" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="12" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'downArrow':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="13" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="13" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'leftArrow':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="14" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="14" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'rightArrow':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="15" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="15" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'lShoulder':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="4" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="4" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'rShoulder':
         for(var key in systemSettings.keys) {
-          if(systemSettings.keys[key]==="5" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(systemSettings.keys[key]==="5" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
@@ -590,84 +578,175 @@ app.controller('pauseScreen', function($scope) {
     switch (button) {
       case 'aButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="1" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="1" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'bButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="0" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="0" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'xButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="3" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="3" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'yButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="2" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="2" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'startButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="9" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="9" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'selectButton':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="8" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="8" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'upArrow':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="12" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="12" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'downArrow':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="13" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="13" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'leftArrow':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="14" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="14" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'rightArrow':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="15" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="15" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'lShoulder':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="4" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="4" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
         break;
       case 'rShoulder':
         for(var key in oldKeyMappings) {
-          if(oldKeyMappings[key]==="5" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" && key !== "37" && key !== "38" && key !== "39" && key !== "40") {
+          if(oldKeyMappings[key]==="5" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  } 
+
+  $scope.getNewValue= function(button) {
+    switch (button) {
+      case 'aButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="1" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'bButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="0" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'xButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="3" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'yButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="2" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'startButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="9" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'selectButton':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="8" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'upArrow':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="12" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'downArrow':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="13" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'leftArrow':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="14" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'rightArrow':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="15" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'lShoulder':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="4" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
+            return $scope.keyCodes[key];
+          }
+        }
+        break;
+      case 'rShoulder':
+        for(var key in newKeyMappings) {
+          if(newKeyMappings[key]==="5" && key !== "59" && key !== "61" && key !== "108" && key !== "173" && key !== "181" && key !== "182" && key !== "183" && key !== "226" && key !== "230" && key !== "233" && key !== "234" && key !== "235" ) {
             return $scope.keyCodes[key];
           }
         }
@@ -678,10 +757,14 @@ app.controller('pauseScreen', function($scope) {
   } 
 
   $scope.disabled = true;
+  $scope.validationError1 = true;
+  $scope.validationError2 = true;
 
   $scope.editKeyMappings = function() {
     $scope.disabled = false;
     oldKeyMappings = {};
+    newKeyMappings = {};
+
     for(keyMapping in systemSettings.keys) {
       oldKeyMappings[keyMapping] = systemSettings.keys[keyMapping];
     };
@@ -692,36 +775,61 @@ app.controller('pauseScreen', function($scope) {
     });
   };
 
+
+
   $scope.submitNewKeyMappings = function() {
-    systemSettings.keys = {};
-    systemSettings.keys = newKeyMappings;
-    newKeyMappings = {
-      //Keys reserved for mobilecontroller; seldom used keys. 
-      //Mapping new keys overwrite all existing mappings but we want to keep these so we include them here
-      "59": "0",  //B
-      "61": "1",  //A
-      "108": "2",  //Y
-      "173": "3",  //X
 
-      "181": "4",  //L
-      "182": "5",  //R
+    var toSubmit = true;
 
-      "183": "8",  //Select
-      "226": "9",  //Start
-      
-      "230": "12",  //Up
-      "233": "13",  //Down
-      "234": "14",  //Left
-      "255": "15", //Right
+    $scope.validationError1 = true;
+    $scope.validationError2 = true;
 
-      //arrow keys double mapping: can be overwritten but otherwise stays to be consistent with default double-mapping
-      "38": "12",  //Up
-      "40": "13",  //Down
-      "37": "14",  //Left
-      "39": "15", //Right
-    };
+    var newValueTextArray = []
+    
+    $('#keyMappingsForm').find("input").each(function(){
 
-    $scope.disabled = true;
+      var id = $(this).attr('id');
+
+      var newValueText = $scope.getNewValue(id);
+      document.getElementById(id).value = newValueText;
+
+      newValueTextArray.push(newValueText);
+
+    });
+
+    if(_.contains(newValueTextArray, undefined)) {
+      var toSubmit = false;
+      $scope.validationError1 = false;
+      return;
+    }
+    
+    if(toSubmit) {
+      $scope.validationError1 = true;
+
+      systemSettings.keys = {};
+      systemSettings.keys = newKeyMappings;
+      newKeyMappings = {
+        //Keys reserved for mobilecontroller; seldom used keys. 
+        //Mapping new keys overwrite all existing mappings but we want to keep these so we include them here
+        "59": "0",  //B
+        "61": "1",  //A
+        "108": "2",  //Y
+        "173": "3",  //X
+
+        "181": "4",  //L
+        "182": "5",  //R
+
+        "183": "8",  //Select
+        "226": "9",  //Start
+        
+        "230": "12",  //Up
+        "233": "13",  //Down
+        "234": "14",  //Left
+        "255": "15", //Right
+      };
+
+      $scope.disabled = true;
+    }
   };
 
   $scope.cancelSubmitNewKeyMappings = function() {

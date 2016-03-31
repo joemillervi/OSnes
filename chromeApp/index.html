@@ -145,7 +145,11 @@
         Right arrow: <input type="text" id="rightArrow" value="{{getValue('rightArrow')}}" ng-disabled='disabled'>
         <br>
         <button id="editKeyMappings" data-ng-click="editKeyMappings()" ng-hide="!disabled">Edit Key Mappings</button>
-        <div ng-hide="!disabled">For each button, click the corresponding input box above and press the key you want the button to map to</div>
+        <!-- <div ng-hide="!disabled">For each button, click the corresponding input box above and press the key you want the button to map to</div> -->
+        <div ng-hide="validationError1">Please map a key for every button, and use each key only once</div>
+        <!-- <div ng-hide="validationError2">Please map only 1 key to each button</div> -->
+
+
 
         <button id="submitNewKeyMappings" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
         <button id="cancelSubmitNewKeyMappings" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
