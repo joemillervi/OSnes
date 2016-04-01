@@ -7,8 +7,13 @@
   <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
 <body ng-app="app" >
-  <!-- these is the loading screen -->
-  <div id="loading" class="message screen">
+  <!-- this is the initial bootup screen -->
+  <div id="bootup" class="message screen">
+    <h1 id="bootupText">Welcome to OSNes!</h1>
+  </div>
+
+  <!-- this is the loading screen -->
+  <div id="loading" class="message screen hidden">
     <img id="loadingGif" src="./img/loading.gif" ng-cloak/>
     <h1 id="loadingText">loading ...</h1>
   </div>
@@ -75,10 +80,10 @@
     <!-- QR modal that appears when user selects play with mobile -->
     <div id="qrScreen" class="hidden" data-ng-click="closeQRScreen()">
       <div id="qrModal" class="modal" data-ng-click="$event.stopPropagation()">
-          <div id="qrModalBody" class="modal-body"> 
-            <div id="qrCode"></div>
-            <h3 id="qrInstructions">Scan QR to Start</h3>
-          </div>
+        <div id="qrModalBody" class="modal-body"> 
+          <div id="qrCode"></div>
+          <h3 id="qrInstructions">Scan QR to Start</h3>
+        </div>
       </div>
     </div>
     <!-- title text -->
@@ -103,49 +108,87 @@
 
   <!-- these are the overlay that is the emulator + the screen that appears on right click which pauses game and shows options -->
   <div id="overlay" class="overlay"></div>
-  <div class="menu hidden screen" id="menu" ng-controller="pauseScreen">
-    <input type="file" id="savechooser" class="chooser"/>
-    <div class="options">
-      <h1>Your game is paused.</h1>
-      <button id="resume" class="resume">Resume</button>
-      <button id="reset" class="reset">Reset Game</button>
-      <button id="save" class="save">Save Game</button>
-      <button id="load" class="load">Load Save</button>
-      <button id="mute" class="mute">Mute</button>
-      <button id="chooseNewGame" class="chooseNewGame" data-ng-click="chooseNewGame()">Choose A Different Game</button>
-    </div>
-    <div>
-      <h1>Controls:</h1>
-      <div id='keyMappingsForm'>
-        A button: <input type="text" id="aButton" value="{{getValue('aButton')}}" ng-disabled='disabled'>
-        <br>
-        B button: <input type="text" id="bButton" value="{{getValue('bButton')}}" ng-disabled='disabled'>
-        <br>
-        X button: <input type="text" id="xButton" value="{{getValue('xButton')}}" ng-disabled='disabled'>
-        <br>
-        Y button: <input type="text" id="yButton" value="{{getValue('yButton')}}" ng-disabled='disabled'>
-        <br>
-        L shoulder: <input type="text" id="lShoulder"value="{{getValue('lShoulder')}}" ng-disabled='disabled'>
-        <br>
-        R shoulder: <input type="text" id="rShoulder"value="{{getValue('rShoulder')}}" ng-disabled='disabled'>
-        <br>
-        Start button: <input type="text" id="startButton" value="{{getValue('startButton')}}" ng-disabled='disabled'>
-        <br>
-        Select button: <input type="text" id="selectButton" value="{{getValue('selectButton')}}" ng-disabled='disabled'>
-        <br>
-        Up arrow: <input type="text" id="upArrow" value="{{getValue('upArrow')}}" ng-disabled='disabled'>
-        <br>
-        Down arrow: <input type="text" id="downArrow" value="{{getValue('downArrow')}}" ng-disabled='disabled'>
-        <br>
-        Left arrow: <input type="text" id="leftArrow" value="{{getValue('leftArrow')}}" ng-disabled='disabled'>
-        <br>
-        Right arrow: <input type="text" id="rightArrow" value="{{getValue('rightArrow')}}" ng-disabled='disabled'>
-        <br>
-        <button id="editKeyMappings" data-ng-click="editKeyMappings()" ng-hide="!disabled">Edit Key Mappings</button>
-        <div ng-hide="validationError1">Please map a key for every button, and use each key only once</div>
-        <button id="submitNewKeyMappings" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
-        <button id="cancelSubmitNewKeyMappings" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
-      </div> 
+  <div class="menu hidden" id="menu" ng-controller="pauseScreen">
+    <div id="pauseMenuModal">
+      <div id="pauseMenuContainer">
+        <input type="file" id="savechooser" class="chooser"/>
+        <div id="pauseMenuHeader">
+          <h1 class="pauseMenuTitle">Your game is paused.</h1>
+          <div id="pauseMenuHeaderButtons">
+            <button id="resume" class="pauseMenuButton">Resume</button>
+            <br>
+            <button id="reset" class="pauseMenuButton">Reset Game</button>
+            <br>
+            <button id="save" class="pauseMenuButton">Save Game</button>
+            <br>
+            <button id="load" class="pauseMenuButton">Load Save</button>
+            <br>
+            <button id="mute" class="pauseMenuButton">Mute</button>
+            <br>
+            <button id="chooseNewGame" class="pauseMenuButton" data-ng-click="chooseNewGame()">Choose A Different Game</button>
+          </div>
+        </div>
+        <div id='keyMappingsForm'>
+          <h1 class="pauseMenuTitle">Controls:</h1>
+          <div id="keyMappingsFormButtons">
+            <button id="editKeyMappings" class="pauseMenuButton" data-ng-click="editKeyMappings()" ng-hide="!disabled">Set New Key Mappings</button>
+            <button id="submitNewKeyMappings" class="pauseMenuButton" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
+            <button id="cancelSubmitNewKeyMappings" class="pauseMenuButton" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
+            <br>
+            <div ng-hide="validationError1" id="validationError">Please map a key for every button, and use each key only once</div>
+          </div>
+          <div id="buttonMappingsList">
+            <div class="buttonMapping">
+              <span>A button:</span> 
+              <input type="text" id="aButton" value="{{getValue('aButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              B button: 
+              <input type="text" id="bButton" value="{{getValue('bButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              X button: 
+              <input type="text" id="xButton" value="{{getValue('xButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Y button: 
+              <input type="text" id="yButton" value="{{getValue('yButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              L shoulder: 
+              <input type="text" id="lShoulder"value="{{getValue('lShoulder')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              R shoulder: 
+              <input type="text" id="rShoulder"value="{{getValue('rShoulder')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping"> 
+              Start button: 
+              <input type="text" id="startButton" value="{{getValue('startButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Select button: 
+              <input type="text" id="selectButton" value="{{getValue('selectButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Up arrow: 
+              <input type="text" id="upArrow" value="{{getValue('upArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Down arrow: 
+              <input type="text" id="downArrow" value="{{getValue('downArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Left arrow: 
+              <input type="text" id="leftArrow" value="{{getValue('leftArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Right arrow: 
+              <input type="text" id="rightArrow" value="{{getValue('rightArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+          </div> 
+        </div>
+      </div>
     </div>
   </div>
   

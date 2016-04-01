@@ -775,8 +775,6 @@ app.controller('pauseScreen', function($scope) {
     });
   };
 
-
-
   $scope.submitNewKeyMappings = function() {
 
     var toSubmit = true;
@@ -840,6 +838,8 @@ app.controller('pauseScreen', function($scope) {
       document.getElementById(id).value = oldValueText;
     });
     $scope.disabled = true;
+    $scope.validationError1 = true;
+    
   }
 
 
