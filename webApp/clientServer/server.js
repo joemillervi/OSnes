@@ -9,6 +9,7 @@ var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleWare = require('webpack-hot-middleware');
 var https = require('https');
+var http = require('http');
 console.log(process.env.NODE_ENV)
 process.title = 'crowdmu-web';
 
@@ -17,12 +18,12 @@ if (process.env.NODE_ENV === 'production') {
   var fs = require('fs');
   var https = require('https');
   var privateKey  = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/mydomain.key'), 'utf8');
-  var certificate = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/2_www.osnes.website.crt'), 'utf8');
+  var certificate = fs.readFileSync(path.resolve(__dirname+'/../sslcerts/2_crowdemu.com.crt'), 'utf8');
   var ca = [
               fs.readFileSync(path.resolve(__dirname+'/../sslcerts/1_Intermediate.crt'), 'utf8'),
               fs.readFileSync(path.resolve(__dirname+'/../sslcerts/root.crt'), 'utf8')
           ]
-  var credentials = {key: privateKey, cert: certificate, ca: ca};
+  var credentials = {key: privateKey, passphrase:'Buddha09', cert: certificate, ca: ca};
 }
 
 var port = process.env.NODE_ENV === 'production' ? 80 : 3000;
@@ -59,13 +60,25 @@ app.get('/screenshot.png', function(req, res, next) {
   });
 });
 
-// start listening to requests
-var server = app.listen(port, function (err) {
-  if (err) {
-    throw err;
-  }
-  console.log('Server listening on port ', port);
-});
+// set up https redirect
+var http = express();
+
+// set up a route to redirect http to https
+http.get('*',function(req,res){  
+    res.redirect('https://crowdemu.com')
+})
+
+// have it listen on 8080
+http.listen(80);
+
+if (process.env.NODE_ENV !== 'production') {
+  var server = app.listen(port, function (err) {
+    if (err) {
+      throw err;
+    }
+    console.log('Server listening on port ', port);
+  });
+}
 
 if (process.env.NODE_ENV === 'production') {
   // start https server
