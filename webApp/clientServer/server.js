@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
               fs.readFileSync(path.resolve(__dirname+'/../sslcerts/1_Intermediate.crt'), 'utf8'),
               fs.readFileSync(path.resolve(__dirname+'/../sslcerts/root.crt'), 'utf8')
           ]
-  var credentials = {key: privateKey, passphrase:'Buddha09', cert: certificate, ca: ca};
+  var credentials = {key: privateKey, passphrase:process.env.PWD, cert: certificate, ca: ca};
 }
 
 var port = process.env.NODE_ENV === 'production' ? 80 : 3000;
@@ -35,8 +35,11 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(webpackHotMiddleWare(compiler));
 }
 
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
-app.use(webpackHotMiddleWare(compiler));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+  app.use(webpackHotMiddleWare(compiler));
+}
 app.use(bodyParser.json());
 app.use(express.static('./../dist'));
 
