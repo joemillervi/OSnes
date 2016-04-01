@@ -58,9 +58,28 @@ html, body, canvas {
 #qrInstructions {
   text-align: center;
   margin-top: 2%;
+  margin-bottom: 2%;
+
   font-family: dockerOne;
   color: black;
   font-size: 1.5em;
+}
+#qrInstructions2 {
+  text-align: center;
+  /*margin-top: 2%;*/
+  font-family: dockerOne;
+  color: black;
+  font-size: 1em;
+}
+#qrStartButton {
+  width: 100%;
+  margin: 0 auto; 
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+#qrModalFooter {
+  background-color: white;
 }
 #qrModal {
   width: 300px;
