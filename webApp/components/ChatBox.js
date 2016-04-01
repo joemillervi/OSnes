@@ -152,7 +152,7 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div id="chat-box" className="height-60 grey lighten-4">
+      <div id="chat-box" className="height-92 grey lighten-4">
         <div className="messages">
           {this.state.messages.map ((message, index) =>
           <ChatMessage message={message} key={index} displayMoves={this.state.displayMoves} />
