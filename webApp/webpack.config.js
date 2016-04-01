@@ -2,12 +2,12 @@ var webpack = require('webpack');
 var path = require('path');
 
 var PROD = JSON.parse(process.env.PROD_ENV || '0');
-
+console.log(PROD);
 module.exports = {
   devtool: PROD ? 'inline-source-map' : null,
   entry: [
     'webpack-hot-middleware/client',
-    './client/client.js'
+    './../client/client.js'
   ],
   output: {
     path: path.resolve('./dist'),
