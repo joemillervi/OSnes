@@ -24,6 +24,13 @@ app.config([
   }
 ]);
 
+//error screen
+app.controller('errorScreen', function($scope) {
+  $scope.restart = function () {
+    chrome.runtime.reload();
+  };
+});
+
 //inputSelection screen
 app.controller('inputSelection', function($scope) {
   $scope.ipAddress = 'filler';
@@ -839,7 +846,7 @@ app.controller('pauseScreen', function($scope) {
     });
     $scope.disabled = true;
     $scope.validationError1 = true;
-    
+
   }
 
 

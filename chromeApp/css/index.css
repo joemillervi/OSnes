@@ -245,14 +245,15 @@ html, body, canvas {
 
 .pauseMenuButton {
   margin: 2px 2px 2px 2px;
-  /*background-color: red;*/
+  border-radius: 5px;
+  color: gray;
+  background-color: white;
 }
 
 #pauseMenuContainer {
   width: 90%;
   height: 100%;
   margin: 0 auto; 
-  /*background-color: red;*/
 }
 
 #pauseMenuModal {
@@ -261,14 +262,9 @@ html, body, canvas {
   width: 100%;
   background-size: 100% 100%;
   background-color: rgba(0,0,0,.6);
-
-  color: white;
-  /*font-family: dockerOne;*/
-  /*color: #353632;*/
-  font-size: 1.2em;
+  color: #d3d3d3;
+  font-size: 1.1em;
   overflow: scroll;
-
-
 }
 
 .pauseMenuTitle {
@@ -281,18 +277,18 @@ html, body, canvas {
 }
 
 .buttonInput {
-  /*float: right;*/
+  margin-left: 15px;
 }
 
-  /*overflow: scroll;*/
+
+
 #validationError {
   color: red;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 #menu {
-
-
-
   position: absolute;
   height: 100%;
   width: 100%;
@@ -300,20 +296,9 @@ html, body, canvas {
   background-repeat: no-repeat;
   background-position: center; 
   display: flex;
-  /*flex-direction: row;*/
-  /*justify-content: space-between;*/
   align-items: center;
   background-image: url('../img/snescontrollerwallpapercord.png');
   background-color: #8c8182;
-
-
-
-
-
-
-  /*overflow: scroll;*/
-
-
 }
 
 #pauseMenuHeader {
@@ -332,13 +317,11 @@ html, body, canvas {
   flex-direction: row;
 }
 
-
 #keyMappingsForm {
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow: scroll;
-
 }
 
 .buttonMapping {
@@ -346,11 +329,7 @@ html, body, canvas {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-radius: 20px;
-  /*background-color: red;*/
 }
-
-
 
 .hidden {
   display: none;
@@ -458,7 +437,6 @@ body ::-webkit-scrollbar-corner {
   display: inline-block;
 }
 
-
 #close-button {
   float: right;
   padding: 0 5px 2px 5px;
@@ -471,6 +449,35 @@ body ::-webkit-scrollbar-corner {
   float: right;
 }
 
+#error {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center; 
+  display: flex;
+  align-items: flex-end;
+  background-image: url('../img/snescontrollerwallpapercord.png');
+  background-color: #8c8182;
+}
+
+#errorModal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-color: rgba(0,0,0,.6);
+  color: #d3d3d3;
+  font-size: 1.1em;
+  overflow: scroll;
+}
+
+#errorContainer {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;

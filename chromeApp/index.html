@@ -18,10 +18,14 @@
     <h1 id="loadingText">loading ...</h1>
   </div>
 
-  <!-- these is the error screen -->
-  <div id="error" class="message hidden screen">
-    <h1>error!</h1>
-    <p>quit and reopen to try again</p>
+  <!-- this is the error screen -->
+  <div id="error" class="message hidden screen" ng-controller="errorScreen">
+    <div id="errorModal">
+      <div id="errorContainer">
+        <h1 id="errorText" class="pauseMenuTitle">Something went wrong!</h1>
+        <button data-ng-click="restart()" class="pauseMenuButton">Click to restart</button>
+      </div>
+    </div>
   </div>
 
   <!-- this is the game selection screen -->
@@ -134,9 +138,8 @@
             <button id="editKeyMappings" class="pauseMenuButton" data-ng-click="editKeyMappings()" ng-hide="!disabled">Set New Key Mappings</button>
             <button id="submitNewKeyMappings" class="pauseMenuButton" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
             <button id="cancelSubmitNewKeyMappings" class="pauseMenuButton" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
-            <br>
-            <div ng-hide="validationError1" id="validationError">Please map a key for every button, and use each key only once</div>
           </div>
+          <div ng-hide="validationError1" id="validationError">Please map a key for every button, and use each key only once</div>
           <div id="buttonMappingsList">
             <div class="buttonMapping">
               <span>A button:</span> 
