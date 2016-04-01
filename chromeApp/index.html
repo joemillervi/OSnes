@@ -7,153 +7,215 @@
   <link rel="stylesheet" media="all" href="./css/bootstrap.css">
 </head>
 <body ng-app="app" >
-  <!-- these are the error and loading screens -->
-  <div id="loading" class="message screen">
-    <img id="loadingGif" src="./img/snesloadingfastcropped.gif" height="330px" width="158px"/>
+  <!-- this is the initial bootup screen -->
+  <div id="bootup" class="message screen">
+    <h1 id="bootupText">Welcome to OSNes!</h1>
+  </div>
+
+  <!-- this is the loading screen -->
+  <div id="loading" class="message screen hidden">
+    <img id="loadingGif" src="./img/loading.gif" ng-cloak/>
     <h1 id="loadingText">loading ...</h1>
   </div>
-  <div id="loadingLong" class="message screen hidden">
-    <img id="loadingGifLong" src="./img/loading.gif" height="330px" width="158px"/>
-    <h1 id="loadingText">loading ...</h1>
-  </div>
-  <div id="error" class="message hidden screen">
-    <h1>error!</h1>
-    <p>quit and reopen to try again</p>
+
+  <!-- this is the error screen -->
+  <div id="error" class="message hidden screen" ng-controller="errorScreen">
+    <div id="errorModal">
+      <div id="errorContainer">
+        <h1 id="errorText" class="pauseMenuTitle">Something went wrong!</h1>
+        <button data-ng-click="restart()" class="pauseMenuButton">Click to restart</button>
+      </div>
+    </div>
   </div>
 
   <!-- this is the game selection screen -->
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
+    <!-- right side -->
     <div class="availableGames" id="availableGames">
-    <nav>
       <h1 class='needAGame'>Need a Game?</h1>
-    </nav>
-
-    <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
-      <button class="btn dropdown-toggle" data-ng-click="open=!open" id='filterButton'>
-        <span class='filterText' >Filter</span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-        <li>
-          <a data-ng-click="checkAll()">
-            <i class="icon-ok-sign"></i>
-            Check All
-          </a>
-        </li>
-        <li>
-          <a data-ng-click="selectedConsole=[];">
-            <i class="icon-remove-sign"></i>
-            Uncheck All
-          </a>
-        </li>
-        <li class="divider"></li>
-        <li data-ng-repeat="console in consoleList"> 
-          <a data-ng-click="setSelectedConsole()">
-            {{console.name}}
-            <span data-ng-class="isChecked(console.id)"></span>
-          </a>
-        </li>
-      </ul>
-      <input class='searchBar' type='text' ng-model='search' placeholder='Find what you need here!' id='searchBar'/>
+      <div class="btn-group" data-ng-class="{open: open}" ng-cloak>
+        <button class="btn dropdown-toggle" data-ng-click="open=!open" id='filterButton'>
+          <span class='filterText' >Filter</span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <li>
+            <a data-ng-click="checkAll()">
+              <i class="icon-ok-sign"></i>
+              Check All
+            </a>
+          </li>
+          <li>
+            <a data-ng-click="selectedConsole=[];">
+              <i class="icon-remove-sign"></i>
+              Uncheck All
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li data-ng-repeat="console in consoleList"> 
+            <a data-ng-click="setSelectedConsole()">
+              {{console.name}}
+              <span data-ng-class="isChecked(console.id)"></span>
+            </a>
+          </li>
+        </ul>
+        <input class='searchBar' type='text' ng-model='search' placeholder='Find what you need here!' id='searchBar'/>
+      </div>
+      <div class='games' >
+        <ul class='gamesList'>
+          <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'" ng-cloak>
+            <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> 
+            <a id='gameTitle' data-ng-click="getRom(game)">
+              {{game.title}}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-
-    <div class='games' ng-cloak>
-      <ul class='gamesList'>
-        <li class='gamesListEntry' data-ng-repeat="game in filtered = (games | consoleFilter:selectedConsole) | filter:search | orderBy: 'title'">
-          <img data-ng-src="{{getIcon(game.console.id)}}" height='40px' width='40px'> 
-          <a id='gameTitle' data-ng-click="getRom(game)">
-            {{game.title}}
-          </a>
-          <!-- <div id='gameDescription' data-ng-click="getRom(game)">   -->
-            <!-- {{game.description}} -->
-          <!-- </div>   -->
-          <div>
-            <img src="./img/infoicongray.png" id="infoButton" height="20px" width="20px"/>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    </div>
+    <!-- left side -->
     <div class='dragGameHere' id='dragGameHere'>
       <input type="file" id="chooser" class="chooser"/>
         <h1 id="dragHint1">Have a game?</h1>
-        <h1 id="dragHint2">Drag it in here!</h1>
     </div>
   </div>
 
   <!-- this is the Keyboard vs Mobile choice selection screen -->
-  <div class="inputSelectionScreen" id="inputSelectionScreen" ng-hide="inputSelection.hidden" ng-controller="inputSelection">
-
+  <div class="inputSelectionScreen" id="inputSelectionScreen" ng-controller="inputSelection">
+    <!-- QR modal that appears when user selects play with mobile -->
     <div id="qrScreen" class="hidden" data-ng-click="closeQRScreen()">
       <div id="qrModal" class="modal" data-ng-click="$event.stopPropagation()">
-          <div id="qrModalBody" class="modal-body"> 
-            <div id="qrCode"></div>
-            <h3 id="qrInstructions">Scan QR to Start</h3>
-          </div>
+        <div id="qrModalBody" class="modal-body"> 
+          <div id="qrCode"></div>
+          <h3 id="qrInstructions">Scan QR to Start</h3>
+        </div>
       </div>
     </div>
-
+    <!-- title text -->
     <div id="chooseYourControllerText1" data-ng-click="closeQRScreen()">
       Choose
       Your
       Controller
     </div>
+    <!-- left side -->
     <div id="keyboardSide">
       <div id="keyboardIcon"></div>
       <div id='keyboardTitle'>Keyboard</div>
       <div id='keyboardDescription'>Desktop Only</div>
     </div>
+    <!-- right side -->
     <div id="mobileSide">
       <div id="mobileIcon" data-ng-click="openQRScreen()"></div>
       <div id='mobileTitle'>Mobile Phone</div>
       <div id='mobileDescription'>Desktop + Phone</div>
     </div>
-
   </div>
 
-
-
-  <!-- this is the overlay screen that appears on right click: pauses game and shows options -->
+  <!-- these are the overlay that is the emulator + the screen that appears on right click which pauses game and shows options -->
   <div id="overlay" class="overlay"></div>
-  <div class="menu hidden screen" id="menu">
-    <input type="file" id="savechooser" class="chooser"/>
-    <div class="options">
-      <h1>Your game is paused.</h1>
-      <button id="resume" class="resume">Resume</button>
-      <button id="reset" class="reset">Reset</button>
-      <button id="save" class="save">Save Game</button>
-      <button id="load" class="load">Load Save</button>
-      <button id="mute" class="mute">Mute</button>
-    </div>
-    <div>
-      <h1>Controls:</h1>
-      <div>A button = A key</div>
-      <div>B button = B key</div>
-      <div>X button = X key</div>
-      <div>Y button = Y key</div>
-      <div>L button = L key</div>
-      <div>R button = R key</div>
-      <div>D-pad = arrow keys</div>
+  <div class="menu hidden" id="menu" ng-controller="pauseScreen">
+    <div id="pauseMenuModal">
+      <div id="pauseMenuContainer">
+        <input type="file" id="savechooser" class="chooser"/>
+        <div id="pauseMenuHeader">
+          <h1 class="pauseMenuTitle">Your game is paused.</h1>
+          <div id="pauseMenuHeaderButtons">
+            <button id="resume" class="pauseMenuButton">Resume</button>
+            <br>
+            <button id="reset" class="pauseMenuButton">Reset Game</button>
+            <br>
+            <button id="save" class="pauseMenuButton">Save Game</button>
+            <br>
+            <button id="load" class="pauseMenuButton">Load Save</button>
+            <br>
+            <button id="mute" class="pauseMenuButton">Mute</button>
+            <br>
+            <button id="chooseNewGame" class="pauseMenuButton" data-ng-click="chooseNewGame()">Choose A Different Game</button>
+          </div>
+        </div>
+        <div id='keyMappingsForm'>
+          <h1 class="pauseMenuTitle">Controls:</h1>
+          <div id="keyMappingsFormButtons">
+            <button id="editKeyMappings" class="pauseMenuButton" data-ng-click="editKeyMappings()" ng-hide="!disabled">Set New Key Mappings</button>
+            <button id="submitNewKeyMappings" class="pauseMenuButton" ng-click='submitNewKeyMappings()' ng-hide="disabled">Submit New Key Mappings</button>
+            <button id="cancelSubmitNewKeyMappings" class="pauseMenuButton" ng-click='cancelSubmitNewKeyMappings()' ng-hide="disabled">Cancel</button>
+          </div>
+          <div ng-hide="validationError1" id="validationError">Please map a key for every button, and use each key only once</div>
+          <div id="buttonMappingsList">
+            <div class="buttonMapping">
+              <span>A button:</span> 
+              <input type="text" id="aButton" value="{{getValue('aButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              B button: 
+              <input type="text" id="bButton" value="{{getValue('bButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              X button: 
+              <input type="text" id="xButton" value="{{getValue('xButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Y button: 
+              <input type="text" id="yButton" value="{{getValue('yButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              L shoulder: 
+              <input type="text" id="lShoulder"value="{{getValue('lShoulder')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              R shoulder: 
+              <input type="text" id="rShoulder"value="{{getValue('rShoulder')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping"> 
+              Start button: 
+              <input type="text" id="startButton" value="{{getValue('startButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Select button: 
+              <input type="text" id="selectButton" value="{{getValue('selectButton')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Up arrow: 
+              <input type="text" id="upArrow" value="{{getValue('upArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Down arrow: 
+              <input type="text" id="downArrow" value="{{getValue('downArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Left arrow: 
+              <input type="text" id="leftArrow" value="{{getValue('leftArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+            <div class="buttonMapping">
+              Right arrow: 
+              <input type="text" id="rightArrow" value="{{getValue('rightArrow')}}" ng-disabled='disabled' class="buttonInput">
+            </div>
+          </div> 
+        </div>
+      </div>
     </div>
   </div>
-
+  
+  <!-- node server -->
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>
+
+  <!-- emulator dependencies -->
   <script src="jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
   <script src="jspm_packages/system-csp-production.js"></script>
   <script src="config.js"></script>
-  <script src="build.js"></script>
-  <script src="bootstrap.js"></script>
 
+  <!-- libraries -->
+  <script src="bootstrap.js"></script>
   <script src="lib/underscore-min.js"></script>
   <script src="lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>
   <script src="./lib/qr-code.js"></script>
 
+  <!-- front end -->
   <script src="./app.js"></script>
   <script src="./gamesList.js"></script>
+  <script src="build.js"></script>
 
 </body>
 </html>
