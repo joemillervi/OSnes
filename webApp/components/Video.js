@@ -14,7 +14,9 @@ class Video extends Component {
 
   render() {
       return (
-          <video className="height-30 margin-4 z-depth-1" id="video-player" width="400" height="300" autoPlay></video>
+          <div className="video-player-wrapper z-depth-1">
+            <video id="video-player" height="230" autoPlay></video>
+          </div>
           );
     }
 }
