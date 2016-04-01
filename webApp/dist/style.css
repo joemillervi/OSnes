@@ -42,12 +42,15 @@ div {
 
 }
 
+.video-player-wrapper {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
 
 #jumbo-wrapper {
-
   position: relative;
   top: -5px;
-  margin: 7px 18px 7px 0px;
+  margin: 2px 18px 0px 0px;
   text-align:right;
 
 }
@@ -77,8 +80,8 @@ nav {
   box-sizing: border-box;
 }
 
-.height-70 {
-  height: 70%;
+.height-72 {
+  height: 72%;
   box-sizing: border-box;
 }
 
@@ -102,8 +105,27 @@ nav {
   box-sizing: border-box;
 }
 
+.height-8 {
+  height: 8%;
+  box-sizing: border-box;
+}
+
+.height-12 {
+  height: 12%;
+  box-sizing: border-box;
+}
+
+.height-92 {
+  height: 92%;
+  box-sizing: border-box;
+}
+
 .height-min-110px {
   min-height: 110px;
+}
+
+.height-min-510px {
+  min-height: 510px;
 }
 
 .margin-4 {
@@ -300,11 +322,30 @@ nav {
   background-color: #e0e0e0;
 }
 
+.input-field input[type=text]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #311b92;
+}
+.input-field input[type=text]::-moz-placeholder { /* Firefox 19+ */
+  color: #311b92;
+}
+.input-field input[type=text]:-ms-input-placeholder { /* IE 10+ */
+  color: #311b92;
+}
+.input-field input[type=text]:-moz-placeholder { /* Firefox 18- */
+  color: #311b92;
+}
+
 /*Styling for video and image input boxes in chat*/
 .card .card-title span {
   position: relative;
   font-size: 0.7em;
   top: -10px;
+}
+
+video {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .card .card-title.activator {
@@ -325,7 +366,7 @@ span.card-title {
 
 .messages {
    overflow-y: auto;
-   height: 85%;
+   height: 90%;
 }
 
 .move {
@@ -336,10 +377,15 @@ div.message-chat img {
   max-width: 95%;
 }
 
+
+
+
 /*Chats are rendered in p tags without className. This removes default margin on chats*/
 p {
   margin-bottom: 0px;
   margin-top: 0px;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .loading {
@@ -492,4 +538,36 @@ p {
   -webkit-box-shadow: 0px 0px 5px 5px #0099E0;
   -moz-box-shadow: 0px 0px 5px 5px #0099E0;
   box-shadow: 0px 0px 5px 5px #0099E0;
+}
+
+/*.min-height-150 {
+  min-height: 150px;
+}*/
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.clear {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.overflow-scroll {
+  overflow: hidden;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.height-55px {
+  height: 55px !important;
+}
+
+.full-width {
+  width: 100%;
 }

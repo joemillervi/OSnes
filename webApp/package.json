@@ -17,18 +17,20 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "lodash": "^4.5.1",
-    "marked-for-chat": "^1.0.6",
+    "marked-for-chat": "^1.0.7",
     "node": "0.0.0",
     "nodemon": "^1.9.1",
     "react-addons-css-transition-group": "^0.14.7",
     "react-dom": "^0.14.6",
     "react-redux": "^4.4.1",
-    "react-router": "^2.0.0",
+    "react-router": "^2.0.1",
     "react-timeago": "^2.2.1",
     "react-toggle": "^2.0.1",
     "redis": "^2.5.2",
     "redux": "^3.3.1",
-    "redux-logger": "^2.6.1"
+    "redux-logger": "^2.6.1",
+    "redux-router": "^1.0.0-beta8",
+    "xss": "^0.2.10"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",

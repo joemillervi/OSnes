@@ -35,6 +35,8 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(webpackHotMiddleWare(compiler));
 }
 
+app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath})); // get rid of this middleware for production
+app.use(webpackHotMiddleWare(compiler));
 app.use(bodyParser.json());
 app.use(express.static('./../dist'));
 
@@ -43,10 +45,14 @@ var url = process.env.CROWDMU_IO_URL || 'http://localhost:3001';
 
 // Serves index.ejs with socket.io URL included as a variable
 app.set('view engine', 'ejs');
+app.set('views', '../client');
 app.get('/', function(req, res, next){
   res.render(path.resolve(__dirname + './../client/index'), {
     ioURL: url
   });
+});
+app.get('/osnes', function (req, res, next) {
+  res.render('osnes');
 });
 
 // Serves a still screenshot of the emulator. Useful for testing connection
