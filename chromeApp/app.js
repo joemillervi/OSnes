@@ -56,11 +56,6 @@ app.controller('inputSelection', function($scope) {
   window.toggleInputSelectionScreen = $scope.toggleInputSelectionScreen;
   window.openQRScreen = $scope.openQRScreen;
 
-  //show keydown events for debugging purposes
-  // document.querySelector('body').addEventListener('keydown', function (e) {
-  //   console.log('keydown: ', e);
-  // });
-
   //Handle Keyboard Icon 
   document.getElementById('keyboardIcon').addEventListener('click', window.toggleInputSelectionScreen);
   document.getElementById('keyboardIcon').addEventListener('mouseover', function() {
@@ -83,7 +78,7 @@ app.controller('inputSelection', function($scope) {
   chrome.system.network.getNetworkInterfaces(function (ipAddresses) {
     ipAddresses.forEach(function (ipAddress) {
       console.log(ipAddress);
-      if (ipAddress.prefixLength < 64 && ipAddress.name === "en0") {
+      if (/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(ipAddress.address)) {
         $scope.title = 'IP FOUND'
 
         $scope.ipAddress = ip4 = ipAddress.address;
