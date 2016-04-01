@@ -14,8 +14,8 @@
       }
    },
    "icons": {
-      "16": "/img/icon/snes_16.png",
-      "128": "/img/icon/snes_128.png"
+      "16": "/frontEnd/img/icon/snes_16.png",
+      "128": "/frontEnd/img/icon/snes_128.png"
    },
    "manifest_version": 2,
    "name": "OSnes",
@@ -32,6 +32,6 @@
      "unlimitedStorage"
    ],
    "short_name": "OSnes",
-   "update_url": "https://clients2.google.com/service/update2/crx",
+   // "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "0.0.1"
 }

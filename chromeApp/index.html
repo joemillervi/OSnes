@@ -3,22 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="./css/index.css">
-  <link rel="stylesheet" media="all" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./frontend/css/index.css">
+  <link rel="stylesheet" media="all" href="./frontend/css/bootstrap.css">
 </head>
 <body ng-app="app" >
+
   <!-- this is the initial bootup screen -->
   <div id="bootup" class="message screen">
     <h1 id="bootupText">Welcome to OSNes!</h1>
   </div>
 
+
   <!-- this is the loading screen -->
   <div id="loading" class="message screen hidden" ng-controller="errorScreen">
-    <img id="loadingGif" src="./img/loading.gif" ng-cloak/>
+    <img id="loadingGif" src="./frontend/img/loading.gif" ng-cloak/>
     <h1 id="loadingText">loading ...</h1>
     <div id="loadingText2" class="hidden">Taking too long? Check your internet, or:</div>
     <button data-ng-click="restart()" id="clickToRestart" class="hidden">Click to restart</button>
   </div>
+
 
   <!-- this is the error screen -->
   <div id="error" class="message hidden screen" ng-controller="errorScreen">
@@ -29,6 +32,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- this is the game selection screen -->
   <div class="gameSelection hidden screen" ng-hide="gameSelection.hidden" id="gameSelection" ng-controller="gameSelection">
@@ -81,6 +85,7 @@
     </div>
   </div>
 
+
   <!-- this is the Keyboard vs Mobile choice selection screen -->
   <div class="inputSelectionScreen" id="inputSelectionScreen" ng-controller="inputSelection">
     <!-- QR modal that appears when user selects play with mobile -->
@@ -115,6 +120,7 @@
       <div id='mobileDescription'>Desktop + Phone</div>
     </div>
   </div>
+
 
   <!-- these are the overlay that is the emulator + the screen that appears on right click which pauses game and shows options -->
   <div id="overlay" class="overlay"></div>
@@ -200,28 +206,39 @@
       </div>
     </div>
   </div>
+
   
   <!-- node server -->
   <script src="./lib/node.js"></script>
   <script src="./server/server.js"></script>
   <script src="./server/router.js"></script>
 
+
   <!-- emulator dependencies -->
-  <script src="jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
-  <script src="jspm_packages/system-csp-production.js"></script>
-  <script src="config.js"></script>
+  <script src="./frontend/emulator/jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.91/traceur-runtime.min.js"></script>
+  <script src="./frontend/emulator/jspm_packages/system-csp-production.js"></script>
+  <script src="./frontend/emulator/config.js"></script>
+  <script src="./frontend/emulator/bootstrap.js"></script>
+
 
   <!-- libraries -->
-  <script src="bootstrap.js"></script>
-  <script src="lib/underscore-min.js"></script>
-  <script src="lib/angular-min.js"></script>
+  <script src="./lib/underscore-min.js"></script>
+  <script src="./lib/angular-min.js"></script>
   <script src="./lib/jquery-min.js"></script>
   <script src="./lib/qr-code.js"></script>
+  
 
-  <!-- front end -->
-  <script src="./app.js"></script>
-  <script src="./gamesList.js"></script>
-  <script src="build.js"></script>
+  <!-- angular front end -->
+  <script src="./frontend/angular/app.js"></script>
+  <script src="./frontend/angular/filters.js"></script>
+  <script src="./frontend/angular/controllers/errorScreen.js"></script>
+  <script src="./frontend/angular/controllers/inputSelection.js"></script>
+  <script src="./frontend/angular/controllers/gameSelection.js"></script>
+  <script src="./frontend/angular/controllers/pauseScreen.js"></script>
+
+  <!-- games and emulator -->
+  <script src="./frontend/emulator/games/gamesList.js"></script>
+  <script src="./frontend/emulator/build.js"></script>
 
 </body>
 </html>

@@ -12,7 +12,7 @@ System.config({
     "npm:*": "jspm_packages/npm/*"
   },
   bundles: {
-    "build.js": [
+    "./frontend/emulator/build.js": [
       "npm:quicknes@1.0.3",
       "npm:quicknes@1.0.3/index",
       "npm:quicknes@1.0.3/core",
