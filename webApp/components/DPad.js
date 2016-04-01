@@ -41,6 +41,7 @@ class DPad extends Component {
             </tr>
           </tbody>
         </table>
+        <div className></div>
       </div>
     );
   }
