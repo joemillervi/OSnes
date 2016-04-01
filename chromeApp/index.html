@@ -13,9 +13,11 @@
   </div>
 
   <!-- this is the loading screen -->
-  <div id="loading" class="message screen hidden">
+  <div id="loading" class="message screen hidden" ng-controller="errorScreen">
     <img id="loadingGif" src="./img/loading.gif" ng-cloak/>
     <h1 id="loadingText">loading ...</h1>
+    <div id="loadingText2" class="hidden">Taking too long? Check your internet, or:</div>
+    <button data-ng-click="restart()" id="clickToRestart" class="hidden">Click to restart</button>
   </div>
 
   <!-- this is the error screen -->

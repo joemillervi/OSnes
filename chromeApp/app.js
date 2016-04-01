@@ -128,6 +128,10 @@ app.controller('gameSelection', function($scope, $http) {
   $scope.getRom = function (game) {
     console.log('game', game);
     loading.classList.remove('hidden');
+    setTimeout(function(){
+      document.getElementById('loadingText2').classList.remove('hidden');
+      document.getElementById('clickToRestart').classList.remove('hidden');
+    }, 5000);
     return $http({
       method: 'GET',
       url: game.link,
@@ -138,6 +142,7 @@ app.controller('gameSelection', function($scope, $http) {
         console.log('failuuuure', response);
       });
   }
+
   
   //list of available consoles: used to filter list of games
   $scope.consoleList = [{
